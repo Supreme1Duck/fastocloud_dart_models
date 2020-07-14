@@ -1,6 +1,7 @@
 import 'package:fastocloud_dart_models/models/base.dart';
 import 'package:fastocloud_dart_models/models/output_urls.dart';
 import 'package:fastocloud_dart_models/models/server_base.dart';
+import 'package:fastocloud_dart_models/models/server_provider.dart';
 import 'package:fastocloud_dart_models/models/stream.dart';
 import 'package:fastocloud_dart_models/models/types.dart';
 import 'package:meta/meta.dart';
@@ -305,6 +306,15 @@ class Server {
       OS_FIELD: os?.toJson(),
       EXP_TIME: expirationTime
     };
+  }
+
+  ProviderRole getProviderRoleById(String pid) {
+    for (final ServerProvider provider in providers) {
+      if (provider.id == pid) {
+        return provider.role;
+      }
+    }
+    return ProviderRole.READ;
   }
 
   Optional<Uri> generateNginxUrl(String httpUrl) {

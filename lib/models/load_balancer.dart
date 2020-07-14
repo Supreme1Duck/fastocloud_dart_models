@@ -1,5 +1,6 @@
 import 'package:fastocloud_dart_models/models/base.dart';
 import 'package:fastocloud_dart_models/models/server_base.dart';
+import 'package:fastocloud_dart_models/models/server_provider.dart';
 import 'package:meta/meta.dart';
 
 class OnlineUsers {
@@ -220,5 +221,14 @@ class LoadBalancer {
       OS_FIELD: os?.toJson(),
       EXP_TIME: expirationTime
     };
+  }
+
+  ProviderRole getProviderRoleById(String pid) {
+    for (final ServerProvider provider in providers) {
+      if (provider.id == pid) {
+        return provider.role;
+      }
+    }
+    return ProviderRole.READ;
   }
 }
