@@ -201,14 +201,3 @@ OutputUrl makeOutputUrl(Map<String, dynamic> json) {
   }
   return OutputUrl(id: id, uri: uri);
 }
-
-extension OutputUrls on List<OutputUrl> {
-  bool isValidOutputUrls() {
-    for (int i = 0; i < this.length; i++) {
-      if (!this[i].isValid()) {
-        return false;
-      }
-    }
-    return true;
-  }
-}
