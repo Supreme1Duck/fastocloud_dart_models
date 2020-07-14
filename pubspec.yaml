@@ -1,0 +1,18 @@
+name: fastocloud_dart_models
+author: Alexandr Topilski <support@fastogt.com>
+description: FastoCloud models.
+version: 1.0.0+1
+
+environment:
+  sdk: '>=2.0.0 <3.0.0'
+
+dependencies:
+  crypto:
+  archive:
+  quiver: '>=2.0.0 <3.0.0'
+  meta:
+
+  fastotv_dart:
+    git:
+      url: https://github.com/fastogt/fastotv_dart.git
+      ref: master
