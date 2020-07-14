@@ -1,32 +1,37 @@
 import 'package:meta/meta.dart';
 
-enum DeviceStatus { NOT_ACTIVE, ACTIVE, BANNED }
+class DeviceStatus {
+  final int _value;
 
-DeviceStatus deviceStatus2Enum(int number) {
-  if (number == 0) {
-    return DeviceStatus.NOT_ACTIVE;
-  } else if (number == 1) {
-    return DeviceStatus.ACTIVE;
-  }
-  return DeviceStatus.BANNED;
-}
+  const DeviceStatus._(this._value);
 
-int deviceStatus2int(DeviceStatus status) {
-  if (status == DeviceStatus.NOT_ACTIVE) {
-    return 0;
-  } else if (status == DeviceStatus.ACTIVE) {
-    return 1;
+  int toInt() {
+    return _value;
   }
-  return 2;
-}
 
-String deviceStatus2String(DeviceStatus status) {
-  if (status == DeviceStatus.NOT_ACTIVE) {
-    return 'NOT ACTIVE';
-  } else if (status == DeviceStatus.ACTIVE) {
-    return 'ACTIVE';
+  String toHumanReadable() {
+    if (_value == 0) {
+      return 'NOT ACTIVE';
+    } else if (_value == 1) {
+      return 'ACTIVE';
+    }
+    return 'BANNED';
   }
-  return 'BANNED';
+
+  factory DeviceStatus.fromInt(int value) {
+    if (value == 0) {
+      return DeviceStatus.NOT_ACTIVE;
+    } else if (value == 1) {
+      return DeviceStatus.ACTIVE;
+    }
+    return DeviceStatus.BANNED;
+  }
+
+  static get values => [NOT_ACTIVE, ACTIVE, BANNED];
+
+  static const DeviceStatus NOT_ACTIVE = DeviceStatus._(0);
+  static const DeviceStatus ACTIVE = DeviceStatus._(1);
+  static const DeviceStatus BANNED = DeviceStatus._(2);
 }
 
 class Device {
@@ -64,11 +69,11 @@ class Device {
     return Device.edit(
         id: json[ID_FIELD],
         name: json[NAME_FIELD],
-        status: deviceStatus2Enum(json[STATUS_FIELD]),
+        status: DeviceStatus.fromInt(json[STATUS_FIELD]),
         createdDate: json[CREATED_DATE_FIELD]);
   }
 
   Map<String, dynamic> toJson() {
-    return {ID_FIELD: id, NAME_FIELD: name, STATUS_FIELD: deviceStatus2int(status), CREATED_DATE_FIELD: createdDate};
+    return {ID_FIELD: id, NAME_FIELD: name, STATUS_FIELD: status.toInt(), CREATED_DATE_FIELD: createdDate};
   }
 }

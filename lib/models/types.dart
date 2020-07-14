@@ -49,7 +49,7 @@ extension Country on String {
 }
 
 extension StreamDescription on String {
-  static const String DEFAULT = 'USA';
+  static const String DEFAULT = 'Some description';
 
   static const MIN_LENGTH = 1;
   static const MAX_LENGTH = 4096;

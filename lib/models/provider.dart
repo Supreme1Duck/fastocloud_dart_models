@@ -1,50 +1,62 @@
 import 'package:meta/meta.dart';
 import 'package:quiver/core.dart';
 
-enum Status { NOT_ACTIVE, ACTIVE }
+class ProviderStatus {
+  final int _value;
 
-Status status2Enum(int number) {
-  if (number == 0) {
-    return Status.NOT_ACTIVE;
+  const ProviderStatus._(this._value);
+
+  int toInt() {
+    return _value;
   }
-  return Status.ACTIVE;
+
+  String toHumanReadable() {
+    if (_value == 0) {
+      return 'NOT ACTIVE';
+    }
+    return 'ACTIVE';
+  }
+
+  factory ProviderStatus.fromInt(int value) {
+    if (value == 0) {
+      return ProviderStatus.NOT_ACTIVE;
+    }
+    return ProviderStatus.ACTIVE;
+  }
+
+  static get values => [NOT_ACTIVE, ACTIVE];
+
+  static const ProviderStatus NOT_ACTIVE = ProviderStatus._(0);
+  static const ProviderStatus ACTIVE = ProviderStatus._(1);
 }
 
-int status2int(Status status) {
-  if (status == Status.NOT_ACTIVE) {
-    return 0;
-  }
-  return 1;
-}
+class ProviderType {
+  final int _value;
 
-String status2String(Status status) {
-  if (status == Status.NOT_ACTIVE) {
-    return 'NOT ACTIVE';
-  }
-  return 'ACTIVE';
-}
+  const ProviderType._(this._value);
 
-enum Type { ADMIN, RESELLER }
-
-Type type2Enum(int number) {
-  if (number == 0) {
-    return Type.ADMIN;
+  int toInt() {
+    return _value;
   }
-  return Type.RESELLER;
-}
 
-int type2int(Type type) {
-  if (type == Type.ADMIN) {
-    return 0;
+  String toHumanReadable() {
+    if (_value == 0) {
+      return 'ADMIN';
+    }
+    return 'RESELLER';
   }
-  return 1;
-}
 
-String type2String(Type type) {
-  if (type == Type.ADMIN) {
-    return 'ADMIN';
+  factory ProviderType.fromInt(int value) {
+    if (value == 0) {
+      return ProviderType.ADMIN;
+    }
+    return ProviderType.RESELLER;
   }
-  return 'RESELLER';
+
+  static get values => [ADMIN, RESELLER];
+
+  static const ProviderType ADMIN = ProviderType._(0);
+  static const ProviderType RESELLER = ProviderType._(1);
 }
 
 class Provider {
@@ -65,8 +77,8 @@ class Provider {
   String firstName;
   String lastName;
   int createdDate;
-  Type type;
-  Status status;
+  ProviderType type;
+  ProviderStatus status;
   String language;
   String country;
 
@@ -119,7 +131,7 @@ class Provider {
       : _password = Optional<String>.fromNullable(password);
 
   bool isAdmin() {
-    return type == Type.ADMIN;
+    return type == ProviderType.ADMIN;
   }
 
   Provider.createDefault()
@@ -129,8 +141,8 @@ class Provider {
         lastName = '',
         createdDate = DateTime.now().millisecondsSinceEpoch,
         _password = Optional<String>.absent(),
-        status = Status.ACTIVE,
-        type = Type.ADMIN;
+        status = ProviderStatus.ACTIVE,
+        type = ProviderType.ADMIN;
 
   bool isValid() {
     if (id == null) {
@@ -170,8 +182,8 @@ class Provider {
         firstName: json[FIRST_NAME_FIELD],
         lastName: json[LAST_NAME_FIELD],
         createdDate: json[CREATED_DATE_FIELD],
-        type: type2Enum(json[TYPE_FIELD]),
-        status: status2Enum(json[STATUS_FIELD]),
+        type: ProviderType.fromInt(json[TYPE_FIELD]),
+        status: ProviderStatus.fromInt(json[STATUS_FIELD]),
         language: json[LANGUAGE_FIELD],
         country: json[COUNTRY_FIELD],
         password: password);
@@ -184,8 +196,8 @@ class Provider {
       FIRST_NAME_FIELD: firstName,
       LAST_NAME_FIELD: lastName,
       CREATED_DATE_FIELD: createdDate,
-      TYPE_FIELD: type2int(type),
-      STATUS_FIELD: status2int(status),
+      TYPE_FIELD: type.toInt(),
+      STATUS_FIELD: status.toInt(),
       LANGUAGE_FIELD: language,
       COUNTRY_FIELD: country
     };

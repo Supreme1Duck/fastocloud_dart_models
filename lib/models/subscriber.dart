@@ -1,33 +1,38 @@
 import 'package:meta/meta.dart';
 import 'package:quiver/core.dart';
 
-enum SubscriberStatus { NOT_ACTIVE, ACTIVE, DELETED }
+class SubscriberStatus {
+  final int _value;
 
-SubscriberStatus subscriberStatus2Enum(int number) {
-  if (number == 0) {
-    return SubscriberStatus.NOT_ACTIVE;
-  } else if (number == 1) {
-    return SubscriberStatus.ACTIVE;
-  }
-  return SubscriberStatus.DELETED;
-}
+  const SubscriberStatus._(this._value);
 
-int subscriberStatus2int(SubscriberStatus status) {
-  if (status == SubscriberStatus.NOT_ACTIVE) {
-    return 0;
-  } else if (status == SubscriberStatus.ACTIVE) {
-    return 1;
+  int toInt() {
+    return _value;
   }
-  return 2;
-}
 
-String subscriberStatus2String(SubscriberStatus status) {
-  if (status == SubscriberStatus.NOT_ACTIVE) {
-    return 'NOT ACTIVE';
-  } else if (status == SubscriberStatus.ACTIVE) {
-    return 'ACTIVE';
+  String toHumanReadable() {
+    if (_value == 0) {
+      return 'NOT ACTIVE';
+    } else if (_value == 1) {
+      return 'ACTIVE';
+    }
+    return 'DELETED';
   }
-  return 'DELETED';
+
+  factory SubscriberStatus.fromInt(int value) {
+    if (value == 0) {
+      return SubscriberStatus.NOT_ACTIVE;
+    } else if (value == 1) {
+      return SubscriberStatus.ACTIVE;
+    }
+    return SubscriberStatus.DELETED;
+  }
+
+  static get values => [NOT_ACTIVE, ACTIVE, DELETED];
+
+  static const SubscriberStatus NOT_ACTIVE = SubscriberStatus._(0);
+  static const SubscriberStatus ACTIVE = SubscriberStatus._(1);
+  static const SubscriberStatus DELETED = SubscriberStatus._(2);
 }
 
 class Subscriber {
@@ -162,7 +167,7 @@ class Subscriber {
     final lastName = json[LAST_NAME_FIELD];
     final createdDate = json[CREATED_DATE_FIELD];
     final expDate = json[EXP_DATE_FIELD];
-    final status = subscriberStatus2Enum(json[STATUS_FIELD]);
+    final status = SubscriberStatus.fromInt(json[STATUS_FIELD]);
     final maxDeviceCount = json[MAX_DEVICE_COUNT_FIELD];
     final language = json[LANGUAGE_FIELD];
     final country = json[COUNTRY_FIELD];
@@ -194,7 +199,7 @@ class Subscriber {
       LAST_NAME_FIELD: lastName,
       CREATED_DATE_FIELD: createdDate,
       EXP_DATE_FIELD: expDate,
-      STATUS_FIELD: subscriberStatus2int(status),
+      STATUS_FIELD: status.toInt(),
       MAX_DEVICE_COUNT_FIELD: maxDevicesCount,
       LANGUAGE_FIELD: language,
       COUNTRY_FIELD: country,
