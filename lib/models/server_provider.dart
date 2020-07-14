@@ -31,8 +31,16 @@ class ProviderRole {
 
   static get values => [READ, WRITE, SUPPORT, ADMIN];
 
-  static const ProviderRole READ = ProviderRole._(0);
-  static const ProviderRole WRITE = ProviderRole._(1);
-  static const ProviderRole SUPPORT = ProviderRole._(2);
-  static const ProviderRole ADMIN = ProviderRole._(3);
+  static const ProviderRole READ = ProviderRole._(0); // + start/stop streams
+  // + play output, play
+  // + playlist
+  static const ProviderRole WRITE = ProviderRole._(1); // READ
+  // + edit/copy/add/remove streams
+  static const ProviderRole SUPPORT = ProviderRole._(2); // WRITE
+  // + logs, pipeline
+  // + connect/disconnect/activate
+  static const ProviderRole ADMIN = ProviderRole._(3); // WRITE
+// + add/remove providers
+// + edit server
+// + connect/disconnect/activate
 }

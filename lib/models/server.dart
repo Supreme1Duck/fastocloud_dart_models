@@ -206,11 +206,12 @@ class Server {
   }
 
   factory Server.fromJson(Map<String, dynamic> json) {
-    final _json = json[PROVIDERS_FIELD];
     List<ServerProvider> _providers = [];
-    _json.forEach((element) => _providers.add(ServerProvider.fromJson(element)));
+    json[PROVIDERS_FIELD].forEach((element) {
+      _providers.add(ServerProvider.fromJson(element));
+    });
 
-    final id = json[ID_FIELD];
+    final String id = json[ID_FIELD];
     final gpu = json[GPU_FIELD];
     final cpu = json[CPU_FIELD];
     final loadAverage = json[LOAD_AVERAGE_FIELD];
@@ -225,9 +226,9 @@ class Server {
     final uptime = json[UPTIME_FIELD];
     final synctime = json[SYNCTIME_FIELD];
     final timestamp = json[TIMESTAMP_FIELD];
-    final status = ServerStatus.fromInt(json[STATUS_FIELD]);
-    final onlineUsers = OnlineUsers.fromJson(json[ONLINE_USERS_FIELDS]);
-    final os = OperationSystem.fromJson(json[OS_FIELD]);
+    final ServerStatus status = ServerStatus.fromInt(json[STATUS_FIELD]);
+    final OnlineUsers onlineUsers = OnlineUsers.fromJson(json[ONLINE_USERS_FIELDS]);
+    final OperationSystem os = OperationSystem.fromJson(json[OS_FIELD]);
     final expirationTime = json[EXP_TIME];
 
     return Server(
@@ -267,7 +268,9 @@ class Server {
 
   Map<String, dynamic> toJson() {
     final _providersJson = [];
-    providers.forEach((element) => _providersJson.add(element.toJson()));
+    providers.forEach((element) {
+      _providersJson.add(element.toJson());
+    });
     return {
       ID_FIELD: id,
       NAME_FIELD: name,
