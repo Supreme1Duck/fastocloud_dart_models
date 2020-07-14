@@ -331,3 +331,14 @@ InputUrl makeInputUrl(Map<String, dynamic> json) {
   }
   return InputUrl(id: id, uri: uri);
 }
+
+extension InputUrls on List<InputUrl> {
+  bool isValidInputUrls() {
+    for (int i = 0; i < this.length; i++) {
+      if (!this[i].isValid()) {
+        return false;
+      }
+    }
+    return true;
+  }
+}
