@@ -51,6 +51,7 @@ class Server {
   static const HLS_DIRECTORY_FIELD = 'hls_directory';
   static const VODS_DIRECTORY_FIELD = 'vods_directory';
   static const CODS_DIRECTORY_FIELD = 'cods_directory';
+  static const PROXY_DIRECTORY_FIELD = 'proxy_directory';
   static const PROVIDERS_FIELD = 'providers';
   static const PRICE_FIELD = 'price';
 
@@ -60,6 +61,7 @@ class Server {
   static const String DEFAULT_HLS_DIR = '~/streamer/hls';
   static const String DEFAULT_VODS_DIR = '~/streamer/vods';
   static const String DEFAULT_CODS_DIR = '~/streamer/cods';
+  static const String DEFAULT_PROXY_DIR = '~/streamer/proxy';
 
   static const CPU_FIELD = 'cpu';
   static const GPU_FIELD = 'gpu';
@@ -92,6 +94,7 @@ class Server {
   String hlsDirectory;
   String vodsDirectory;
   String codsDirectory;
+  String proxyDirectory;
   double price;
   List<ServerProvider> providers;
 
@@ -128,6 +131,7 @@ class Server {
       @required this.hlsDirectory,
       @required this.vodsDirectory,
       @required this.codsDirectory,
+      @required this.proxyDirectory,
       @required this.price,
       @required this.providers,
       this.gpu,
@@ -162,6 +166,7 @@ class Server {
         this.hlsDirectory = DEFAULT_HLS_DIR,
         this.vodsDirectory = DEFAULT_VODS_DIR,
         this.codsDirectory = DEFAULT_CODS_DIR,
+        this.proxyDirectory = DEFAULT_PROXY_DIR,
         this.price = Price.DEFAULT,
         this.providers = [];
 
@@ -179,6 +184,7 @@ class Server {
         hlsDirectory: hlsDirectory,
         vodsDirectory: vodsDirectory,
         codsDirectory: codsDirectory,
+        proxyDirectory: proxyDirectory,
         price: price,
         providers: providers);
   }
@@ -195,6 +201,7 @@ class Server {
         hlsDirectory.isNotEmpty &&
         vodsDirectory.isNotEmpty &&
         codsDirectory.isNotEmpty &&
+        proxyDirectory.isNotEmpty &&
         price.isValidPrice();
   }
 
@@ -245,6 +252,7 @@ class Server {
         hlsDirectory: json[HLS_DIRECTORY_FIELD],
         vodsDirectory: json[VODS_DIRECTORY_FIELD],
         codsDirectory: json[CODS_DIRECTORY_FIELD],
+        proxyDirectory: json[PROXY_DIRECTORY_FIELD],
         price: json[PRICE_FIELD],
         providers: _providers,
         gpu: gpu,
@@ -285,6 +293,7 @@ class Server {
       HLS_DIRECTORY_FIELD: hlsDirectory,
       VODS_DIRECTORY_FIELD: vodsDirectory,
       CODS_DIRECTORY_FIELD: codsDirectory,
+      PROXY_DIRECTORY_FIELD: proxyDirectory,
       PRICE_FIELD: price,
       PROVIDERS_FIELD: providers,
       GPU_FIELD: gpu,
