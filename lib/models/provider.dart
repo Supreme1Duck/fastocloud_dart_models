@@ -1,3 +1,4 @@
+import 'package:fastocloud_dart_models/models/types.dart';
 import 'package:meta/meta.dart';
 import 'package:quiver/core.dart';
 
@@ -70,6 +71,7 @@ class Provider {
   static const STATUS_FIELD = 'status'; //
   static const LANGUAGE_FIELD = 'language';
   static const COUNTRY_FIELD = 'country';
+  static const CREDITS_FIELD = 'credits';
 
   final String id;
   String email;
@@ -81,6 +83,7 @@ class Provider {
   ProviderStatus status;
   String language;
   String country;
+  int credits;
 
   String get password {
     return _password.orNull;
@@ -101,7 +104,8 @@ class Provider {
         language: language,
         country: country,
         type: type,
-        status: status);
+        status: status,
+        credits: credits);
   }
 
   Provider.create(
@@ -112,6 +116,7 @@ class Provider {
       this.createdDate,
       this.type,
       this.status,
+      this.credits,
       this.language,
       this.country})
       : id = null,
@@ -126,6 +131,7 @@ class Provider {
       this.createdDate,
       this.status,
       this.type,
+      this.credits,
       this.language,
       this.country})
       : _password = Optional<String>.fromNullable(password);
@@ -142,7 +148,8 @@ class Provider {
         createdDate = DateTime.now().millisecondsSinceEpoch,
         _password = Optional<String>.absent(),
         status = ProviderStatus.ACTIVE,
-        type = ProviderType.ADMIN;
+        type = ProviderType.ADMIN,
+        credits = Credits.DEFAULT;
 
   bool isValid() {
     if (id == null) {
@@ -155,7 +162,8 @@ class Provider {
           language.isNotEmpty &&
           country.isNotEmpty &&
           status != null &&
-          type != null;
+          type != null &&
+          credits.isValidCredits();
     }
 
     return email.isNotEmpty &&
@@ -165,7 +173,8 @@ class Provider {
         language.isNotEmpty &&
         country.isNotEmpty &&
         status != null &&
-        type != null;
+        type != null &&
+        credits.isValidCredits();
   }
 
   factory Provider.fromJson(Map<String, dynamic> json) {
@@ -184,6 +193,7 @@ class Provider {
         createdDate: json[CREATED_DATE_FIELD],
         type: ProviderType.fromInt(json[TYPE_FIELD]),
         status: ProviderStatus.fromInt(json[STATUS_FIELD]),
+        credits: json[CREDITS_FIELD],
         language: json[LANGUAGE_FIELD],
         country: json[COUNTRY_FIELD],
         password: password);
@@ -198,6 +208,7 @@ class Provider {
       CREATED_DATE_FIELD: createdDate,
       TYPE_FIELD: type.toInt(),
       STATUS_FIELD: status.toInt(),
+      CREDITS_FIELD: credits,
       LANGUAGE_FIELD: language,
       COUNTRY_FIELD: country
     };

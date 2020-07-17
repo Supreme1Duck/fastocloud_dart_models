@@ -1,5 +1,18 @@
 const int _MAX_INTEGER_NUMBER = 1000000;
 
+extension Credits on int {
+  static const int MIN = 1;
+  static const int MAX = _MAX_INTEGER_NUMBER;
+  static const int DEFAULT = Credits.MAX;
+
+  bool isValidCredits() {
+    if (this == null) {
+      return false;
+    }
+    return this >= Credits.MIN && this <= Credits.MAX;
+  }
+}
+
 extension IARC on int {
   static const int MIN = 0;
   static const int MAX = 21;
