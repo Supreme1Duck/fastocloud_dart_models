@@ -32,7 +32,7 @@ class Machine {
   int uptime;
   int timestamp;
 
-  int synctime;
+  int syncTime;
   String version;
   String project;
   ServerStatus status;
@@ -51,7 +51,7 @@ class Machine {
       this.bandwidthOut,
       this.timestamp,
       this.uptime,
-      this.synctime,
+      this.syncTime,
       this.version,
       this.project,
       this.status,
@@ -73,7 +73,7 @@ class Machine {
 
     final version = json[VERSION_FIELD];
     final project = json[PROJECT_FIELD];
-    final synctime = json[SYNCTIME_FIELD];
+    final syncTime = json[SYNCTIME_FIELD];
     final status = ServerStatus.fromInt(json[STATUS_FIELD]);
     final os = OperationSystem.fromJson(json[OS_FIELD]);
     final expirationTime = json[EXP_TIME];
@@ -90,7 +90,7 @@ class Machine {
         bandwidthOut: bandwidthOut,
         uptime: uptime,
         timestamp: timestamp,
-        synctime: synctime,
+        syncTime: syncTime,
         version: version,
         project: project,
         status: status,
@@ -111,7 +111,7 @@ class Machine {
       VERSION_FIELD: version,
       PROJECT_FIELD: project,
       UPTIME_FIELD: uptime,
-      SYNCTIME_FIELD: synctime,
+      SYNCTIME_FIELD: syncTime,
       TIMESTAMP_FIELD: timestamp,
       STATUS_FIELD: status?.toInt(),
       OS_FIELD: os?.toJson(),

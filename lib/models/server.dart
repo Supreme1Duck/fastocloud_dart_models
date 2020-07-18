@@ -1,4 +1,5 @@
 import 'package:fastocloud_dart_models/models/base.dart';
+import 'package:fastocloud_dart_models/models/machine.dart';
 import 'package:fastocloud_dart_models/models/output_urls.dart';
 import 'package:fastocloud_dart_models/models/server_base.dart';
 import 'package:fastocloud_dart_models/models/server_provider.dart';
@@ -37,7 +38,80 @@ class OnlineUsers {
   }
 }
 
-class Server {
+class MediaServerInfo extends Machine {
+  static const ONLINE_USERS_FIELDS = 'online_users';
+
+  OnlineUsers onlineUsers;
+
+  MediaServerInfo(
+      {double cpu,
+      double gpu,
+      String loadAverage,
+      int memoryTotal,
+      int memoryFree,
+      int hddTotal,
+      int hddFree,
+      int bandwidthIn,
+      int bandwidthOut,
+      int uptime,
+      int timestamp,
+      int syncTime,
+      String version,
+      String project,
+      ServerStatus status,
+      int expirationTime,
+      OperationSystem os,
+      OnlineUsers onlineUsers})
+      : onlineUsers = onlineUsers,
+        super(
+            cpu: cpu,
+            gpu: gpu,
+            loadAverage: loadAverage,
+            memoryTotal: memoryTotal,
+            memoryFree: memoryFree,
+            hddTotal: hddTotal,
+            hddFree: hddFree,
+            bandwidthIn: bandwidthIn,
+            bandwidthOut: bandwidthOut,
+            timestamp: timestamp,
+            uptime: uptime,
+            syncTime: syncTime,
+            version: version,
+            project: project,
+            status: status,
+            expirationTime: expirationTime,
+            os: os);
+
+  factory MediaServerInfo.fromJson(Map<String, dynamic> json) {
+    final Machine mach = Machine.fromJson(json);
+    final onlineUsers = OnlineUsers.fromJson(json[ONLINE_USERS_FIELDS]);
+    return MediaServerInfo(
+        cpu: mach.cpu,
+        gpu: mach.gpu,
+        loadAverage: mach.loadAverage,
+        memoryTotal: mach.memoryTotal,
+        memoryFree: mach.memoryFree,
+        hddTotal: mach.hddTotal,
+        hddFree: mach.hddFree,
+        bandwidthIn: mach.bandwidthIn,
+        bandwidthOut: mach.bandwidthOut,
+        uptime: mach.uptime,
+        timestamp: mach.timestamp,
+        syncTime: mach.syncTime,
+        version: mach.version,
+        project: mach.project,
+        status: mach.status,
+        expirationTime: mach.expirationTime,
+        os: mach.os,
+        onlineUsers: onlineUsers);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {ONLINE_USERS_FIELDS: onlineUsers?.toJson()};
+  }
+}
+
+class Server extends MediaServerInfo {
   static const ID_FIELD = 'id';
   static const NAME_FIELD = 'name';
 
@@ -63,25 +137,6 @@ class Server {
   static const String DEFAULT_CODS_DIR = '~/streamer/cods';
   static const String DEFAULT_PROXY_DIR = '~/streamer/proxy';
 
-  static const CPU_FIELD = 'cpu';
-  static const GPU_FIELD = 'gpu';
-  static const LOAD_AVERAGE_FIELD = 'load_average';
-  static const MEMORY_TOTAL_FIELD = 'memory_total';
-  static const MEMORY_FREE_FIELD = 'memory_free';
-  static const HDD_TOTAL_FIELD = 'hdd_total';
-  static const HDD_FREE_FIELD = 'hdd_free';
-  static const BANDWIDTH_IN_FIELD = 'bandwidth_in';
-  static const BANDWIDTH_OUT_FIELD = 'bandwidth_out';
-  static const VERSION_FIELD = 'version';
-  static const PROJECT_FIELD = 'project';
-  static const UPTIME_FIELD = 'uptime';
-  static const SYNCTIME_FIELD = 'synctime';
-  static const TIMESTAMP_FIELD = 'timestamp';
-  static const STATUS_FIELD = 'status';
-  static const ONLINE_USERS_FIELDS = 'online_users';
-  static const EXP_TIME = 'expiration_time';
-  static const OS_FIELD = 'os';
-
   final String id;
   String name;
   HostAndPort host;
@@ -97,26 +152,6 @@ class Server {
   String proxyDirectory;
   double price;
   List<ServerProvider> providers;
-
-  // dynamic fields
-  double cpu;
-  double gpu;
-  String loadAverage;
-  int memoryTotal;
-  int memoryFree;
-  int hddTotal;
-  int hddFree;
-  int bandwidthIn;
-  int bandwidthOut;
-  String version;
-  String project;
-  int uptime;
-  int syncTime;
-  int timestamp;
-  ServerStatus status;
-  OnlineUsers onlineUsers;
-  OperationSystem os;
-  int expirationTime;
 
   Server(
       {@required this.id,
@@ -134,24 +169,43 @@ class Server {
       @required this.proxyDirectory,
       @required this.price,
       @required this.providers,
-      this.gpu,
-      this.cpu,
-      this.loadAverage,
-      this.memoryTotal,
-      this.memoryFree,
-      this.hddTotal,
-      this.hddFree,
-      this.bandwidthIn,
-      this.bandwidthOut,
-      this.version,
-      this.project,
-      this.uptime,
-      this.syncTime,
-      this.timestamp,
-      this.status,
-      this.onlineUsers,
-      this.os,
-      this.expirationTime});
+      double cpu,
+      double gpu,
+      String loadAverage,
+      int memoryTotal,
+      int memoryFree,
+      int hddTotal,
+      int hddFree,
+      int bandwidthIn,
+      int bandwidthOut,
+      int uptime,
+      int timestamp,
+      int syncTime,
+      String version,
+      String project,
+      ServerStatus status,
+      int expirationTime,
+      OperationSystem os,
+      OnlineUsers onlineUsers})
+      : super(
+            cpu: cpu,
+            gpu: gpu,
+            loadAverage: loadAverage,
+            memoryTotal: memoryTotal,
+            memoryFree: memoryFree,
+            hddTotal: hddTotal,
+            hddFree: hddFree,
+            bandwidthIn: bandwidthIn,
+            bandwidthOut: bandwidthOut,
+            timestamp: timestamp,
+            uptime: uptime,
+            syncTime: syncTime,
+            version: version,
+            project: project,
+            status: status,
+            expirationTime: expirationTime,
+            os: os,
+            onlineUsers: onlineUsers);
 
   Server.createDefault()
       : this.id = null,
@@ -220,24 +274,7 @@ class Server {
     });
 
     final String id = json[ID_FIELD];
-    final gpu = json[GPU_FIELD];
-    final cpu = json[CPU_FIELD];
-    final loadAverage = json[LOAD_AVERAGE_FIELD];
-    final memoryTotal = json[MEMORY_TOTAL_FIELD];
-    final memoryFree = json[MEMORY_FREE_FIELD];
-    final hddTotal = json[HDD_TOTAL_FIELD];
-    final hddFree = json[HDD_FREE_FIELD];
-    final bandwidthIn = json[BANDWIDTH_IN_FIELD];
-    final bandwidthOut = json[BANDWIDTH_OUT_FIELD];
-    final version = json[VERSION_FIELD];
-    final project = json[PROJECT_FIELD];
-    final uptime = json[UPTIME_FIELD];
-    final synctime = json[SYNCTIME_FIELD];
-    final timestamp = json[TIMESTAMP_FIELD];
-    final ServerStatus status = ServerStatus.fromInt(json[STATUS_FIELD]);
-    final OnlineUsers onlineUsers = OnlineUsers.fromJson(json[ONLINE_USERS_FIELDS]);
-    final OperationSystem os = OperationSystem.fromJson(json[OS_FIELD]);
-    final expirationTime = json[EXP_TIME];
+    final MediaServerInfo media = MediaServerInfo.fromJson(json);
 
     return Server(
         id: id,
@@ -255,24 +292,24 @@ class Server {
         proxyDirectory: json[PROXY_DIRECTORY_FIELD],
         price: json[PRICE_FIELD],
         providers: _providers,
-        gpu: gpu,
-        cpu: cpu,
-        loadAverage: loadAverage,
-        memoryTotal: memoryTotal,
-        memoryFree: memoryFree,
-        hddTotal: hddTotal,
-        hddFree: hddFree,
-        bandwidthIn: bandwidthIn,
-        bandwidthOut: bandwidthOut,
-        version: version,
-        project: project,
-        uptime: uptime,
-        syncTime: synctime,
-        timestamp: timestamp,
-        status: status,
-        onlineUsers: onlineUsers,
-        os: os,
-        expirationTime: expirationTime);
+        gpu: media.gpu,
+        cpu: media.cpu,
+        loadAverage: media.loadAverage,
+        memoryTotal: media.memoryTotal,
+        memoryFree: media.memoryFree,
+        hddTotal: media.hddTotal,
+        hddFree: media.hddFree,
+        bandwidthIn: media.bandwidthIn,
+        bandwidthOut: media.bandwidthOut,
+        version: media.version,
+        project: media.project,
+        uptime: media.uptime,
+        syncTime: media.syncTime,
+        timestamp: media.timestamp,
+        status: media.status,
+        onlineUsers: media.onlineUsers,
+        os: media.os,
+        expirationTime: media.expirationTime);
   }
 
   Map<String, dynamic> toJson() {
@@ -280,41 +317,25 @@ class Server {
     providers.forEach((element) {
       _providersJson.add(element.toJson());
     });
-    return {
-      ID_FIELD: id,
-      NAME_FIELD: name,
-      HOST_FIELD: host.toJson(),
-      HTTP_HOST_FIELD: httpHost.toJson(),
-      VODS_HOST_FIELD: vodsHost.toJson(),
-      CODS_HOST_FIELD: codsHost.toJson(),
-      NGINX_HOST_FIELD: nginxHost.toJson(),
-      FEEDBACK_DIRECOTRY_FIELD: feedbackDirectory,
-      TIMESHIFTS_DIRECTORY_FIELD: timeshiftsDirectory,
-      HLS_DIRECTORY_FIELD: hlsDirectory,
-      VODS_DIRECTORY_FIELD: vodsDirectory,
-      CODS_DIRECTORY_FIELD: codsDirectory,
-      PROXY_DIRECTORY_FIELD: proxyDirectory,
-      PRICE_FIELD: price,
-      PROVIDERS_FIELD: providers,
-      GPU_FIELD: gpu,
-      CPU_FIELD: cpu,
-      LOAD_AVERAGE_FIELD: loadAverage,
-      MEMORY_TOTAL_FIELD: memoryTotal,
-      MEMORY_FREE_FIELD: memoryFree,
-      HDD_TOTAL_FIELD: hddTotal,
-      HDD_FREE_FIELD: hddFree,
-      BANDWIDTH_IN_FIELD: bandwidthIn,
-      BANDWIDTH_OUT_FIELD: bandwidthOut,
-      VERSION_FIELD: version,
-      PROJECT_FIELD: project,
-      UPTIME_FIELD: uptime,
-      SYNCTIME_FIELD: syncTime,
-      TIMESTAMP_FIELD: timestamp,
-      STATUS_FIELD: status?.toInt(),
-      ONLINE_USERS_FIELDS: onlineUsers?.toJson(),
-      OS_FIELD: os?.toJson(),
-      EXP_TIME: expirationTime
-    };
+
+    Map<String, dynamic> result = super.toJson();
+    result[ID_FIELD] = id;
+    result[NAME_FIELD] = name;
+    result[HOST_FIELD] = host.toJson();
+    result[PROVIDERS_FIELD] = providers;
+    result[HOST_FIELD] = host.toJson();
+    result[HTTP_HOST_FIELD] = httpHost.toJson();
+    result[VODS_HOST_FIELD] = vodsHost.toJson();
+    result[CODS_HOST_FIELD] = codsHost.toJson();
+    result[NGINX_HOST_FIELD] = nginxHost.toJson();
+    result[FEEDBACK_DIRECOTRY_FIELD] = feedbackDirectory;
+    result[TIMESHIFTS_DIRECTORY_FIELD] = timeshiftsDirectory;
+    result[HLS_DIRECTORY_FIELD] = hlsDirectory;
+    result[VODS_DIRECTORY_FIELD] = vodsDirectory;
+    result[CODS_DIRECTORY_FIELD] = codsDirectory;
+    result[PROXY_DIRECTORY_FIELD] = proxyDirectory;
+    result[PRICE_FIELD] = price;
+    return result;
   }
 
   ProviderRole getProviderRoleById(String pid) {
