@@ -108,6 +108,7 @@ class LoadBalancer extends LoadBalanceServerInfo {
   static const CLIENTS_HOST = 'clients_host';
   static const CATCHUPS_HOST_FIELD = 'catchups_host';
   static const CATCHUPS_HTTP_ROOT_FIELD = 'catchups_http_root';
+  static const MONITORING_FIELD = 'monitoring';
   static const PROVIDERS_FIELD = 'providers';
 
   static const String DEFAULT_SERVER_NAME = 'Load Balancer';
@@ -119,6 +120,7 @@ class LoadBalancer extends LoadBalanceServerInfo {
   HostAndPort clientsHost;
   HostAndPort catchupsHost;
   String catchupsHttpRoot;
+  bool monitoring;
   List<ServerProvider> providers;
 
   LoadBalancer(
@@ -128,6 +130,7 @@ class LoadBalancer extends LoadBalanceServerInfo {
       @required this.clientsHost,
       @required this.catchupsHost,
       @required this.catchupsHttpRoot,
+      @required this.monitoring,
       @required this.providers,
       double cpu,
       double gpu,
@@ -174,6 +177,7 @@ class LoadBalancer extends LoadBalanceServerInfo {
         clientsHost = HostAndPort.createDefaultRouteHostV4(port: 6000),
         catchupsHost = HostAndPort.createDefaultRouteHostV4(port: 8000),
         catchupsHttpRoot = DEFAULT_CATHUPS_HTTP_DIR,
+        monitoring = false,
         providers = [];
 
   LoadBalancer copy() {
@@ -184,7 +188,8 @@ class LoadBalancer extends LoadBalanceServerInfo {
         clientsHost: clientsHost.copy(),
         catchupsHost: catchupsHost.copy(),
         catchupsHttpRoot: catchupsHttpRoot,
-        providers: providers);
+        providers: providers,
+        monitoring: monitoring);
   }
 
   bool isActive() {
@@ -214,6 +219,7 @@ class LoadBalancer extends LoadBalanceServerInfo {
         catchupsHost: HostAndPort.fromJson(json[CATCHUPS_HOST_FIELD]),
         catchupsHttpRoot: json[CATCHUPS_HTTP_ROOT_FIELD],
         providers: _providers,
+        monitoring: json[MONITORING_FIELD],
         cpu: load.cpu,
         loadAverage: load.loadAverage,
         memoryTotal: load.memoryTotal,
@@ -245,6 +251,7 @@ class LoadBalancer extends LoadBalanceServerInfo {
     result[CLIENTS_HOST] = clientsHost.toJson();
     result[CATCHUPS_HOST_FIELD] = catchupsHost.toJson();
     result[CATCHUPS_HTTP_ROOT_FIELD] = catchupsHttpRoot;
+    result[MONITORING_FIELD] = monitoring;
     return result;
   }
 

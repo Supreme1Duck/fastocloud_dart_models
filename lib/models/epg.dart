@@ -103,12 +103,14 @@ class Epg extends EpgServerInfo {
   static const NAME_FIELD = 'name';
   static const HOST_FIELD = 'host';
   static const PROVIDERS_FIELD = 'providers';
+  static const MONITORING_FIELD = 'monitoring';
 
   static const String DEFAULT_SERVER_NAME = 'Epg';
 
   final String id;
   String name;
   HostAndPort host;
+  bool monitoring;
   List<ServerProvider> providers;
 
   Epg(
@@ -116,6 +118,7 @@ class Epg extends EpgServerInfo {
       @required this.name,
       @required this.host,
       @required this.providers,
+      @required this.monitoring,
       double cpu,
       double gpu,
       String loadAverage,
@@ -158,10 +161,11 @@ class Epg extends EpgServerInfo {
       : id = null,
         name = DEFAULT_SERVER_NAME,
         host = HostAndPort.createLocalHostV4(port: 4317),
+        monitoring = false,
         providers = [];
 
   Epg copy() {
-    return Epg(id: id, name: name, host: host.copy(), providers: providers);
+    return Epg(id: id, name: name, host: host.copy(), providers: providers, monitoring: monitoring);
   }
 
   bool isActive() {
@@ -184,6 +188,7 @@ class Epg extends EpgServerInfo {
         name: json[NAME_FIELD],
         host: HostAndPort.fromJson(json[HOST_FIELD]),
         providers: _providers,
+        monitoring: json[MONITORING_FIELD],
         cpu: epg.cpu,
         loadAverage: epg.loadAverage,
         memoryTotal: epg.memoryTotal,
@@ -211,6 +216,7 @@ class Epg extends EpgServerInfo {
     result[NAME_FIELD] = name;
     result[HOST_FIELD] = host.toJson();
     result[PROVIDERS_FIELD] = providers;
+    result[MONITORING_FIELD] = monitoring;
     return result;
   }
 
