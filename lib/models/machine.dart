@@ -12,6 +12,8 @@ class Machine {
   static const BANDWIDTH_OUT_FIELD = 'bandwidth_out';
   static const UPTIME_FIELD = 'uptime';
   static const TIMESTAMP_FIELD = 'timestamp';
+  static const TOTAL_BYTES_IN_FIELD = 'total_bytes_in';
+  static const TOTAL_BYTES_OUT_FIELD = 'total_bytes_out';
 
   static const SYNCTIME_FIELD = 'synctime';
   static const PROJECT_FIELD = 'project';
@@ -31,6 +33,8 @@ class Machine {
   int bandwidthOut;
   int uptime;
   int timestamp;
+  int totalBytesIn;
+  int totalBytesOut;
 
   int syncTime;
   String version;
@@ -51,6 +55,8 @@ class Machine {
       this.bandwidthOut,
       this.timestamp,
       this.uptime,
+      this.totalBytesIn,
+      this.totalBytesOut,
       this.syncTime,
       this.version,
       this.project,
@@ -70,6 +76,8 @@ class Machine {
     final bandwidthOut = json[BANDWIDTH_OUT_FIELD];
     final uptime = json[UPTIME_FIELD];
     final timestamp = json[TIMESTAMP_FIELD];
+    final totalBytesIn = json[TOTAL_BYTES_IN_FIELD];
+    final totalBytesOut = json[TOTAL_BYTES_OUT_FIELD];
 
     final version = json[VERSION_FIELD];
     final project = json[PROJECT_FIELD];
@@ -90,6 +98,8 @@ class Machine {
         bandwidthOut: bandwidthOut,
         uptime: uptime,
         timestamp: timestamp,
+        totalBytesIn: totalBytesIn,
+        totalBytesOut: totalBytesOut,
         syncTime: syncTime,
         version: version,
         project: project,
@@ -111,6 +121,8 @@ class Machine {
       VERSION_FIELD: version,
       PROJECT_FIELD: project,
       UPTIME_FIELD: uptime,
+      TOTAL_BYTES_IN_FIELD: totalBytesIn,
+      TOTAL_BYTES_OUT_FIELD: totalBytesOut,
       SYNCTIME_FIELD: syncTime,
       TIMESTAMP_FIELD: timestamp,
       STATUS_FIELD: status?.toInt(),
