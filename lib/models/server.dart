@@ -131,7 +131,6 @@ class Server extends MediaServerInfo {
   static const CODS_DIRECTORY_FIELD = 'cods_directory';
   static const PROXY_DIRECTORY_FIELD = 'proxy_directory';
   static const PROVIDERS_FIELD = 'providers';
-  static const PRICE_FIELD = 'price';
   static const MONITORING_FIELD = 'monitoring';
 
   static const String DEFAULT_SERVER_NAME = 'Server';
@@ -155,7 +154,6 @@ class Server extends MediaServerInfo {
   String vodsDirectory;
   String codsDirectory;
   String proxyDirectory;
-  double price;
   bool monitoring;
   List<ServerProvider> providers;
 
@@ -173,7 +171,6 @@ class Server extends MediaServerInfo {
       @required this.vodsDirectory,
       @required this.codsDirectory,
       @required this.proxyDirectory,
-      @required this.price,
       @required this.providers,
       @required this.monitoring,
       double cpu,
@@ -232,7 +229,6 @@ class Server extends MediaServerInfo {
         this.vodsDirectory = DEFAULT_VODS_DIR,
         this.codsDirectory = DEFAULT_CODS_DIR,
         this.proxyDirectory = DEFAULT_PROXY_DIR,
-        this.price = Price.DEFAULT,
         this.monitoring = false,
         this.providers = [];
 
@@ -251,7 +247,6 @@ class Server extends MediaServerInfo {
         vodsDirectory: vodsDirectory,
         codsDirectory: codsDirectory,
         proxyDirectory: proxyDirectory,
-        price: price,
         monitoring: monitoring,
         providers: providers);
   }
@@ -268,8 +263,7 @@ class Server extends MediaServerInfo {
         hlsDirectory.isNotEmpty &&
         vodsDirectory.isNotEmpty &&
         codsDirectory.isNotEmpty &&
-        proxyDirectory.isNotEmpty &&
-        price.isValidPrice();
+        proxyDirectory.isNotEmpty;
   }
 
   bool isPro() {
@@ -303,7 +297,6 @@ class Server extends MediaServerInfo {
         vodsDirectory: json[VODS_DIRECTORY_FIELD],
         codsDirectory: json[CODS_DIRECTORY_FIELD],
         proxyDirectory: json[PROXY_DIRECTORY_FIELD],
-        price: json[PRICE_FIELD],
         providers: _providers,
         monitoring: json[MONITORING_FIELD],
         gpu: media.gpu,
@@ -348,7 +341,6 @@ class Server extends MediaServerInfo {
     result[VODS_DIRECTORY_FIELD] = vodsDirectory;
     result[CODS_DIRECTORY_FIELD] = codsDirectory;
     result[PROXY_DIRECTORY_FIELD] = proxyDirectory;
-    result[PRICE_FIELD] = price;
     result[MONITORING_FIELD] = monitoring;
     return result;
   }
