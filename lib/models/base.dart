@@ -832,18 +832,21 @@ class MachineLearning {
 class PhoneNumber {
   static const DIAL_CODE_FIELD = 'dial_code';
   static const PHONE_NUMBER_FIELD = 'phone_number';
+  static const ISO_CODE_FILED = 'iso_code';
 
   String dialCode;
   String phoneNumber;
+  String isoCode;
 
-  PhoneNumber({@required this.dialCode, @required this.phoneNumber});
+  PhoneNumber({@required this.dialCode, @required this.phoneNumber, @required this.isoCode});
 
   PhoneNumber.createUSADefault()
       : dialCode = '+1',
-        phoneNumber = '123456789';
+        phoneNumber = '123456789',
+        isoCode = 'US';
 
   PhoneNumber copy() {
-    return PhoneNumber(dialCode: dialCode, phoneNumber: phoneNumber);
+    return PhoneNumber(dialCode: dialCode, phoneNumber: phoneNumber, isoCode: isoCode);
   }
 
   factory PhoneNumber.fromJson(Map<String, dynamic> json) {
@@ -853,14 +856,20 @@ class PhoneNumber {
 
     final code = json[DIAL_CODE_FIELD];
     final number = json[PHONE_NUMBER_FIELD];
-    return PhoneNumber(dialCode: code, phoneNumber: number);
+    final iso = json[ISO_CODE_FILED];
+    return PhoneNumber(dialCode: code, phoneNumber: number, isoCode: iso);
   }
 
   Map<String, dynamic> toJson() {
-    return {DIAL_CODE_FIELD: dialCode, PHONE_NUMBER_FIELD: phoneNumber};
+    return {DIAL_CODE_FIELD: dialCode, PHONE_NUMBER_FIELD: phoneNumber, ISO_CODE_FILED: isoCode};
   }
 
   bool isValid() {
-    return dialCode != null && dialCode.isNotEmpty && phoneNumber != null && phoneNumber.isNotEmpty;
+    return dialCode != null &&
+        dialCode.isNotEmpty &&
+        phoneNumber != null &&
+        phoneNumber.isNotEmpty &&
+        isoCode != null &&
+        isoCode.isNotEmpty;
   }
 }
