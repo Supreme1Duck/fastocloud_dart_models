@@ -299,9 +299,8 @@ class VideoCodec {
       return 'INTEL.H264';
     } else if (_value == 'x265enc') {
       return 'X265';
-    } else {
-      return 'MSDK.H264';
     }
+    return 'MSDK.H264';
   }
 
   factory VideoCodec.fromString(String value) {
@@ -331,9 +330,8 @@ class VideoCodec {
       return MFX_H264_ENC;
     } else if (value == 'x265enc') {
       return X265_ENC;
-    } else {
-      return MSDK_H264_ENC;
     }
+    return MSDK_H264_ENC;
   }
 
   static get values => [
@@ -383,9 +381,10 @@ class AudioCodec {
       return 'LAMEMP3';
     } else if (_value == 'faac') {
       return 'AAC';
-    } else {
+    } else if (_value == 'voaacenc') {
       return 'VOAAC';
     }
+    return 'OPUS';
   }
 
   factory AudioCodec.fromString(String value) {
@@ -393,15 +392,17 @@ class AudioCodec {
       return LAME_MP3_ENC;
     } else if (value == 'faac') {
       return FAAC;
-    } else {
+    } else if (value == 'voaacenc') {
       return VOAAC_ENC;
     }
+    return OPUS;
   }
 
-  static get values => [LAME_MP3_ENC, FAAC, VOAAC_ENC];
+  static get values => [LAME_MP3_ENC, FAAC, VOAAC_ENC, OPUS];
 
   static const AudioCodec LAME_MP3_ENC = AudioCodec._('lamemp3enc');
   static const AudioCodec FAAC = AudioCodec._('faac');
+  static const AudioCodec OPUS = AudioCodec._('opusenc');
   static const AudioCodec VOAAC_ENC = AudioCodec._('voaacenc');
 }
 
@@ -419,9 +420,8 @@ class VideoParser {
       return 'MPEGTS';
     } else if (_value == 'h264parse') {
       return 'H264';
-    } else {
-      return 'H265';
     }
+    return 'H265';
   }
 
   factory VideoParser.fromString(String value) {
@@ -429,9 +429,8 @@ class VideoParser {
       return TS;
     } else if (value == 'h264parse') {
       return H264;
-    } else {
-      return H265;
     }
+    return H265;
   }
 
   static get values => [TS, H264, H265];
@@ -455,6 +454,8 @@ class AudioParser {
       return 'AC3';
     } else if (_value == 'mpegaudioparse') {
       return 'MPEG';
+    } else if (_value == 'opusparse') {
+      return 'OPUS';
     }
     return 'RAW';
   }
@@ -466,15 +467,18 @@ class AudioParser {
       return AC3;
     } else if (value == 'mpegaudioparse') {
       return MPEG;
+    } else if (value == 'opusparse') {
+      return OPUS;
     }
     return RAW;
   }
 
-  static get values => [AAC, AC3, MPEG, RAW];
+  static get values => [AAC, AC3, MPEG, OPUS, RAW];
 
   static const AudioParser AAC = AudioParser._('aacparse');
   static const AudioParser AC3 = AudioParser._('ac3parse');
   static const AudioParser MPEG = AudioParser._('mpegaudioparse');
+  static const AudioParser OPUS = AudioParser._('opusparse');
   static const AudioParser RAW = AudioParser._('rawaudioparse');
 }
 
