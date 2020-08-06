@@ -95,20 +95,23 @@ class OutputUrl {
 class HttpOutputUrl extends OutputUrl {
   static const HTTP_ROOT_FIELD = 'http_root';
   static const HLS_TYPE_FIELD = 'hls_type';
+  static const CHUNK_DURATION_FIELD = 'chunk_duration';
 
   static const protocol_1 = Protocol.HTTP;
-  static const protocol_2 = Protocol.HTTP;
+  static const protocol_2 = Protocol.HTTPS;
 
   Optional<String> _httpRoot = Optional<String>.absent();
   Optional<HlsType> _hlsType = Optional<HlsType>.absent();
+  Optional<int> _chunkDuration = Optional<int>.absent();
 
-  HttpOutputUrl({@required int id, @required String uri, String httpRoot, HlsType hlsType})
+  HttpOutputUrl({@required int id, @required String uri, String httpRoot, int chunkDuration, HlsType hlsType})
       : _httpRoot = Optional<String>.fromNullable(httpRoot),
         _hlsType = Optional<HlsType>.fromNullable(hlsType),
+        _chunkDuration = Optional<int>.fromNullable(chunkDuration),
         super(id: id, uri: uri);
 
   HttpOutputUrl copy() {
-    return HttpOutputUrl(id: id, uri: uri, httpRoot: httpRoot, hlsType: hlsType);
+    return HttpOutputUrl(id: id, uri: uri, httpRoot: httpRoot, hlsType: hlsType, chunkDuration: chunkDuration);
   }
 
   String get httpRoot {
@@ -117,6 +120,14 @@ class HttpOutputUrl extends OutputUrl {
 
   set httpRoot(String http) {
     _httpRoot = Optional<String>.fromNullable(http);
+  }
+
+  int get chunkDuration {
+    return _chunkDuration.orNull;
+  }
+
+  set chunkDuration(int duration) {
+    _chunkDuration = Optional<int>.fromNullable(duration);
   }
 
   HlsType get hlsType {
@@ -138,6 +149,9 @@ class HttpOutputUrl extends OutputUrl {
     if (json.containsKey(HTTP_ROOT_FIELD) && json.containsKey(HLS_TYPE_FIELD)) {
       result._httpRoot = Optional<String>.of(json[HTTP_ROOT_FIELD]);
       result._hlsType = Optional<HlsType>.of(HlsType.fromInt(json[HLS_TYPE_FIELD]));
+      if (json.containsKey(CHUNK_DURATION_FIELD)) {
+        result._chunkDuration = Optional<int>.of(json[CHUNK_DURATION_FIELD]);
+      }
     }
     return result;
   }
@@ -147,6 +161,9 @@ class HttpOutputUrl extends OutputUrl {
     if (_httpRoot.isPresent && _hlsType.isPresent) {
       result[HttpOutputUrl.HTTP_ROOT_FIELD] = _httpRoot.value;
       result[HttpOutputUrl.HLS_TYPE_FIELD] = _hlsType.value.toInt();
+      if (_chunkDuration.isPresent) {
+        result[HttpOutputUrl.CHUNK_DURATION_FIELD] = _chunkDuration.value;
+      }
     }
     return result;
   }
