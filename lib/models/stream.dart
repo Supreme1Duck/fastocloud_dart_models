@@ -290,9 +290,10 @@ abstract class HardwareStream extends IStream {
     final _icon = icon.isValidIconUrl();
     final _iarc = iarc.isValidIARC();
     final _price = price.isValidPrice();
+    final _input = input.isValidInputUrls();
     final _output = output.isValidOutputUrls();
     final _rest = restartAttempts.isValidRestartAttempts();
-    bool req = _name && _price && _icon && _output && _iarc && _rest;
+    bool req = _name && _price && _icon && _input && _output && _iarc && _rest;
     if (req && _audioSelect.isPresent) {
       req &= _audioSelect.value.isValidAudioSelect();
     }

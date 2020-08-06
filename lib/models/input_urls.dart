@@ -131,7 +131,12 @@ class InputUrl {
   }
 
   bool isValid() {
-    return id != null && uri != null && uri.isNotEmpty;
+    if (uri == null) {
+      return false;
+    } else {
+      final parsed = Uri.tryParse(uri);
+      return id != null && uri.isNotEmpty && parsed != null;
+    }
   }
 
   InputUrl copy() {
