@@ -657,7 +657,14 @@ class RelayStream extends HardwareStream {
   }
 
   bool isValid() {
-    return super.isValid() && input.isValidInputUrls();
+    bool req = super.isValid() && input.isValidInputUrls();
+    if (req && _videoParser.isPresent) {
+      req &= VideoParser.values.contains(_videoParser.value);
+    }
+    if (req && _audioParser.isPresent) {
+      req &= AudioParser.values.contains(_audioParser.value);
+    }
+    return req;
   }
 
   Map<String, dynamic> toJson() {
