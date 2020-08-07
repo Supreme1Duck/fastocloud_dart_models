@@ -546,8 +546,24 @@ class RelayStream extends HardwareStream {
   static const VIDEO_PARSER_FIELD = 'video_parser';
   static const AUDIO_PARSER_FIELD = 'audio_parser';
 
-  VideoParser videoParser = DEFAULT_VIDEO_PARSER;
-  AudioParser audioParser = DEFAULT_AUDIO_PARSER;
+  Optional<VideoParser> _videoParser = Optional<VideoParser>.fromNullable(DEFAULT_VIDEO_PARSER);
+  Optional<AudioParser> _audioParser = Optional<AudioParser>.fromNullable(DEFAULT_AUDIO_PARSER);
+
+  VideoParser get videoParser {
+    return _videoParser.orNull;
+  }
+
+  set videoParser(VideoParser parser) {
+    _videoParser = Optional<VideoParser>.fromNullable(parser);
+  }
+
+  AudioParser get audioParser {
+    return _audioParser.orNull;
+  }
+
+  set audioParser(AudioParser parser) {
+    _audioParser = Optional<AudioParser>.fromNullable(parser);
+  }
 
   RelayStream.create({@required String icon}) : super.create(icon: icon);
 
@@ -609,8 +625,8 @@ class RelayStream extends HardwareStream {
       @required bool loop,
       @required int restartAttempts,
       @required String extraConfig,
-      @required VideoParser videoParser,
-      @required AudioParser audioParser,
+      VideoParser videoParser,
+      AudioParser audioParser,
       int autoExit,
       int audioSelect}) {
     super.setOptional(
@@ -646,8 +662,12 @@ class RelayStream extends HardwareStream {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> data = super.toJson();
-    data[VIDEO_PARSER_FIELD] = videoParser.toString();
-    data[AUDIO_PARSER_FIELD] = audioParser.toString();
+    if (_videoParser.isPresent) {
+      data[VIDEO_PARSER_FIELD] = _videoParser.value.toString();
+    }
+    if (_audioParser.isPresent) {
+      data[AUDIO_PARSER_FIELD] = _audioParser.value.toString();
+    }
     return data;
   }
 }
@@ -1714,8 +1734,15 @@ IStream makeStream(Map<String, dynamic> json) {
       type == StreamType.TEST_LIFE ||
       type == StreamType.VOD_RELAY ||
       type == StreamType.COD_RELAY) {
-    final videoParser = VideoParser.fromString(json[RelayStream.VIDEO_PARSER_FIELD]);
-    final audioParser = AudioParser.fromString(json[RelayStream.AUDIO_PARSER_FIELD]);
+    VideoParser videoParser;
+    if (json.containsKey(RelayStream.VIDEO_PARSER_FIELD)) {
+      videoParser = VideoParser.fromString(json[RelayStream.VIDEO_PARSER_FIELD]);
+    }
+
+    AudioParser audioParser;
+    if (json.containsKey(RelayStream.AUDIO_PARSER_FIELD)) {
+      audioParser = AudioParser.fromString(json[RelayStream.AUDIO_PARSER_FIELD]);
+    }
 
     if (type == StreamType.RELAY) {
       RelayStream relay = RelayStream.edit(id: id, name: name, input: input, output: output);
