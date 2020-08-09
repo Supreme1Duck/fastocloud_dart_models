@@ -281,3 +281,15 @@ class Protocol {
   static const Protocol RTSP = Protocol._('rtsp');
   static const Protocol SRT = Protocol._('srt');
 }
+
+extension ActivationKey on String {
+  static const int MIN_PATH_LENGTH = 97;
+  static const int MAX_PATH_LENGTH = 97;
+
+  bool isValidActivationKey() {
+    if (this == null) {
+      return false;
+    }
+    return this.length == IconUrl.MIN_LENGTH && this.length == IconUrl.MAX_LENGTH;
+  }
+}

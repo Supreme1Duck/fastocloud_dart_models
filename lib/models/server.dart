@@ -131,6 +131,8 @@ class Server extends MediaServerInfo {
   static const CODS_DIRECTORY_FIELD = 'cods_directory';
   static const PROXY_DIRECTORY_FIELD = 'proxy_directory';
   static const PROVIDERS_FIELD = 'providers';
+  static const AUTO_START_FIELD = 'auto_start';
+  static const ACTIVATION_KEY_FIELD = 'activation_key';
   static const MONITORING_FIELD = 'monitoring';
 
   static const String DEFAULT_SERVER_NAME = 'Server';
@@ -155,7 +157,11 @@ class Server extends MediaServerInfo {
   String codsDirectory;
   String proxyDirectory;
   bool monitoring;
+  bool autoStart;
   List<ServerProvider> providers;
+
+  // optional
+  Optional<String> _activationKey = Optional<String>.absent();
 
   Server(
       {@required this.id,
@@ -173,6 +179,8 @@ class Server extends MediaServerInfo {
       @required this.proxyDirectory,
       @required this.providers,
       @required this.monitoring,
+      @required this.autoStart,
+      String activationKey,
       double cpu,
       double gpu,
       String loadAverage,
@@ -193,7 +201,8 @@ class Server extends MediaServerInfo {
       int expirationTime,
       OperationSystem os,
       OnlineUsers onlineUsers})
-      : super(
+      : _activationKey = Optional<String>.fromNullable(activationKey),
+        super(
             cpu: cpu,
             gpu: gpu,
             loadAverage: loadAverage,
@@ -216,21 +225,22 @@ class Server extends MediaServerInfo {
             onlineUsers: onlineUsers);
 
   Server.createDefault()
-      : this.id = null,
-        this.name = DEFAULT_SERVER_NAME,
-        this.host = HostAndPort.createLocalHostV4(port: 6317),
-        this.httpHost = HostAndPort.createDefaultRouteHostV4(port: 8000),
-        this.vodsHost = HostAndPort.createDefaultRouteHostV4(port: 7000),
-        this.codsHost = HostAndPort.createDefaultRouteHostV4(port: 6001),
-        this.nginxHost = HostAndPort.createDefaultRouteHostV4(port: 81),
-        this.feedbackDirectory = DEFAULT_FEEDBACK_DIR,
-        this.timeshiftsDirectory = DEFAULT_TIMESHIFTS_DIR,
-        this.hlsDirectory = DEFAULT_HLS_DIR,
-        this.vodsDirectory = DEFAULT_VODS_DIR,
-        this.codsDirectory = DEFAULT_CODS_DIR,
-        this.proxyDirectory = DEFAULT_PROXY_DIR,
-        this.monitoring = false,
-        this.providers = [];
+      : id = null,
+        name = DEFAULT_SERVER_NAME,
+        host = HostAndPort.createLocalHostV4(port: 6317),
+        httpHost = HostAndPort.createDefaultRouteHostV4(port: 8000),
+        vodsHost = HostAndPort.createDefaultRouteHostV4(port: 7000),
+        codsHost = HostAndPort.createDefaultRouteHostV4(port: 6001),
+        nginxHost = HostAndPort.createDefaultRouteHostV4(port: 81),
+        feedbackDirectory = DEFAULT_FEEDBACK_DIR,
+        timeshiftsDirectory = DEFAULT_TIMESHIFTS_DIR,
+        hlsDirectory = DEFAULT_HLS_DIR,
+        vodsDirectory = DEFAULT_VODS_DIR,
+        codsDirectory = DEFAULT_CODS_DIR,
+        proxyDirectory = DEFAULT_PROXY_DIR,
+        monitoring = false,
+        autoStart = false,
+        providers = [];
 
   Server copy() {
     return Server(
@@ -248,11 +258,13 @@ class Server extends MediaServerInfo {
         codsDirectory: codsDirectory,
         proxyDirectory: proxyDirectory,
         monitoring: monitoring,
-        providers: providers);
+        autoStart: autoStart,
+        providers: providers,
+        activationKey: activationKey);
   }
 
   bool isValid() {
-    return name.isNotEmpty &&
+    bool req=  name.isNotEmpty &&
         host.isValid() &&
         httpHost.isValid() &&
         vodsHost.isValid() &&
@@ -264,6 +276,11 @@ class Server extends MediaServerInfo {
         vodsDirectory.isNotEmpty &&
         codsDirectory.isNotEmpty &&
         proxyDirectory.isNotEmpty;
+
+    if (req && _activationKey.isPresent) {
+      req &= _activationKey.value.isValidActivationKey();
+    }
+    return req;
   }
 
   bool isPro() {
@@ -274,6 +291,14 @@ class Server extends MediaServerInfo {
     return status == ServerStatus.ACTIVE;
   }
 
+  String get activationKey {
+    return _activationKey.orNull;
+  }
+
+  set activationKey(String key) {
+    _activationKey = Optional<String>.fromNullable(key);
+  }
+
   factory Server.fromJson(Map<String, dynamic> json) {
     List<ServerProvider> _providers = [];
     json[PROVIDERS_FIELD].forEach((element) {
@@ -282,6 +307,11 @@ class Server extends MediaServerInfo {
 
     final String id = json[ID_FIELD];
     final MediaServerInfo media = MediaServerInfo.fromJson(json);
+
+    String activationKey;
+    if (json.containsKey(ACTIVATION_KEY_FIELD)) {
+      activationKey = json[ACTIVATION_KEY_FIELD];
+    }
 
     return Server(
         id: id,
@@ -299,6 +329,8 @@ class Server extends MediaServerInfo {
         proxyDirectory: json[PROXY_DIRECTORY_FIELD],
         providers: _providers,
         monitoring: json[MONITORING_FIELD],
+        autoStart: json[AUTO_START_FIELD],
+        activationKey: activationKey,
         gpu: media.gpu,
         cpu: media.cpu,
         loadAverage: media.loadAverage,
@@ -342,6 +374,10 @@ class Server extends MediaServerInfo {
     result[CODS_DIRECTORY_FIELD] = codsDirectory;
     result[PROXY_DIRECTORY_FIELD] = proxyDirectory;
     result[MONITORING_FIELD] = monitoring;
+    result[AUTO_START_FIELD] = autoStart;
+    if (_activationKey.isPresent) {
+      result[ACTIVATION_KEY_FIELD] = _activationKey.value;
+    }
     return result;
   }
 

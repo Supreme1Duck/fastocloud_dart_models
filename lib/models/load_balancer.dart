@@ -2,7 +2,9 @@ import 'package:fastocloud_dart_models/models/base.dart';
 import 'package:fastocloud_dart_models/models/machine.dart';
 import 'package:fastocloud_dart_models/models/server_base.dart';
 import 'package:fastocloud_dart_models/models/server_provider.dart';
+import 'package:fastocloud_dart_models/models/types.dart';
 import 'package:meta/meta.dart';
+import 'package:quiver/core.dart';
 
 class OnlineUsers {
   static const DAEMON_FIELD = 'daemon';
@@ -113,6 +115,8 @@ class LoadBalancer extends LoadBalanceServerInfo {
   static const CATCHUPS_HOST_FIELD = 'catchups_host';
   static const CATCHUPS_HTTP_ROOT_FIELD = 'catchups_http_root';
   static const MONITORING_FIELD = 'monitoring';
+  static const ACTIVATION_KEY_FIELD = 'activation_key';
+  static const AUTO_START_FIELD = 'auto_start';
   static const PROVIDERS_FIELD = 'providers';
 
   static const String DEFAULT_SERVER_NAME = 'Load Balancer';
@@ -125,7 +129,11 @@ class LoadBalancer extends LoadBalanceServerInfo {
   HostAndPort catchupsHost;
   String catchupsHttpRoot;
   bool monitoring;
+  bool autoStart;
   List<ServerProvider> providers;
+
+  // optional
+  Optional<String> _activationKey = Optional<String>.absent();
 
   LoadBalancer(
       {@required this.id,
@@ -136,6 +144,8 @@ class LoadBalancer extends LoadBalanceServerInfo {
       @required this.catchupsHttpRoot,
       @required this.monitoring,
       @required this.providers,
+      @required this.autoStart,
+      String activationKey,
       double cpu,
       double gpu,
       String loadAverage,
@@ -156,7 +166,8 @@ class LoadBalancer extends LoadBalanceServerInfo {
       int expirationTime,
       OperationSystem os,
       OnlineUsers onlineUsers})
-      : super(
+      : _activationKey = Optional<String>.fromNullable(activationKey),
+        super(
             cpu: cpu,
             gpu: gpu,
             loadAverage: loadAverage,
@@ -186,6 +197,7 @@ class LoadBalancer extends LoadBalanceServerInfo {
         catchupsHost = HostAndPort.createDefaultRouteHostV4(port: 8000),
         catchupsHttpRoot = DEFAULT_CATHUPS_HTTP_DIR,
         monitoring = false,
+        autoStart = false,
         providers = [];
 
   LoadBalancer copy() {
@@ -197,7 +209,9 @@ class LoadBalancer extends LoadBalanceServerInfo {
         catchupsHost: catchupsHost.copy(),
         catchupsHttpRoot: catchupsHttpRoot,
         providers: providers,
-        monitoring: monitoring);
+        autoStart: autoStart,
+        monitoring: monitoring,
+        activationKey: activationKey);
   }
 
   bool isActive() {
@@ -205,11 +219,23 @@ class LoadBalancer extends LoadBalanceServerInfo {
   }
 
   bool isValid() {
-    return name.isNotEmpty &&
+    bool req = name.isNotEmpty &&
         host.isValid() &&
         clientsHost.isValid() &&
         catchupsHost.isValid() &&
         catchupsHttpRoot.isNotEmpty;
+    if (req && _activationKey.isPresent) {
+      req &= _activationKey.value.isValidActivationKey();
+    }
+    return req;
+  }
+
+  String get activationKey {
+    return _activationKey.orNull;
+  }
+
+  set activationKey(String key) {
+    _activationKey = Optional<String>.fromNullable(key);
   }
 
   factory LoadBalancer.fromJson(Map<String, dynamic> json) {
@@ -217,6 +243,10 @@ class LoadBalancer extends LoadBalanceServerInfo {
     final _json = json[PROVIDERS_FIELD];
     List<ServerProvider> _providers = [];
     _json.forEach((element) => _providers.add(ServerProvider.fromJson(element)));
+    String activationKey;
+    if (json.containsKey(ACTIVATION_KEY_FIELD)) {
+      activationKey = json[ACTIVATION_KEY_FIELD];
+    }
 
     final LoadBalanceServerInfo load = LoadBalanceServerInfo.fromJson(json);
     return LoadBalancer(
@@ -228,6 +258,8 @@ class LoadBalancer extends LoadBalanceServerInfo {
         catchupsHttpRoot: json[CATCHUPS_HTTP_ROOT_FIELD],
         providers: _providers,
         monitoring: json[MONITORING_FIELD],
+        autoStart: json[AUTO_START_FIELD],
+        activationKey: activationKey,
         cpu: load.cpu,
         loadAverage: load.loadAverage,
         memoryTotal: load.memoryTotal,
@@ -260,6 +292,10 @@ class LoadBalancer extends LoadBalanceServerInfo {
     result[CATCHUPS_HOST_FIELD] = catchupsHost.toJson();
     result[CATCHUPS_HTTP_ROOT_FIELD] = catchupsHttpRoot;
     result[MONITORING_FIELD] = monitoring;
+    result[AUTO_START_FIELD] = autoStart;
+    if (_activationKey.isPresent) {
+      result[ACTIVATION_KEY_FIELD] = _activationKey.value;
+    }
     return result;
   }
 

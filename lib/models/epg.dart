@@ -2,7 +2,9 @@ import 'package:fastocloud_dart_models/models/base.dart';
 import 'package:fastocloud_dart_models/models/machine.dart';
 import 'package:fastocloud_dart_models/models/server_base.dart';
 import 'package:fastocloud_dart_models/models/server_provider.dart';
+import 'package:fastocloud_dart_models/models/types.dart';
 import 'package:meta/meta.dart';
+import 'package:quiver/core.dart';
 
 class OnlineUsers {
   static const DAEMON_FIELD = 'daemon';
@@ -107,6 +109,8 @@ class Epg extends EpgServerInfo {
   static const NAME_FIELD = 'name';
   static const HOST_FIELD = 'host';
   static const PROVIDERS_FIELD = 'providers';
+  static const AUTO_START_FIELD = 'auto_start';
+  static const ACTIVATION_KEY_FIELD = 'activation_key';
   static const MONITORING_FIELD = 'monitoring';
 
   static const String DEFAULT_SERVER_NAME = 'Epg';
@@ -115,7 +119,11 @@ class Epg extends EpgServerInfo {
   String name;
   HostAndPort host;
   bool monitoring;
+  bool autoStart;
   List<ServerProvider> providers;
+
+  // optional
+  Optional<String> _activationKey = Optional<String>.absent();
 
   Epg(
       {@required this.id,
@@ -123,6 +131,8 @@ class Epg extends EpgServerInfo {
       @required this.host,
       @required this.providers,
       @required this.monitoring,
+      @required this.autoStart,
+      String activationKey,
       double cpu,
       double gpu,
       String loadAverage,
@@ -143,7 +153,8 @@ class Epg extends EpgServerInfo {
       int expirationTime,
       OperationSystem os,
       OnlineUsers onlineUsers})
-      : super(
+      : _activationKey = Optional<String>.fromNullable(activationKey),
+        super(
             cpu: cpu,
             gpu: gpu,
             loadAverage: loadAverage,
@@ -170,10 +181,18 @@ class Epg extends EpgServerInfo {
         name = DEFAULT_SERVER_NAME,
         host = HostAndPort.createLocalHostV4(port: 4317),
         monitoring = false,
+        autoStart = false,
         providers = [];
 
   Epg copy() {
-    return Epg(id: id, name: name, host: host.copy(), providers: providers, monitoring: monitoring);
+    return Epg(
+        id: id,
+        name: name,
+        host: host.copy(),
+        providers: providers,
+        autoStart: autoStart,
+        monitoring: monitoring,
+        activationKey: activationKey);
   }
 
   bool isActive() {
@@ -181,7 +200,19 @@ class Epg extends EpgServerInfo {
   }
 
   bool isValid() {
-    return name.isNotEmpty && host.isValid();
+    bool req = name.isNotEmpty && host.isValid();
+    if (req && _activationKey.isPresent) {
+      req &= _activationKey.value.isValidActivationKey();
+    }
+    return req;
+  }
+
+  String get activationKey {
+    return _activationKey.orNull;
+  }
+
+  set activationKey(String key) {
+    _activationKey = Optional<String>.fromNullable(key);
   }
 
   factory Epg.fromJson(Map<String, dynamic> json) {
@@ -190,6 +221,11 @@ class Epg extends EpgServerInfo {
     List<ServerProvider> _providers = [];
     _json.forEach((element) => _providers.add(ServerProvider.fromJson(element)));
 
+    String activationKey;
+    if (json.containsKey(ACTIVATION_KEY_FIELD)) {
+      activationKey = json[ACTIVATION_KEY_FIELD];
+    }
+
     final EpgServerInfo epg = EpgServerInfo.fromJson(json);
     return Epg(
         id: id,
@@ -197,6 +233,8 @@ class Epg extends EpgServerInfo {
         host: HostAndPort.fromJson(json[HOST_FIELD]),
         providers: _providers,
         monitoring: json[MONITORING_FIELD],
+        activationKey: activationKey,
+        autoStart: json[AUTO_START_FIELD],
         cpu: epg.cpu,
         loadAverage: epg.loadAverage,
         memoryTotal: epg.memoryTotal,
@@ -225,6 +263,10 @@ class Epg extends EpgServerInfo {
     result[HOST_FIELD] = host.toJson();
     result[PROVIDERS_FIELD] = providers;
     result[MONITORING_FIELD] = monitoring;
+    result[AUTO_START_FIELD] = autoStart;
+    if (_activationKey.isPresent) {
+      result[ACTIVATION_KEY_FIELD] = _activationKey.value;
+    }
     return result;
   }
 

@@ -110,6 +110,7 @@ abstract class HardwareStream extends IStream {
   static const LOOP_FIELD = 'loop';
   static const RESTART_ATTEMPTS_FIELD = 'restart_attempts';
   static const EXTRA_CONFIG_FIELD = 'extra_config';
+  static const AUTO_START_FIELD = 'auto_start';
 
   // optional
   static const AUDIO_SELECT_FIELD = 'audio_select';
@@ -137,6 +138,7 @@ abstract class HardwareStream extends IStream {
   bool loop = false;
   int restartAttempts = RestartAttempts.DEFAULT;
   String extraConfig = '{}';
+  bool autoStart = false;
 
   // optional
   Optional<int> _autoExit = Optional<int>.absent();
@@ -224,6 +226,7 @@ abstract class HardwareStream extends IStream {
       @required bool loop,
       @required int restartAttempts,
       @required String extraConfig,
+      @required bool autoStart,
       int autoExit,
       int audioSelect,
       @required List<MetaUrl> meta}) {
@@ -237,6 +240,7 @@ abstract class HardwareStream extends IStream {
     this.loop = loop;
     this.restartAttempts = restartAttempts;
     this.extraConfig = extraConfig;
+    this.autoStart = autoStart;
     this.autoExit = autoExit;
     this.audioSelect = audioSelect;
   }
@@ -323,6 +327,7 @@ abstract class HardwareStream extends IStream {
     data[LOOP_FIELD] = loop;
     data[RESTART_ATTEMPTS_FIELD] = restartAttempts;
     data[EXTRA_CONFIG_FIELD] = extraConfig;
+    data[AUTO_START_FIELD] = autoStart;
 
     // dynamic
     data[STATUS_FIELD] = status.toInt();
@@ -601,6 +606,7 @@ class RelayStream extends HardwareStream {
         loop: loop,
         restartAttempts: restartAttempts,
         extraConfig: extraConfig,
+        autoStart: autoStart,
         videoParser: videoParser,
         audioParser: audioParser,
         autoExit: autoExit,
@@ -625,6 +631,7 @@ class RelayStream extends HardwareStream {
       @required bool loop,
       @required int restartAttempts,
       @required String extraConfig,
+      @required bool autoStart,
       VideoParser videoParser,
       AudioParser audioParser,
       int autoExit,
@@ -646,6 +653,7 @@ class RelayStream extends HardwareStream {
         loop: loop,
         restartAttempts: restartAttempts,
         extraConfig: extraConfig,
+        autoStart: autoStart,
         autoExit: autoExit,
         audioSelect: audioSelect);
     this.videoParser = videoParser;
@@ -752,6 +760,7 @@ class EncodeStream extends HardwareStream {
         loop: loop,
         restartAttempts: restartAttempts,
         extraConfig: extraConfig,
+        autoStart: autoStart,
         relayVideo: relayVideo,
         relayAudio: relayAudio,
         deinterlace: deinterlace,
@@ -861,6 +870,7 @@ class EncodeStream extends HardwareStream {
       @required bool loop,
       @required int restartAttempts,
       @required String extraConfig,
+      @required bool autoStart,
       @required bool relayVideo,
       @required bool relayAudio,
       @required bool deinterlace,
@@ -895,6 +905,7 @@ class EncodeStream extends HardwareStream {
         loop: loop,
         restartAttempts: restartAttempts,
         extraConfig: extraConfig,
+        autoStart: autoStart,
         autoExit: autoExit,
         audioSelect: audioSelect);
     this.relayVideo = relayVideo;
@@ -1024,6 +1035,7 @@ class TimeshiftRecorderStream extends RelayStream {
         loop: loop,
         restartAttempts: restartAttempts,
         extraConfig: extraConfig,
+        autoStart: autoStart,
         videoParser: videoParser,
         audioParser: audioParser,
         autoExit: autoExit,
@@ -1065,6 +1077,7 @@ class TimeshiftPlayerStream extends RelayStream {
         loop: loop,
         restartAttempts: restartAttempts,
         extraConfig: extraConfig,
+        autoStart: autoStart,
         videoParser: videoParser,
         audioParser: audioParser,
         autoExit: autoExit,
@@ -1139,6 +1152,7 @@ class TestLifeStream extends RelayStream {
         loop: loop,
         restartAttempts: restartAttempts,
         extraConfig: extraConfig,
+        autoStart: autoStart,
         videoParser: videoParser,
         audioParser: audioParser,
         autoExit: autoExit,
@@ -1210,6 +1224,7 @@ class VodRelayStream extends RelayStream with VodMixin {
         loop: loop,
         restartAttempts: restartAttempts,
         extraConfig: extraConfig,
+        autoStart: autoStart,
         videoParser: videoParser,
         audioParser: audioParser,
         description: description,
@@ -1239,6 +1254,7 @@ class VodRelayStream extends RelayStream with VodMixin {
       @required bool loop,
       @required int restartAttempts,
       @required String extraConfig,
+      @required bool autoStart,
       @required VideoParser videoParser,
       @required AudioParser audioParser,
       @required String description,
@@ -1265,6 +1281,7 @@ class VodRelayStream extends RelayStream with VodMixin {
         loop: loop,
         restartAttempts: restartAttempts,
         extraConfig: extraConfig,
+        autoStart: autoStart,
         videoParser: videoParser,
         audioParser: audioParser,
         autoExit: autoExit,
@@ -1347,6 +1364,7 @@ class VodEncodeStream extends EncodeStream with VodMixin {
         loop: loop,
         restartAttempts: restartAttempts,
         extraConfig: extraConfig,
+        autoStart: autoStart,
         relayVideo: relayVideo,
         relayAudio: relayAudio,
         deinterlace: deinterlace,
@@ -1389,6 +1407,7 @@ class VodEncodeStream extends EncodeStream with VodMixin {
       @required bool loop,
       @required int restartAttempts,
       @required String extraConfig,
+      @required bool autoStart,
       @required String description,
       @required String trailerUrl,
       @required double userScore,
@@ -1428,6 +1447,7 @@ class VodEncodeStream extends EncodeStream with VodMixin {
         loop: loop,
         restartAttempts: restartAttempts,
         extraConfig: extraConfig,
+        autoStart: autoStart,
         relayVideo: relayVideo,
         relayAudio: relayAudio,
         deinterlace: deinterlace,
@@ -1498,6 +1518,7 @@ class CodRelayStream extends RelayStream {
         loop: loop,
         restartAttempts: restartAttempts,
         extraConfig: extraConfig,
+        autoStart: autoStart,
         videoParser: videoParser,
         audioParser: audioParser,
         autoExit: autoExit,
@@ -1545,6 +1566,7 @@ class CodEncodeStream extends EncodeStream {
         loop: loop,
         restartAttempts: restartAttempts,
         extraConfig: extraConfig,
+        autoStart: autoStart,
         relayVideo: relayVideo,
         relayAudio: relayAudio,
         deinterlace: deinterlace,
@@ -1612,6 +1634,7 @@ class EventStream extends VodEncodeStream {
         loop: loop,
         restartAttempts: restartAttempts,
         extraConfig: extraConfig,
+        autoStart: autoStart,
         relayVideo: relayVideo,
         relayAudio: relayAudio,
         deinterlace: deinterlace,
@@ -1704,6 +1727,7 @@ IStream makeStream(Map<String, dynamic> json) {
   bool loop = json[HardwareStream.LOOP_FIELD];
   int restartAttempts = json[HardwareStream.RESTART_ATTEMPTS_FIELD];
   String extraConfig = json[HardwareStream.EXTRA_CONFIG_FIELD];
+  bool autoStart = json[HardwareStream.AUTO_START_FIELD];
 
   // optional
   int audioSelect;
@@ -1770,6 +1794,7 @@ IStream makeStream(Map<String, dynamic> json) {
           loop: loop,
           restartAttempts: restartAttempts,
           extraConfig: extraConfig,
+          autoStart: autoStart,
           videoParser: videoParser,
           audioParser: audioParser,
           autoExit: autoExit,
@@ -1806,6 +1831,7 @@ IStream makeStream(Map<String, dynamic> json) {
           loop: loop,
           restartAttempts: restartAttempts,
           extraConfig: extraConfig,
+          autoStart: autoStart,
           videoParser: videoParser,
           audioParser: audioParser,
           autoExit: autoExit,
@@ -1842,6 +1868,7 @@ IStream makeStream(Map<String, dynamic> json) {
           loop: loop,
           restartAttempts: restartAttempts,
           extraConfig: extraConfig,
+          autoStart: autoStart,
           videoParser: videoParser,
           audioParser: audioParser,
           autoExit: autoExit,
@@ -1882,6 +1909,7 @@ IStream makeStream(Map<String, dynamic> json) {
           loop: loop,
           restartAttempts: restartAttempts,
           extraConfig: extraConfig,
+          autoStart: autoStart,
           videoParser: videoParser,
           audioParser: audioParser,
           autoExit: autoExit,
@@ -1918,6 +1946,7 @@ IStream makeStream(Map<String, dynamic> json) {
           loop: loop,
           restartAttempts: restartAttempts,
           extraConfig: extraConfig,
+          autoStart: autoStart,
           videoParser: videoParser,
           audioParser: audioParser,
           autoExit: autoExit,
@@ -1962,6 +1991,7 @@ IStream makeStream(Map<String, dynamic> json) {
           loop: loop,
           restartAttempts: restartAttempts,
           extraConfig: extraConfig,
+          autoStart: autoStart,
           videoParser: videoParser,
           audioParser: audioParser,
           description: description,
@@ -2003,6 +2033,7 @@ IStream makeStream(Map<String, dynamic> json) {
           loop: loop,
           restartAttempts: restartAttempts,
           extraConfig: extraConfig,
+          autoStart: autoStart,
           videoParser: videoParser,
           audioParser: audioParser,
           autoExit: autoExit,
@@ -2085,6 +2116,7 @@ IStream makeStream(Map<String, dynamic> json) {
         loop: loop,
         restartAttempts: restartAttempts,
         extraConfig: extraConfig,
+        autoStart: autoStart,
         haveVideo: haveVideo,
         haveAudio: haveAudio,
         phoenix: phoenix,
@@ -2134,6 +2166,7 @@ IStream makeStream(Map<String, dynamic> json) {
         loop: loop,
         restartAttempts: restartAttempts,
         extraConfig: extraConfig,
+        autoStart: autoStart,
         haveVideo: haveVideo,
         haveAudio: haveAudio,
         phoenix: phoenix,
@@ -2195,6 +2228,7 @@ IStream makeStream(Map<String, dynamic> json) {
           loop: loop,
           restartAttempts: restartAttempts,
           extraConfig: extraConfig,
+          autoStart: autoStart,
           haveVideo: haveVideo,
           haveAudio: haveAudio,
           phoenix: phoenix,
@@ -2250,6 +2284,7 @@ IStream makeStream(Map<String, dynamic> json) {
           loop: loop,
           restartAttempts: restartAttempts,
           extraConfig: extraConfig,
+          autoStart: autoStart,
           haveVideo: haveVideo,
           haveAudio: haveAudio,
           phoenix: phoenix,
