@@ -179,7 +179,7 @@ abstract class HardwareStream extends IStream {
   }
 
   double fixedInputMBitsPerSecond() {
-    final double inMegabits = inputBitsPerSecond() / (1024 * 1024);
+    final double inMegabits = 8 * inputBitsPerSecond() / (1024 * 1024);
     return fixedDouble(inMegabits);
   }
 
@@ -192,7 +192,7 @@ abstract class HardwareStream extends IStream {
   }
 
   double fixedOutputMBitsPerSecond() {
-    final double outMegabits = outputBitsPerSecond() / (1024 * 1024);
+    final double outMegabits = 8 * outputBitsPerSecond() / (1024 * 1024);
     return fixedDouble(outMegabits);
   }
 
