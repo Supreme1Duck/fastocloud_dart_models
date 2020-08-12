@@ -101,6 +101,7 @@ class HttpOutputUrl extends OutputUrl {
   static const HTTP_ROOT_FIELD = 'http_root';
   static const HLS_TYPE_FIELD = 'hls_type';
   static const CHUNK_DURATION_FIELD = 'chunk_duration';
+  static const PLAYLIST_ROOT_FIELD = 'playlist_root';
 
   static const protocol_1 = Protocol.HTTP;
   static const protocol_2 = Protocol.HTTPS;
@@ -108,15 +109,29 @@ class HttpOutputUrl extends OutputUrl {
   Optional<String> _httpRoot = Optional<String>.absent();
   Optional<HlsType> _hlsType = Optional<HlsType>.absent();
   Optional<int> _chunkDuration = Optional<int>.absent();
+  Optional<String> _playlistRoot = Optional<String>.absent();
 
-  HttpOutputUrl({@required int id, @required String uri, String httpRoot, int chunkDuration, HlsType hlsType})
+  HttpOutputUrl(
+      {@required int id,
+      @required String uri,
+      String httpRoot,
+      int chunkDuration,
+      HlsType hlsType,
+      String playlistRoot})
       : _httpRoot = Optional<String>.fromNullable(httpRoot),
         _hlsType = Optional<HlsType>.fromNullable(hlsType),
         _chunkDuration = Optional<int>.fromNullable(chunkDuration),
+        _playlistRoot = Optional<String>.fromNullable(playlistRoot),
         super(id: id, uri: uri);
 
   HttpOutputUrl copy() {
-    return HttpOutputUrl(id: id, uri: uri, httpRoot: httpRoot, hlsType: hlsType, chunkDuration: chunkDuration);
+    return HttpOutputUrl(
+        id: id,
+        uri: uri,
+        httpRoot: httpRoot,
+        hlsType: hlsType,
+        chunkDuration: chunkDuration,
+        playlistRoot: playlistRoot);
   }
 
   String get httpRoot {
@@ -125,6 +140,14 @@ class HttpOutputUrl extends OutputUrl {
 
   set httpRoot(String http) {
     _httpRoot = Optional<String>.fromNullable(http);
+  }
+
+  String get playlistRoot {
+    return _playlistRoot.orNull;
+  }
+
+  set playlistRoot(String root) {
+    _playlistRoot = Optional<String>.fromNullable(root);
   }
 
   int get chunkDuration {
@@ -157,6 +180,9 @@ class HttpOutputUrl extends OutputUrl {
       if (json.containsKey(CHUNK_DURATION_FIELD)) {
         result._chunkDuration = Optional<int>.of(json[CHUNK_DURATION_FIELD]);
       }
+      if (json.containsKey(PLAYLIST_ROOT_FIELD)) {
+        result._playlistRoot = Optional<String>.of(json[PLAYLIST_ROOT_FIELD]);
+      }
     }
     return result;
   }
@@ -168,6 +194,9 @@ class HttpOutputUrl extends OutputUrl {
       result[HttpOutputUrl.HLS_TYPE_FIELD] = _hlsType.value.toInt();
       if (_chunkDuration.isPresent) {
         result[HttpOutputUrl.CHUNK_DURATION_FIELD] = _chunkDuration.value;
+      }
+      if (_playlistRoot.isPresent) {
+        result[PLAYLIST_ROOT_FIELD] = _playlistRoot.value;
       }
     }
     return result;
