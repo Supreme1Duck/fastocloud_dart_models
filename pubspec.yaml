@@ -13,3 +13,6 @@ dependencies:
     git:
       url: https://github.com/fastogt/fastotv_dart.git
       ref: master
+
+dev_dependencies:
+  test: '>=1.15.3'
