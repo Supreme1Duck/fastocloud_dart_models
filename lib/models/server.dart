@@ -264,7 +264,7 @@ class Server extends MediaServerInfo {
   }
 
   bool isValid() {
-    bool req=  name.isNotEmpty &&
+    bool req = name.isNotEmpty &&
         host.isValid() &&
         httpHost.isValid() &&
         vodsHost.isValid() &&
