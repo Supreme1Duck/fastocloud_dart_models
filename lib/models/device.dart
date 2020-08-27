@@ -40,6 +40,9 @@ class Device {
   static const STATUS_FIELD = 'status';
   static const CREATED_DATE_FIELD = 'created_date';
 
+  static const MIN_NAME = 2;
+  static const MAX_NAME = 32;
+
   final String id;
   String name;
   DeviceStatus status;
@@ -58,11 +61,7 @@ class Device {
   }
 
   bool isValid() {
-    if (id == null) {
-      return name.isNotEmpty && createdDate != 0 && status != null;
-    }
-
-    return name.isNotEmpty && createdDate != 0 && status != null;
+    return name != null && name?.length >= MIN_NAME && name?.length <= MAX_NAME && createdDate != 0 && status != null;
   }
 
   factory Device.fromJson(Map<String, dynamic> json) {
