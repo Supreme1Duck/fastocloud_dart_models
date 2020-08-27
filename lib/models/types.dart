@@ -39,6 +39,20 @@ extension Price on double {
   }
 }
 
+extension ServiceName on String {
+  static const String DEFAULT = 'Service';
+
+  static const MIN_LENGTH = 3;
+  static const MAX_LENGTH = 30;
+
+  bool isValidServiceName() {
+    if (this == null) {
+      return false;
+    }
+    return this.length >= ServiceName.MIN_LENGTH && this.length <= ServiceName.MAX_LENGTH;
+  }
+}
+
 extension StreamName on String {
   static const String DEFAULT = 'Stream';
 
