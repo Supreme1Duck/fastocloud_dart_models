@@ -143,6 +143,10 @@ class Server extends MediaServerInfo {
   static const String DEFAULT_CODS_DIR = '~/streamer/cods';
   static const String DEFAULT_PROXY_DIR = '~/streamer/proxy';
 
+  
+  static const MIN_SERVICE_NAME_LENGTH = 3;
+  static const MAX_SERVICE_NAME_LENGTH = 30;
+
   final String id;
   String name;
   HostAndPort host;
