@@ -73,6 +73,9 @@ class Provider {
   static const COUNTRY_FIELD = 'country';
   static const CREDITS_FIELD = 'credits';
 
+  static const MIN_NAME = 2;
+  static const MAX_NAME = 64;
+
   final String id;
   String email;
   Optional<String> _password;
