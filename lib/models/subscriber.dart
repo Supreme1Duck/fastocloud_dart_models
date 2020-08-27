@@ -49,6 +49,8 @@ class Subscriber {
   static const COUNTRY_FIELD = 'country';
   static const SERVERS_FIELD = 'servers';
 
+  static const MAX_NAME = 64;
+
   final String id; // not changed
   String email;
   Optional<String> _password;
@@ -129,30 +131,27 @@ class Subscriber {
   }
 
   bool isValid() {
-    if (id == null) {
-      // create password must be
-      bool isValidPassword = _password.isPresent && _password.value.isNotEmpty;
-      return email.isNotEmpty &&
-          isValidPassword &&
-          firstName.isNotEmpty &&
-          lastName.isNotEmpty &&
-          createdDate != 0 &&
-          expDate != 0 &&
-          language.isNotEmpty &&
-          country.isNotEmpty &&
-          status != null &&
-          maxDevicesCount != null;
-    }
-
-    return email.isNotEmpty &&
-        firstName.isNotEmpty &&
-        lastName.isNotEmpty &&
+    bool fields = email.isNotEmpty &&
+        _validateName(firstName) &&
+        _validateName(lastName) &&
         createdDate != 0 &&
         expDate != 0 &&
         language.isNotEmpty &&
         country.isNotEmpty &&
         status != null &&
         maxDevicesCount != null;
+
+    if (id == null) {
+      // create password must be
+      bool isValidPassword = _password.isPresent && _password.value.isNotEmpty;
+      return fields && isValidPassword;
+    } else {
+      return fields;
+    }
+  }
+
+  bool _validateName(String name) {
+    return name != null && name.length > 0 && name.length <= MAX_NAME;
   }
 
   // password field not exists in json
