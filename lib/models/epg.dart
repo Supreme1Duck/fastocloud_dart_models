@@ -114,8 +114,8 @@ class Epg extends EpgServerInfo {
   static const MONITORING_FIELD = 'monitoring';
 
   static const String DEFAULT_SERVER_NAME = 'Epg';  
-  static const MIN_SERVICE_NAME_LENGTH = 3;
-  static const MAX_SERVICE_NAME_LENGTH = 30;
+  static const MIN_LENGTH = ServiceName.MIN_LENGTH;
+  static const MAX_LENGTH = ServiceName.MAX_LENGTH;
 
   final String id;
   String name;
@@ -202,7 +202,7 @@ class Epg extends EpgServerInfo {
   }
 
   bool isValid() {
-    bool req = name.isNotEmpty && host.isValid();
+    bool req = name.isValidServiceName() && host.isValid();
     if (req && _activationKey.isPresent) {
       req &= _activationKey.value.isValidActivationKey();
     }

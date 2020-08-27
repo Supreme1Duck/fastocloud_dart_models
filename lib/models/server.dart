@@ -143,9 +143,8 @@ class Server extends MediaServerInfo {
   static const String DEFAULT_CODS_DIR = '~/streamer/cods';
   static const String DEFAULT_PROXY_DIR = '~/streamer/proxy';
 
-  
-  static const MIN_SERVICE_NAME_LENGTH = 3;
-  static const MAX_SERVICE_NAME_LENGTH = 30;
+  static const MIN_LENGTH = ServiceName.MIN_LENGTH;
+  static const MAX_LENGTH = ServiceName.MAX_LENGTH;
 
   final String id;
   String name;
@@ -268,7 +267,7 @@ class Server extends MediaServerInfo {
   }
 
   bool isValid() {
-    bool req = name.isNotEmpty &&
+    bool req = name.isValidServiceName() &&
         host.isValid() &&
         httpHost.isValid() &&
         vodsHost.isValid() &&
