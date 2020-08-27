@@ -113,7 +113,9 @@ class Epg extends EpgServerInfo {
   static const ACTIVATION_KEY_FIELD = 'activation_key';
   static const MONITORING_FIELD = 'monitoring';
 
-  static const String DEFAULT_SERVER_NAME = 'Epg';
+  static const String DEFAULT_SERVER_NAME = 'Epg';  
+  static const MIN_SERVICE_NAME_LENGTH = 3;
+  static const MAX_SERVICE_NAME_LENGTH = 30;
 
   final String id;
   String name;
