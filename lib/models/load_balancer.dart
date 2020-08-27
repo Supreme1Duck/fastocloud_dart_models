@@ -120,8 +120,8 @@ class LoadBalancer extends LoadBalanceServerInfo {
   static const PROVIDERS_FIELD = 'providers';
 
   static const String DEFAULT_SERVER_NAME = 'Load Balancer';
-  static const MIN_SERVICE_NAME_LENGTH = ServiceName.MIN_LENGTH;
-  static const MAX_SERVICE_NAME_LENGTH = ServiceName.MAX_LENGTH;
+  static const MIN_NAME_LENGTH = ServiceName.MIN_LENGTH;
+  static const MAX_NAME_LENGTH = ServiceName.MAX_LENGTH;
   static const String DEFAULT_CATHUPS_HTTP_DIR = '~/streamer/hls';
 
   final String id;
