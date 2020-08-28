@@ -99,12 +99,14 @@ class OutputUrl {
 class HttpOutputUrl extends OutputUrl {
   static const HTTP_ROOT_FIELD = 'http_root';
   static const HLS_TYPE_FIELD = 'hls_type';
+  static const HLSSINK2_FIELD = 'hlssink2';
   static const CHUNK_DURATION_FIELD = 'chunk_duration';
   static const PLAYLIST_ROOT_FIELD = 'playlist_root';
 
   static const protocol_1 = Protocol.HTTP;
   static const protocol_2 = Protocol.HTTPS;
 
+  Optional<bool> _hlsSink2 = Optional<bool>.absent();
   Optional<String> _httpRoot = Optional<String>.absent();
   Optional<HlsType> _hlsType = Optional<HlsType>.absent();
   Optional<int> _chunkDuration = Optional<int>.absent();
@@ -113,11 +115,13 @@ class HttpOutputUrl extends OutputUrl {
   HttpOutputUrl(
       {@required int id,
       @required String uri,
+      bool hlsSink2,
       String httpRoot,
       int chunkDuration,
       HlsType hlsType,
       String playlistRoot})
-      : _httpRoot = Optional<String>.fromNullable(httpRoot),
+      : _hlsSink2 = Optional<bool>.fromNullable(hlsSink2),
+        _httpRoot = Optional<String>.fromNullable(httpRoot),
         _hlsType = Optional<HlsType>.fromNullable(hlsType),
         _chunkDuration = Optional<int>.fromNullable(chunkDuration),
         _playlistRoot = Optional<String>.fromNullable(playlistRoot),
@@ -129,8 +133,17 @@ class HttpOutputUrl extends OutputUrl {
         uri: uri,
         httpRoot: httpRoot,
         hlsType: hlsType,
+        hlsSink2: hlsSink2,
         chunkDuration: chunkDuration,
         playlistRoot: playlistRoot);
+  }
+
+  bool get hlsSink2 {
+    return _hlsSink2.orNull;
+  }
+
+  set hlsSink2(bool hlssink2) {
+    _hlsSink2 = Optional<bool>.fromNullable(hlssink2);
   }
 
   String get httpRoot {
@@ -173,6 +186,9 @@ class HttpOutputUrl extends OutputUrl {
     final id = json[OutputUrl.ID_FIELD];
     final uri = json[OutputUrl.URI_FIELD];
     HttpOutputUrl result = HttpOutputUrl(id: id, uri: uri);
+    if (json.containsKey(HLSSINK2_FIELD)) {
+      result._hlsSink2 = Optional<bool>.of(json[HLSSINK2_FIELD]);
+    }
     if (json.containsKey(HTTP_ROOT_FIELD) && json.containsKey(HLS_TYPE_FIELD)) {
       result._httpRoot = Optional<String>.of(json[HTTP_ROOT_FIELD]);
       result._hlsType = Optional<HlsType>.of(HlsType.fromInt(json[HLS_TYPE_FIELD]));
@@ -188,6 +204,9 @@ class HttpOutputUrl extends OutputUrl {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> result = super.toJson();
+    if (_hlsSink2.isPresent) {
+      result[HttpOutputUrl.HLSSINK2_FIELD] = _hlsSink2.value;
+    }
     if (_httpRoot.isPresent && _hlsType.isPresent) {
       result[HttpOutputUrl.HTTP_ROOT_FIELD] = _httpRoot.value;
       result[HttpOutputUrl.HLS_TYPE_FIELD] = _hlsType.value.toInt();
