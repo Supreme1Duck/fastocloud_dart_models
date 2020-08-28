@@ -186,10 +186,8 @@ class HttpOutputUrl extends OutputUrl {
     final id = json[OutputUrl.ID_FIELD];
     final uri = json[OutputUrl.URI_FIELD];
     HttpOutputUrl result = HttpOutputUrl(id: id, uri: uri);
-    if (json.containsKey(HLSSINK2_FIELD)) {
+    if (json.containsKey(HTTP_ROOT_FIELD) && json.containsKey(HLS_TYPE_FIELD) && json.containsKey(HLSSINK2_FIELD)) {
       result._hlsSink2 = Optional<bool>.of(json[HLSSINK2_FIELD]);
-    }
-    if (json.containsKey(HTTP_ROOT_FIELD) && json.containsKey(HLS_TYPE_FIELD)) {
       result._httpRoot = Optional<String>.of(json[HTTP_ROOT_FIELD]);
       result._hlsType = Optional<HlsType>.of(HlsType.fromInt(json[HLS_TYPE_FIELD]));
       if (json.containsKey(CHUNK_DURATION_FIELD)) {
@@ -204,10 +202,8 @@ class HttpOutputUrl extends OutputUrl {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> result = super.toJson();
-    if (_hlsSink2.isPresent) {
+    if (_httpRoot.isPresent && _hlsType.isPresent && _hlsSink2.isPresent) {
       result[HttpOutputUrl.HLSSINK2_FIELD] = _hlsSink2.value;
-    }
-    if (_httpRoot.isPresent && _hlsType.isPresent) {
       result[HttpOutputUrl.HTTP_ROOT_FIELD] = _httpRoot.value;
       result[HttpOutputUrl.HLS_TYPE_FIELD] = _hlsType.value.toInt();
       if (_chunkDuration.isPresent) {
