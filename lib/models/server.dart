@@ -418,17 +418,29 @@ class Server extends MediaServerInfo {
 
   HttpOutputUrl genTemplateHLSHttpOutputUrl(int id) {
     return HttpOutputUrl(
-        id: 0, uri: 'http://${httpHost.toString()}/master.m3u8', httpRoot: hlsDirectory, hlsType: HlsType.HLS_PULL);
+        id: 0,
+        uri: 'http://${httpHost.toString()}/master.m3u8',
+        httpRoot: hlsDirectory,
+        hlsType: HlsType.HLS_PULL,
+        hlsSinkType: HlsSinkType.HLSSINK);
   }
 
   HttpOutputUrl genTemplateCodsHttpOutputUrl(int id) {
     return HttpOutputUrl(
-        id: 0, uri: 'http://${codsHost.toString()}/master.m3u8', httpRoot: codsDirectory, hlsType: HlsType.HLS_PULL);
+        id: 0,
+        uri: 'http://${codsHost.toString()}/master.m3u8',
+        httpRoot: codsDirectory,
+        hlsType: HlsType.HLS_PULL,
+        hlsSinkType: HlsSinkType.HLSSINK);
   }
 
   HttpOutputUrl genTemplateVodsHttpOutputUrl(int id) {
     return HttpOutputUrl(
-        id: 0, uri: 'http://${vodsHost.toString()}/master.m3u8', httpRoot: vodsDirectory, hlsType: HlsType.HLS_PULL);
+        id: 0,
+        uri: 'http://${vodsHost.toString()}/master.m3u8',
+        httpRoot: vodsDirectory,
+        hlsType: HlsType.HLS_PULL,
+        hlsSinkType: HlsSinkType.HLSSINK);
   }
 
   IStream createDefault(StreamType type, String streamLogoIcon, String vodTrailerUrl) {
