@@ -31,6 +31,35 @@ class HlsType {
   static const HlsType HLS_PUSH = HlsType._(1);
 }
 
+class HlsSinkType {
+  final int _value;
+
+  const HlsSinkType._(this._value);
+
+  int toInt() {
+    return _value;
+  }
+
+  String toHumanReadable() {
+    if (_value == 0) {
+      return 'HLSSINK';
+    }
+    return 'HLSSINK2';
+  }
+
+  factory HlsSinkType.fromInt(int value) {
+    if (value == 0) {
+      return HlsSinkType.HLSSINK;
+    }
+    return HlsSinkType.HLSSINK2;
+  }
+
+  static get values => [HLSSINK, HLSSINK2];
+
+  static const HlsSinkType HLSSINK = HlsSinkType._(0);
+  static const HlsSinkType HLSSINK2 = HlsSinkType._(1);
+}
+
 class SrtMode {
   final int _value;
 
@@ -99,14 +128,14 @@ class OutputUrl {
 class HttpOutputUrl extends OutputUrl {
   static const HTTP_ROOT_FIELD = 'http_root';
   static const HLS_TYPE_FIELD = 'hls_type';
-  static const HLSSINK2_FIELD = 'hlssink2';
+  static const HLSSINK_TYPE_FIELD = 'hlssink_type';
   static const CHUNK_DURATION_FIELD = 'chunk_duration';
   static const PLAYLIST_ROOT_FIELD = 'playlist_root';
 
   static const protocol_1 = Protocol.HTTP;
   static const protocol_2 = Protocol.HTTPS;
 
-  Optional<bool> _hlsSink2 = Optional<bool>.absent();
+  Optional<HlsSinkType> _hlsSinkType = Optional<HlsSinkType>.absent();
   Optional<String> _httpRoot = Optional<String>.absent();
   Optional<HlsType> _hlsType = Optional<HlsType>.absent();
   Optional<int> _chunkDuration = Optional<int>.absent();
@@ -115,12 +144,12 @@ class HttpOutputUrl extends OutputUrl {
   HttpOutputUrl(
       {@required int id,
       @required String uri,
-      bool hlsSink2,
+      HlsSinkType hlsSinkType,
       String httpRoot,
       int chunkDuration,
       HlsType hlsType,
       String playlistRoot})
-      : _hlsSink2 = Optional<bool>.fromNullable(hlsSink2),
+      : _hlsSinkType = Optional<HlsSinkType>.fromNullable(hlsSinkType),
         _httpRoot = Optional<String>.fromNullable(httpRoot),
         _hlsType = Optional<HlsType>.fromNullable(hlsType),
         _chunkDuration = Optional<int>.fromNullable(chunkDuration),
@@ -133,17 +162,17 @@ class HttpOutputUrl extends OutputUrl {
         uri: uri,
         httpRoot: httpRoot,
         hlsType: hlsType,
-        hlsSink2: hlsSink2,
+        hlsSinkType: hlsSinkType,
         chunkDuration: chunkDuration,
         playlistRoot: playlistRoot);
   }
 
-  bool get hlsSink2 {
-    return _hlsSink2.orNull;
+  HlsSinkType get hlsSinkType {
+    return _hlsSinkType.orNull;
   }
 
-  set hlsSink2(bool hlssink2) {
-    _hlsSink2 = Optional<bool>.fromNullable(hlssink2);
+  set hlsSinkType(HlsSinkType hlsSinkType) {
+    _hlsSinkType = Optional<HlsSinkType>.fromNullable(hlsSinkType);
   }
 
   String get httpRoot {
@@ -186,8 +215,8 @@ class HttpOutputUrl extends OutputUrl {
     final id = json[OutputUrl.ID_FIELD];
     final uri = json[OutputUrl.URI_FIELD];
     HttpOutputUrl result = HttpOutputUrl(id: id, uri: uri);
-    if (json.containsKey(HTTP_ROOT_FIELD) && json.containsKey(HLS_TYPE_FIELD) && json.containsKey(HLSSINK2_FIELD)) {
-      result._hlsSink2 = Optional<bool>.of(json[HLSSINK2_FIELD]);
+    if (json.containsKey(HTTP_ROOT_FIELD) && json.containsKey(HLS_TYPE_FIELD) && json.containsKey(HLSSINK_TYPE_FIELD)) {
+      result._hlsSinkType = Optional<HlsSinkType>.of(json[HLSSINK_TYPE_FIELD]);
       result._httpRoot = Optional<String>.of(json[HTTP_ROOT_FIELD]);
       result._hlsType = Optional<HlsType>.of(HlsType.fromInt(json[HLS_TYPE_FIELD]));
       if (json.containsKey(CHUNK_DURATION_FIELD)) {
@@ -202,8 +231,8 @@ class HttpOutputUrl extends OutputUrl {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> result = super.toJson();
-    if (_httpRoot.isPresent && _hlsType.isPresent && _hlsSink2.isPresent) {
-      result[HttpOutputUrl.HLSSINK2_FIELD] = _hlsSink2.value;
+    if (_httpRoot.isPresent && _hlsType.isPresent && _hlsSinkType.isPresent) {
+      result[HttpOutputUrl.HLSSINK_TYPE_FIELD] = _hlsSinkType.value;
       result[HttpOutputUrl.HTTP_ROOT_FIELD] = _httpRoot.value;
       result[HttpOutputUrl.HLS_TYPE_FIELD] = _hlsType.value.toInt();
       if (_chunkDuration.isPresent) {
