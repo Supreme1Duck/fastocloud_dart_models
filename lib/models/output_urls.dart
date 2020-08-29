@@ -232,7 +232,7 @@ class HttpOutputUrl extends OutputUrl {
   Map<String, dynamic> toJson() {
     Map<String, dynamic> result = super.toJson();
     if (_httpRoot.isPresent && _hlsType.isPresent && _hlsSinkType.isPresent) {
-      result[HttpOutputUrl.HLSSINK_TYPE_FIELD] = _hlsSinkType.value;
+      result[HttpOutputUrl.HLSSINK_TYPE_FIELD] = _hlsSinkType.value.toInt();
       result[HttpOutputUrl.HTTP_ROOT_FIELD] = _httpRoot.value;
       result[HttpOutputUrl.HLS_TYPE_FIELD] = _hlsType.value.toInt();
       if (_chunkDuration.isPresent) {
