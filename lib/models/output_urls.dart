@@ -216,7 +216,7 @@ class HttpOutputUrl extends OutputUrl {
     final uri = json[OutputUrl.URI_FIELD];
     HttpOutputUrl result = HttpOutputUrl(id: id, uri: uri);
     if (json.containsKey(HTTP_ROOT_FIELD) && json.containsKey(HLS_TYPE_FIELD) && json.containsKey(HLSSINK_TYPE_FIELD)) {
-      result._hlsSinkType = Optional<HlsSinkType>.of(json[HLSSINK_TYPE_FIELD]);
+      result._hlsSinkType = Optional<HlsSinkType>.of(HlsSinkType.fromInt(json[HLSSINK_TYPE_FIELD]));
       result._httpRoot = Optional<String>.of(json[HTTP_ROOT_FIELD]);
       result._hlsType = Optional<HlsType>.of(HlsType.fromInt(json[HLS_TYPE_FIELD]));
       if (json.containsKey(CHUNK_DURATION_FIELD)) {
