@@ -279,11 +279,13 @@ class Protocol {
       return DEV;
     } else if (value == 'rtsp') {
       return RTSP;
+    } else if (value == 'rtp') {
+      return RTP;
     }
     return SRT;
   }
 
-  static get values => [HTTP, HTTPS, FILE, UDP, TCP, RTMP, DEV, RTSP, SRT];
+  static get values => [HTTP, HTTPS, FILE, UDP, TCP, RTMP, DEV, RTSP, RTP, SRT];
 
   static const Protocol HTTP = Protocol._('http');
   static const Protocol HTTPS = Protocol._('https');
@@ -293,6 +295,7 @@ class Protocol {
   static const Protocol RTMP = Protocol._('rtmp');
   static const Protocol DEV = Protocol._('dev');
   static const Protocol RTSP = Protocol._('rtsp');
+  static const Protocol RTP = Protocol._('rtp');
   static const Protocol SRT = Protocol._('srt');
 }
 
