@@ -263,6 +263,33 @@ class StreamLogLevel {
   static const StreamLogLevel DEBUG = StreamLogLevel._(7);
 }
 
+class RelayType {
+  final int _value;
+
+  const RelayType._(this._value);
+
+  int toInt() {
+    return _value;
+  }
+
+  String toHumanReadable() {
+    if (_value == 0) {
+      return 'Lite';
+    }
+    return 'Deep';
+  }
+
+  factory RelayType.fromInt(int value) {
+    if (value == 0) {
+      return RelayType.LITE;
+    }
+    return RelayType.DEEP;
+  }
+
+  static const RelayType LITE = RelayType._(0);
+  static const RelayType DEEP = RelayType._(1);
+}
+
 class VideoCodec {
   final String _value;
 

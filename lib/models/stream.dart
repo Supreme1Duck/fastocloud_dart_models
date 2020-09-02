@@ -111,6 +111,8 @@ abstract class HardwareStream extends IStream {
   static const RESTART_ATTEMPTS_FIELD = 'restart_attempts';
   static const EXTRA_CONFIG_FIELD = 'extra_config';
   static const AUTO_START_FIELD = 'auto_start';
+  static const RELAY_VIDEO_TYPE_FIELD = 'relay_video_type';
+  static const RELAY_AUDIO_TYPE_FIELD = 'relay_audio_type';
 
   // optional
   static const AUDIO_SELECT_FIELD = 'audio_select';
@@ -134,6 +136,8 @@ abstract class HardwareStream extends IStream {
   String feedbackDirectory;
   bool haveVideo = true;
   bool haveAudio = true;
+  RelayType relayVideoType = RelayType.DEEP;
+  RelayType relayAudioType = RelayType.DEEP;
   bool phoenix = false;
   bool loop = false;
   int restartAttempts = RestartAttempts.DEFAULT;
@@ -222,6 +226,8 @@ abstract class HardwareStream extends IStream {
       @required String feedbackDirectory,
       @required bool haveVideo,
       @required bool haveAudio,
+      @required RelayType relayVideoType,
+      @required RelayType relayAudioType,
       @required bool phoenix,
       @required bool loop,
       @required int restartAttempts,
@@ -236,6 +242,8 @@ abstract class HardwareStream extends IStream {
     this.feedbackDirectory = feedbackDirectory;
     this.haveVideo = haveVideo;
     this.haveAudio = haveAudio;
+    this.relayAudioType = relayAudioType;
+    this.relayVideoType = relayVideoType;
     this.phoenix = phoenix;
     this.loop = loop;
     this.restartAttempts = restartAttempts;
@@ -317,6 +325,8 @@ abstract class HardwareStream extends IStream {
     data[FEEDBACK_DIR_FIELD] = feedbackDirectory;
     data[HAVE_VIDEO_FIELD] = haveVideo;
     data[HAVE_AUDIO_FIELD] = haveAudio;
+    data[RELAY_AUDIO_TYPE_FIELD] = relayAudioType.toInt();
+    data[RELAY_VIDEO_TYPE_FIELD] = relayVideoType.toInt();
     data[PHOENIX_FIELD] = phoenix;
     if (_audioSelect.isPresent) {
       data[AUDIO_SELECT_FIELD] = _audioSelect.value;
@@ -602,6 +612,8 @@ class RelayStream extends HardwareStream {
         feedbackDirectory: feedbackDirectory,
         haveVideo: haveVideo,
         haveAudio: haveAudio,
+        relayAudioType: relayAudioType,
+        relayVideoType: relayVideoType,
         phoenix: phoenix,
         loop: loop,
         restartAttempts: restartAttempts,
@@ -627,6 +639,8 @@ class RelayStream extends HardwareStream {
       @required String feedbackDirectory,
       @required bool haveVideo,
       @required bool haveAudio,
+      @required RelayType relayVideoType,
+      @required RelayType relayAudioType,
       @required bool phoenix,
       @required bool loop,
       @required int restartAttempts,
@@ -649,6 +663,8 @@ class RelayStream extends HardwareStream {
         feedbackDirectory: feedbackDirectory,
         haveVideo: haveVideo,
         haveAudio: haveAudio,
+        relayVideoType: relayVideoType,
+        relayAudioType: relayAudioType,
         phoenix: phoenix,
         loop: loop,
         restartAttempts: restartAttempts,
@@ -756,6 +772,8 @@ class EncodeStream extends HardwareStream {
         feedbackDirectory: feedbackDirectory,
         haveVideo: haveVideo,
         haveAudio: haveAudio,
+        relayAudioType: relayAudioType,
+        relayVideoType: relayVideoType,
         phoenix: phoenix,
         loop: loop,
         restartAttempts: restartAttempts,
@@ -866,6 +884,8 @@ class EncodeStream extends HardwareStream {
       @required String feedbackDirectory,
       @required bool haveVideo,
       @required bool haveAudio,
+      @required RelayType relayVideoType,
+      @required RelayType relayAudioType,
       @required bool phoenix,
       @required bool loop,
       @required int restartAttempts,
@@ -901,6 +921,8 @@ class EncodeStream extends HardwareStream {
         feedbackDirectory: feedbackDirectory,
         haveVideo: haveVideo,
         haveAudio: haveAudio,
+        relayVideoType: relayVideoType,
+        relayAudioType: relayAudioType,
         phoenix: phoenix,
         loop: loop,
         restartAttempts: restartAttempts,
@@ -1031,6 +1053,8 @@ class TimeshiftRecorderStream extends RelayStream {
         feedbackDirectory: feedbackDirectory,
         haveVideo: haveVideo,
         haveAudio: haveAudio,
+        relayAudioType: relayAudioType,
+        relayVideoType: relayVideoType,
         phoenix: phoenix,
         loop: loop,
         restartAttempts: restartAttempts,
@@ -1073,6 +1097,8 @@ class TimeshiftPlayerStream extends RelayStream {
         feedbackDirectory: feedbackDirectory,
         haveVideo: haveVideo,
         haveAudio: haveAudio,
+        relayVideoType: relayVideoType,
+        relayAudioType: relayAudioType,
         phoenix: phoenix,
         loop: loop,
         restartAttempts: restartAttempts,
@@ -1148,6 +1174,8 @@ class TestLifeStream extends RelayStream {
         feedbackDirectory: feedbackDirectory,
         haveVideo: haveVideo,
         haveAudio: haveAudio,
+        relayAudioType: relayAudioType,
+        relayVideoType: relayVideoType,
         phoenix: phoenix,
         loop: loop,
         restartAttempts: restartAttempts,
@@ -1220,6 +1248,8 @@ class VodRelayStream extends RelayStream with VodMixin {
         feedbackDirectory: feedbackDirectory,
         haveVideo: haveVideo,
         haveAudio: haveAudio,
+        relayVideoType: relayVideoType,
+        relayAudioType: relayAudioType,
         phoenix: phoenix,
         loop: loop,
         restartAttempts: restartAttempts,
@@ -1250,6 +1280,8 @@ class VodRelayStream extends RelayStream with VodMixin {
       @required String feedbackDirectory,
       @required bool haveVideo,
       @required bool haveAudio,
+      @required RelayType relayVideoType,
+      @required RelayType relayAudioType,
       @required bool phoenix,
       @required bool loop,
       @required int restartAttempts,
@@ -1277,6 +1309,8 @@ class VodRelayStream extends RelayStream with VodMixin {
         feedbackDirectory: feedbackDirectory,
         haveVideo: haveVideo,
         haveAudio: haveAudio,
+        relayAudioType: relayAudioType,
+        relayVideoType: relayVideoType,
         phoenix: phoenix,
         loop: loop,
         restartAttempts: restartAttempts,
@@ -1360,6 +1394,8 @@ class VodEncodeStream extends EncodeStream with VodMixin {
         feedbackDirectory: feedbackDirectory,
         haveVideo: haveVideo,
         haveAudio: haveAudio,
+        relayVideoType: relayVideoType,
+        relayAudioType: relayAudioType,
         phoenix: phoenix,
         loop: loop,
         restartAttempts: restartAttempts,
@@ -1403,6 +1439,8 @@ class VodEncodeStream extends EncodeStream with VodMixin {
       @required String feedbackDirectory,
       @required bool haveVideo,
       @required bool haveAudio,
+      @required RelayType relayVideoType,
+      @required RelayType relayAudioType,
       @required bool phoenix,
       @required bool loop,
       @required int restartAttempts,
@@ -1443,6 +1481,8 @@ class VodEncodeStream extends EncodeStream with VodMixin {
         feedbackDirectory: feedbackDirectory,
         haveVideo: haveVideo,
         haveAudio: haveAudio,
+        relayAudioType: relayAudioType,
+        relayVideoType: relayVideoType,
         phoenix: phoenix,
         loop: loop,
         restartAttempts: restartAttempts,
@@ -1514,6 +1554,8 @@ class CodRelayStream extends RelayStream {
         feedbackDirectory: feedbackDirectory,
         haveVideo: haveVideo,
         haveAudio: haveAudio,
+        relayVideoType: relayVideoType,
+        relayAudioType: relayAudioType,
         phoenix: phoenix,
         loop: loop,
         restartAttempts: restartAttempts,
@@ -1562,6 +1604,8 @@ class CodEncodeStream extends EncodeStream {
         feedbackDirectory: feedbackDirectory,
         haveVideo: haveVideo,
         haveAudio: haveAudio,
+        relayAudioType: relayAudioType,
+        relayVideoType: relayVideoType,
         phoenix: phoenix,
         loop: loop,
         restartAttempts: restartAttempts,
@@ -1630,6 +1674,8 @@ class EventStream extends VodEncodeStream {
         feedbackDirectory: feedbackDirectory,
         haveVideo: haveVideo,
         haveAudio: haveAudio,
+        relayVideoType: relayVideoType,
+        relayAudioType: relayAudioType,
         phoenix: phoenix,
         loop: loop,
         restartAttempts: restartAttempts,
@@ -1723,6 +1769,8 @@ IStream makeStream(Map<String, dynamic> json) {
   String feedbackDirectory = json[HardwareStream.FEEDBACK_DIR_FIELD];
   bool haveVideo = json[HardwareStream.HAVE_VIDEO_FIELD];
   bool haveAudio = json[HardwareStream.HAVE_AUDIO_FIELD];
+  RelayType relayVideoType = RelayType.fromInt(json[HardwareStream.RELAY_VIDEO_TYPE_FIELD]);
+  RelayType relayAudioType = RelayType.fromInt(json[HardwareStream.RELAY_AUDIO_TYPE_FIELD]);
   bool phoenix = json[HardwareStream.PHOENIX_FIELD];
   bool loop = json[HardwareStream.LOOP_FIELD];
   int restartAttempts = json[HardwareStream.RESTART_ATTEMPTS_FIELD];
@@ -1790,6 +1838,8 @@ IStream makeStream(Map<String, dynamic> json) {
           feedbackDirectory: feedbackDirectory,
           haveVideo: haveVideo,
           haveAudio: haveAudio,
+          relayVideoType: relayVideoType,
+          relayAudioType: relayAudioType,
           phoenix: phoenix,
           loop: loop,
           restartAttempts: restartAttempts,
@@ -1827,6 +1877,8 @@ IStream makeStream(Map<String, dynamic> json) {
           feedbackDirectory: feedbackDirectory,
           haveVideo: haveVideo,
           haveAudio: haveAudio,
+          relayVideoType: relayVideoType,
+          relayAudioType: relayAudioType,
           phoenix: phoenix,
           loop: loop,
           restartAttempts: restartAttempts,
@@ -1864,6 +1916,8 @@ IStream makeStream(Map<String, dynamic> json) {
           feedbackDirectory: feedbackDirectory,
           haveVideo: haveVideo,
           haveAudio: haveAudio,
+          relayVideoType: relayVideoType,
+          relayAudioType: relayAudioType,
           phoenix: phoenix,
           loop: loop,
           restartAttempts: restartAttempts,
@@ -1905,6 +1959,8 @@ IStream makeStream(Map<String, dynamic> json) {
           feedbackDirectory: feedbackDirectory,
           haveVideo: haveVideo,
           haveAudio: haveAudio,
+          relayVideoType: relayVideoType,
+          relayAudioType: relayAudioType,
           phoenix: phoenix,
           loop: loop,
           restartAttempts: restartAttempts,
@@ -1942,6 +1998,8 @@ IStream makeStream(Map<String, dynamic> json) {
           feedbackDirectory: feedbackDirectory,
           haveVideo: haveVideo,
           haveAudio: haveAudio,
+          relayVideoType: relayVideoType,
+          relayAudioType: relayAudioType,
           phoenix: phoenix,
           loop: loop,
           restartAttempts: restartAttempts,
@@ -1987,6 +2045,8 @@ IStream makeStream(Map<String, dynamic> json) {
           feedbackDirectory: feedbackDirectory,
           haveVideo: haveVideo,
           haveAudio: haveAudio,
+          relayVideoType: relayVideoType,
+          relayAudioType: relayAudioType,
           phoenix: phoenix,
           loop: loop,
           restartAttempts: restartAttempts,
@@ -2029,6 +2089,8 @@ IStream makeStream(Map<String, dynamic> json) {
           feedbackDirectory: feedbackDirectory,
           haveVideo: haveVideo,
           haveAudio: haveAudio,
+          relayVideoType: relayVideoType,
+          relayAudioType: relayAudioType,
           phoenix: phoenix,
           loop: loop,
           restartAttempts: restartAttempts,
@@ -2119,6 +2181,8 @@ IStream makeStream(Map<String, dynamic> json) {
         autoStart: autoStart,
         haveVideo: haveVideo,
         haveAudio: haveAudio,
+        relayVideoType: relayVideoType,
+        relayAudioType: relayAudioType,
         phoenix: phoenix,
         relayVideo: relayVideo,
         relayAudio: relayAudio,
@@ -2169,6 +2233,8 @@ IStream makeStream(Map<String, dynamic> json) {
         autoStart: autoStart,
         haveVideo: haveVideo,
         haveAudio: haveAudio,
+        relayVideoType: relayVideoType,
+        relayAudioType: relayAudioType,
         phoenix: phoenix,
         relayVideo: relayVideo,
         relayAudio: relayAudio,
@@ -2231,6 +2297,8 @@ IStream makeStream(Map<String, dynamic> json) {
           autoStart: autoStart,
           haveVideo: haveVideo,
           haveAudio: haveAudio,
+          relayVideoType: relayVideoType,
+          relayAudioType: relayAudioType,
           phoenix: phoenix,
           description: description,
           trailerUrl: trailerUrl,
@@ -2287,6 +2355,8 @@ IStream makeStream(Map<String, dynamic> json) {
           autoStart: autoStart,
           haveVideo: haveVideo,
           haveAudio: haveAudio,
+          relayVideoType: relayVideoType,
+          relayAudioType: relayAudioType,
           phoenix: phoenix,
           description: description,
           trailerUrl: trailerUrl,
