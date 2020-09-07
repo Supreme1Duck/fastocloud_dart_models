@@ -650,7 +650,7 @@ class Logo {
   Logo({@required this.path, @required this.position, @required this.alpha, @required this.size});
 
   Logo.createExample()
-      : path = '/home/sasha/1.png',
+      : path = '/home/fastocloud/1.png',
         position = Point.createStart(),
         size = Size.create240x120(),
         alpha = Alpha.DEFAULT;
