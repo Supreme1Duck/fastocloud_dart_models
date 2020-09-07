@@ -1,5 +1,4 @@
 import 'package:fastocloud_dart_models/common/utils.dart';
-import 'package:fastocloud_dart_models/models/provider.dart';
 import 'package:fastocloud_dart_models/models/server_provider.dart';
 import 'package:fastocloud_dart_models/models/types.dart';
 import 'package:meta/meta.dart';
@@ -776,87 +775,23 @@ class HostAndPort {
   }
 }
 
-class ServerProvider extends Provider {
+class ServerProvider {
+  static const ID_FIELD = 'id';
   static const ROLE_FIELD = 'role';
+  static const EMAIL_FIELD = 'email';
 
+  String id;
   ProviderRole role;
+  String email;
 
-  ServerProvider copy() {
-    return ServerProvider.edit(
-        id: id,
-        email: email,
-        firstName: firstName,
-        password: password,
-        lastName: lastName,
-        createdDate: createdDate,
-        language: language,
-        country: country,
-        type: type,
-        status: status,
-        credits: credits,
-        role: role);
-  }
-
-  ServerProvider.edit(
-      {@required String id,
-      String email,
-      String password,
-      String firstName,
-      String lastName,
-      int createdDate,
-      ProviderType type,
-      ProviderStatus status,
-      int credits,
-      String language,
-      String country,
-      ProviderRole role})
-      : super.edit(
-            id: id,
-            email: email,
-            password: password,
-            firstName: firstName,
-            lastName: lastName,
-            createdDate: createdDate,
-            type: type,
-            status: status,
-            credits: credits,
-            language: language,
-            country: country) {
-    this.role = role;
-  }
-
-  ServerProvider.createDefault()
-      : role = ProviderRole.READ,
-        super.createDefault();
+  ServerProvider({@required this.id, @required this.email, @required this.role});
 
   factory ServerProvider.fromJson(Map<String, dynamic> json) {
-    if (json == null) {
-      return null;
-    }
-
-    Provider provider = Provider.fromJson(json);
-    if (provider == null) {
-      return null;
-    }
-    return ServerProvider.edit(
-        id: provider.id,
-        email: provider.email,
-        password: provider.password,
-        firstName: provider.firstName,
-        lastName: provider.lastName,
-        createdDate: provider.createdDate,
-        type: provider.type,
-        status: provider.status,
-        credits: provider.credits,
-        language: provider.language,
-        country: provider.country,
-        role: ProviderRole.fromInt(json[ROLE_FIELD]));
+    return ServerProvider(id: json[ID_FIELD], email: json[EMAIL_FIELD], role: ProviderRole.fromInt(json[ROLE_FIELD]));
   }
 
   Map<String, dynamic> toJson() {
-    Map<String, dynamic> result = super.toJson();
-    result[ROLE_FIELD] = role.toInt();
-    return result;
+    return {ID_FIELD: id, EMAIL_FIELD: email, ROLE_FIELD: role.toInt()};
   }
 }
 
