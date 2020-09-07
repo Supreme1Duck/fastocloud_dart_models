@@ -62,13 +62,13 @@ class ProviderType {
 
 class Provider {
   static const ID_FIELD = 'id';
-  static const EMAIL_FIELD = 'email'; //
-  static const FIRST_NAME_FIELD = 'first_name'; //
-  static const LAST_NAME_FIELD = 'last_name'; //
+  static const EMAIL_FIELD = 'email';
+  static const FIRST_NAME_FIELD = 'first_name';
+  static const LAST_NAME_FIELD = 'last_name';
   static const PASSWORD_FIELD = 'password';
   static const CREATED_DATE_FIELD = 'created_date';
-  static const TYPE_FIELD = 'type'; //
-  static const STATUS_FIELD = 'status'; //
+  static const TYPE_FIELD = 'type';
+  static const STATUS_FIELD = 'status';
   static const LANGUAGE_FIELD = 'language';
   static const COUNTRY_FIELD = 'country';
   static const CREDITS_FIELD = 'credits';
@@ -87,14 +87,6 @@ class Provider {
   String language;
   String country;
   int credits;
-
-  String get password {
-    return _password.orNull;
-  }
-
-  set password(String password) {
-    _password = Optional<String>.fromNullable(password);
-  }
 
   Provider copy() {
     return Provider.edit(
@@ -139,10 +131,6 @@ class Provider {
       this.country})
       : _password = Optional<String>.fromNullable(password);
 
-  bool isAdmin() {
-    return type == ProviderType.ADMIN;
-  }
-
   Provider.createDefault()
       : id = null,
         email = '',
@@ -153,6 +141,18 @@ class Provider {
         status = ProviderStatus.ACTIVE,
         type = ProviderType.ADMIN,
         credits = Credits.DEFAULT;
+
+  String get password {
+    return _password.orNull;
+  }
+
+  set password(String password) {
+    _password = Optional<String>.fromNullable(password);
+  }
+
+  bool isAdmin() {
+    return type == ProviderType.ADMIN;
+  }
 
   bool isValid() {
     if (id == null) {
