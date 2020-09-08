@@ -92,7 +92,8 @@ class StreamType {
     return StreamType.EVENT;
   }
 
-  static get values => [
+  static get values =>
+      [
         PROXY,
         VOD_PROXY,
         RELAY,
@@ -361,7 +362,8 @@ class VideoCodec {
     return MSDK_H264_ENC;
   }
 
-  static get values => [
+  static get values =>
+      [
         EAVC_ENC,
         OPEN_H264_ENC,
         X264_ENC,
@@ -650,7 +652,7 @@ class Logo {
   Logo({@required this.path, @required this.position, @required this.alpha, @required this.size});
 
   Logo.createExample()
-      : path = '/home/fastocloud/1.png',
+      : path = 'file:///home/fastocloud/logo.png',
         position = Point.createStart(),
         size = Size.create240x120(),
         alpha = Alpha.DEFAULT;
@@ -692,7 +694,7 @@ class RsvgLogo {
   RsvgLogo({@required this.path, @required this.position, @required this.size});
 
   RsvgLogo.createExample()
-      : path = '/home/sasha/1.png',
+      : path = 'file:///home/fastocloud/logo.svg',
         position = Point.createStart(),
         size = Size.create240x120();
 
@@ -829,7 +831,7 @@ class MachineLearning {
   MachineLearning.createExample()
       : backend = MlBackend.NVIDIA,
         modelUrl =
-            'file:///opt/nvidia/deepstream/deepstream-4.0/sources/objectDetector_Yolo/config_infer_primary_yoloV3.txt',
+        'file:///opt/nvidia/deepstream/deepstream-4.0/sources/objectDetector_Yolo/config_infer_primary_yoloV3.txt',
         tracking = false,
         overlay = false;
 
