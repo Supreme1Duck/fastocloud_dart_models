@@ -113,10 +113,10 @@ abstract class HardwareStream extends IStream {
   static const AUTO_START_FIELD = 'auto_start';
   static const RELAY_VIDEO_TYPE_FIELD = 'relay_video_type';
   static const RELAY_AUDIO_TYPE_FIELD = 'relay_audio_type';
+  static const AUDIO_TRACKS_COUNT_FIELD = 'audio_tracks_count';
 
   // optional
   static const AUDIO_SELECT_FIELD = 'audio_select';
-  static const AUDIO_TRACKS_COUNT_FIELD = 'audio_tracks_count';
   static const AUTO_EXIT_TIME_FIELD = 'auto_exit_time';
 
   // dynamic fields
@@ -144,11 +144,11 @@ abstract class HardwareStream extends IStream {
   int restartAttempts = RestartAttempts.DEFAULT;
   String extraConfig = '{}';
   bool autoStart = false;
+  int audioTracksCount = 1;
 
   // optional
   Optional<int> _autoExit = Optional<int>.absent();
   Optional<int> _audioSelect = Optional<int>.absent();
-  Optional<int> _audioTracksCount = Optional<int>.absent();
 
   // dynamic
   StreamStatus status = StreamStatus.NEW;
@@ -237,7 +237,7 @@ abstract class HardwareStream extends IStream {
       @required bool autoStart,
       int autoExit,
       int audioSelect,
-      int audioTracksCount,
+      @required int audioTracksCount,
       @required List<MetaUrl> meta}) {
     super.setOptional(
         icon: icon, epgId: epgId, groups: groups, price: price, visible: visible, iarc: iarc, views: views, meta: meta);
@@ -272,14 +272,6 @@ abstract class HardwareStream extends IStream {
 
   set audioSelect(int audioSelect) {
     _audioSelect = Optional<int>.fromNullable(audioSelect);
-  }
-
-  int get audioTracksCount {
-    return _audioTracksCount.orNull;
-  }
-
-  set audioTracksCount(int audioTracksCount) {
-    _audioTracksCount = Optional<int>.fromNullable(audioTracksCount);
   }
 
   void setRuntime(
@@ -317,12 +309,10 @@ abstract class HardwareStream extends IStream {
     final _input = input.isValidInputUrls();
     final _output = output.isValidOutputUrls();
     final _rest = restartAttempts.isValidRestartAttempts();
-    bool req = _name && _price && _icon && _input && _output && _iarc && _rest;
+    final _audioTracksCount = audioTracksCount.isValidAudioChannelsCount();
+    bool req = _name && _price && _icon && _input && _output && _iarc && _rest && _audioTracksCount;
     if (req && _audioSelect.isPresent) {
       req &= _audioSelect.value.isValidAudioSelect();
-    }
-    if (req && _audioTracksCount.isPresent) {
-      req &= _audioTracksCount.value.isValidAudioTracksCount();
     }
     if (req && _autoExit.isPresent) {
       req &= _autoExit.value.isValidAutoExitTime();
@@ -343,11 +333,9 @@ abstract class HardwareStream extends IStream {
     data[RELAY_AUDIO_TYPE_FIELD] = relayAudioType.toInt();
     data[RELAY_VIDEO_TYPE_FIELD] = relayVideoType.toInt();
     data[PHOENIX_FIELD] = phoenix;
+    data[AUDIO_TRACKS_COUNT_FIELD] = audioTracksCount;
     if (_audioSelect.isPresent) {
       data[AUDIO_SELECT_FIELD] = _audioSelect.value;
-    }
-    if (_audioTracksCount.isPresent) {
-      data[AUDIO_TRACKS_COUNT_FIELD] = _audioTracksCount.value;
     }
     if (_autoExit.isPresent) {
       data[AUTO_EXIT_TIME_FIELD] = _autoExit.value;
@@ -669,7 +657,7 @@ class RelayStream extends HardwareStream {
       AudioParser audioParser,
       int autoExit,
       int audioSelect,
-      int audioTracksCount}) {
+      @required int audioTracksCount}) {
     super.setOptional(
         icon: icon,
         epgId: epgId,
@@ -921,7 +909,7 @@ class EncodeStream extends HardwareStream {
       @required AudioCodec audioCodec,
       int autoExit,
       int audioSelect,
-      int audioTracksCount,
+      @required int audioTracksCount,
       int audioChannelsCount,
       int frameRate,
       Size size,
@@ -1324,7 +1312,7 @@ class VodRelayStream extends RelayStream with VodMixin {
       @required int duration,
       int autoExit,
       int audioSelect,
-      int audioTracksCount}) {
+      @required int audioTracksCount}) {
     super.setOptional(
         icon: icon,
         epgId: epgId,
@@ -1490,7 +1478,7 @@ class VodEncodeStream extends EncodeStream with VodMixin {
       @required AudioCodec audioCodec,
       int autoExit,
       int audioSelect,
-      int audioTracksCount,
+      @required int audioTracksCount,
       int audioChannelsCount,
       int frameRate,
       Size size,
@@ -1812,16 +1800,14 @@ IStream makeStream(Map<String, dynamic> json) {
   int restartAttempts = json[HardwareStream.RESTART_ATTEMPTS_FIELD];
   String extraConfig = json[HardwareStream.EXTRA_CONFIG_FIELD];
   bool autoStart = json[HardwareStream.AUTO_START_FIELD];
+  int audioTracksCount = json[HardwareStream.AUDIO_TRACKS_COUNT_FIELD];
 
   // optional
   int audioSelect;
   if (json.containsKey(HardwareStream.AUDIO_SELECT_FIELD)) {
     audioSelect = json[HardwareStream.AUDIO_SELECT_FIELD];
   }
-  int audioTracksCount;
-  if (json.containsKey(HardwareStream.AUDIO_TRACKS_COUNT_FIELD)) {
-    audioTracksCount = json[HardwareStream.AUDIO_TRACKS_COUNT_FIELD];
-  }
+
   int autoExit;
   if (json.containsKey(HardwareStream.AUTO_EXIT_TIME_FIELD)) {
     autoExit = json[HardwareStream.AUTO_EXIT_TIME_FIELD];
