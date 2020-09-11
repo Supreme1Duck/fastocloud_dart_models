@@ -116,6 +116,7 @@ abstract class HardwareStream extends IStream {
 
   // optional
   static const AUDIO_SELECT_FIELD = 'audio_select';
+  static const AUDIO_TRACKS_COUNT_FIELD = 'audio_tracks_count';
   static const AUTO_EXIT_TIME_FIELD = 'auto_exit_time';
 
   // dynamic fields
@@ -147,6 +148,7 @@ abstract class HardwareStream extends IStream {
   // optional
   Optional<int> _autoExit = Optional<int>.absent();
   Optional<int> _audioSelect = Optional<int>.absent();
+  Optional<int> _audioTracksCount = Optional<int>.absent();
 
   // dynamic
   StreamStatus status = StreamStatus.NEW;
@@ -235,6 +237,7 @@ abstract class HardwareStream extends IStream {
       @required bool autoStart,
       int autoExit,
       int audioSelect,
+      int audioTracksCount,
       @required List<MetaUrl> meta}) {
     super.setOptional(
         icon: icon, epgId: epgId, groups: groups, price: price, visible: visible, iarc: iarc, views: views, meta: meta);
@@ -251,6 +254,7 @@ abstract class HardwareStream extends IStream {
     this.autoStart = autoStart;
     this.autoExit = autoExit;
     this.audioSelect = audioSelect;
+    this.audioTracksCount = audioTracksCount;
   }
 
   // optional
@@ -268,6 +272,14 @@ abstract class HardwareStream extends IStream {
 
   set audioSelect(int audioSelect) {
     _audioSelect = Optional<int>.fromNullable(audioSelect);
+  }
+
+  int get audioTracksCount {
+    return _audioTracksCount.orNull;
+  }
+
+  set audioTracksCount(int audioTracksCount) {
+    _audioTracksCount = Optional<int>.fromNullable(audioTracksCount);
   }
 
   void setRuntime(
@@ -309,6 +321,9 @@ abstract class HardwareStream extends IStream {
     if (req && _audioSelect.isPresent) {
       req &= _audioSelect.value.isValidAudioSelect();
     }
+    if (req && _audioTracksCount.isPresent) {
+      req &= _audioTracksCount.value.isValidAudioTracksCount();
+    }
     if (req && _autoExit.isPresent) {
       req &= _autoExit.value.isValidAutoExitTime();
     }
@@ -330,6 +345,9 @@ abstract class HardwareStream extends IStream {
     data[PHOENIX_FIELD] = phoenix;
     if (_audioSelect.isPresent) {
       data[AUDIO_SELECT_FIELD] = _audioSelect.value;
+    }
+    if (_audioTracksCount.isPresent) {
+      data[AUDIO_TRACKS_COUNT_FIELD] = _audioTracksCount.value;
     }
     if (_autoExit.isPresent) {
       data[AUTO_EXIT_TIME_FIELD] = _autoExit.value;
@@ -622,7 +640,8 @@ class RelayStream extends HardwareStream {
         videoParser: videoParser,
         audioParser: audioParser,
         autoExit: autoExit,
-        audioSelect: audioSelect);
+        audioSelect: audioSelect,
+        audioTracksCount: audioTracksCount);
     return stream;
   }
 
@@ -649,7 +668,8 @@ class RelayStream extends HardwareStream {
       VideoParser videoParser,
       AudioParser audioParser,
       int autoExit,
-      int audioSelect}) {
+      int audioSelect,
+      int audioTracksCount}) {
     super.setOptional(
         icon: icon,
         epgId: epgId,
@@ -671,7 +691,8 @@ class RelayStream extends HardwareStream {
         extraConfig: extraConfig,
         autoStart: autoStart,
         autoExit: autoExit,
-        audioSelect: audioSelect);
+        audioSelect: audioSelect,
+        audioTracksCount: audioTracksCount);
     this.videoParser = videoParser;
     this.audioParser = audioParser;
   }
@@ -787,6 +808,7 @@ class EncodeStream extends HardwareStream {
         audioCodec: audioCodec,
         autoExit: autoExit,
         audioSelect: audioSelect,
+        audioTracksCount: audioTracksCount,
         audioChannelsCount: audioChannelsCount,
         frameRate: frameRate,
         size: size,
@@ -899,6 +921,7 @@ class EncodeStream extends HardwareStream {
       @required AudioCodec audioCodec,
       int autoExit,
       int audioSelect,
+      int audioTracksCount,
       int audioChannelsCount,
       int frameRate,
       Size size,
@@ -929,7 +952,8 @@ class EncodeStream extends HardwareStream {
         extraConfig: extraConfig,
         autoStart: autoStart,
         autoExit: autoExit,
-        audioSelect: audioSelect);
+        audioSelect: audioSelect,
+        audioTracksCount: audioTracksCount);
     this.relayVideo = relayVideo;
     this.relayAudio = relayAudio;
     this.deinterlace = deinterlace;
@@ -1063,7 +1087,8 @@ class TimeshiftRecorderStream extends RelayStream {
         videoParser: videoParser,
         audioParser: audioParser,
         autoExit: autoExit,
-        audioSelect: audioSelect);
+        audioSelect: audioSelect,
+        audioTracksCount: audioTracksCount);
     return stream;
   }
 
@@ -1107,7 +1132,8 @@ class TimeshiftPlayerStream extends RelayStream {
         videoParser: videoParser,
         audioParser: audioParser,
         autoExit: autoExit,
-        audioSelect: audioSelect);
+        audioSelect: audioSelect,
+        audioTracksCount: audioTracksCount);
     return stream;
   }
 
@@ -1184,7 +1210,8 @@ class TestLifeStream extends RelayStream {
         videoParser: videoParser,
         audioParser: audioParser,
         autoExit: autoExit,
-        audioSelect: audioSelect);
+        audioSelect: audioSelect,
+        audioTracksCount: audioTracksCount);
     return stream;
   }
 
@@ -1263,7 +1290,8 @@ class VodRelayStream extends RelayStream with VodMixin {
         country: country,
         duration: duration,
         autoExit: autoExit,
-        audioSelect: audioSelect);
+        audioSelect: audioSelect,
+        audioTracksCount: audioTracksCount);
     return stream;
   }
 
@@ -1295,7 +1323,8 @@ class VodRelayStream extends RelayStream with VodMixin {
       @required String country,
       @required int duration,
       int autoExit,
-      int audioSelect}) {
+      int audioSelect,
+      int audioTracksCount}) {
     super.setOptional(
         icon: icon,
         epgId: epgId,
@@ -1319,7 +1348,8 @@ class VodRelayStream extends RelayStream with VodMixin {
         videoParser: videoParser,
         audioParser: audioParser,
         autoExit: autoExit,
-        audioSelect: audioSelect);
+        audioSelect: audioSelect,
+        audioTracksCount: audioTracksCount);
     this.description = description;
     this.trailerUrl = trailerUrl;
     this.userScore = userScore;
@@ -1414,6 +1444,7 @@ class VodEncodeStream extends EncodeStream with VodMixin {
         duration: duration,
         autoExit: autoExit,
         audioSelect: audioSelect,
+        audioTracksCount: audioTracksCount,
         audioChannelsCount: audioChannelsCount,
         frameRate: frameRate,
         size: size,
@@ -1459,6 +1490,7 @@ class VodEncodeStream extends EncodeStream with VodMixin {
       @required AudioCodec audioCodec,
       int autoExit,
       int audioSelect,
+      int audioTracksCount,
       int audioChannelsCount,
       int frameRate,
       Size size,
@@ -1496,6 +1528,7 @@ class VodEncodeStream extends EncodeStream with VodMixin {
         audioCodec: audioCodec,
         autoExit: autoExit,
         audioSelect: audioSelect,
+        audioTracksCount: audioTracksCount,
         audioChannelsCount: audioChannelsCount,
         frameRate: frameRate,
         size: size,
@@ -1564,7 +1597,8 @@ class CodRelayStream extends RelayStream {
         videoParser: videoParser,
         audioParser: audioParser,
         autoExit: autoExit,
-        audioSelect: audioSelect);
+        audioSelect: audioSelect,
+        audioTracksCount: audioTracksCount);
     return stream;
   }
 
@@ -1619,6 +1653,7 @@ class CodEncodeStream extends EncodeStream {
         audioCodec: audioCodec,
         autoExit: autoExit,
         audioSelect: audioSelect,
+        audioTracksCount: audioTracksCount,
         audioChannelsCount: audioChannelsCount,
         frameRate: frameRate,
         size: size,
@@ -1694,6 +1729,7 @@ class EventStream extends VodEncodeStream {
         duration: duration,
         autoExit: autoExit,
         audioSelect: audioSelect,
+        audioTracksCount: audioTracksCount,
         audioChannelsCount: audioChannelsCount,
         frameRate: frameRate,
         size: size,
@@ -1782,6 +1818,10 @@ IStream makeStream(Map<String, dynamic> json) {
   if (json.containsKey(HardwareStream.AUDIO_SELECT_FIELD)) {
     audioSelect = json[HardwareStream.AUDIO_SELECT_FIELD];
   }
+  int audioTracksCount;
+  if (json.containsKey(HardwareStream.AUDIO_TRACKS_COUNT_FIELD)) {
+    audioTracksCount = json[HardwareStream.AUDIO_TRACKS_COUNT_FIELD];
+  }
   int autoExit;
   if (json.containsKey(HardwareStream.AUTO_EXIT_TIME_FIELD)) {
     autoExit = json[HardwareStream.AUTO_EXIT_TIME_FIELD];
@@ -1848,7 +1888,8 @@ IStream makeStream(Map<String, dynamic> json) {
           videoParser: videoParser,
           audioParser: audioParser,
           autoExit: autoExit,
-          audioSelect: audioSelect);
+          audioSelect: audioSelect,
+          audioTracksCount: audioTracksCount);
       relay.setRuntime(
           status: status,
           cpu: cpu,
@@ -1887,7 +1928,8 @@ IStream makeStream(Map<String, dynamic> json) {
           videoParser: videoParser,
           audioParser: audioParser,
           autoExit: autoExit,
-          audioSelect: audioSelect);
+          audioSelect: audioSelect,
+          audioTracksCount: audioTracksCount);
       time.setRuntime(
           status: status,
           cpu: cpu,
@@ -1926,7 +1968,8 @@ IStream makeStream(Map<String, dynamic> json) {
           videoParser: videoParser,
           audioParser: audioParser,
           autoExit: autoExit,
-          audioSelect: audioSelect);
+          audioSelect: audioSelect,
+          audioTracksCount: audioTracksCount);
       time.setRuntime(
           status: status,
           cpu: cpu,
@@ -1969,7 +2012,8 @@ IStream makeStream(Map<String, dynamic> json) {
           videoParser: videoParser,
           audioParser: audioParser,
           autoExit: autoExit,
-          audioSelect: audioSelect);
+          audioSelect: audioSelect,
+          audioTracksCount: audioTracksCount);
       cat.setRuntime(
           status: status,
           cpu: cpu,
@@ -2008,7 +2052,8 @@ IStream makeStream(Map<String, dynamic> json) {
           videoParser: videoParser,
           audioParser: audioParser,
           autoExit: autoExit,
-          audioSelect: audioSelect);
+          audioSelect: audioSelect,
+          audioTracksCount: audioTracksCount);
       test.setRuntime(
           status: status,
           cpu: cpu,
@@ -2060,7 +2105,8 @@ IStream makeStream(Map<String, dynamic> json) {
           country: country,
           duration: duration,
           autoExit: autoExit,
-          audioSelect: audioSelect);
+          audioSelect: audioSelect,
+          audioTracksCount: audioTracksCount);
       vod.setRuntime(
           status: status,
           cpu: cpu,
@@ -2099,7 +2145,8 @@ IStream makeStream(Map<String, dynamic> json) {
           videoParser: videoParser,
           audioParser: audioParser,
           autoExit: autoExit,
-          audioSelect: audioSelect);
+          audioSelect: audioSelect,
+          audioTracksCount: audioTracksCount);
       cod.setRuntime(
           status: status,
           cpu: cpu,
@@ -2192,6 +2239,7 @@ IStream makeStream(Map<String, dynamic> json) {
         audioCodec: audioCodec,
         autoExit: autoExit,
         audioSelect: audioSelect,
+        audioTracksCount: audioTracksCount,
         audioChannelsCount: audioChannelsCount,
         frameRate: frameRate,
         size: size,
@@ -2244,6 +2292,7 @@ IStream makeStream(Map<String, dynamic> json) {
         audioCodec: audioCodec,
         autoExit: autoExit,
         audioSelect: audioSelect,
+        audioTracksCount: audioTracksCount,
         audioChannelsCount: audioChannelsCount,
         frameRate: frameRate,
         size: size,
@@ -2313,6 +2362,7 @@ IStream makeStream(Map<String, dynamic> json) {
           audioCodec: audioCodec,
           autoExit: autoExit,
           audioSelect: audioSelect,
+          audioTracksCount: audioTracksCount,
           audioChannelsCount: audioChannelsCount,
           frameRate: frameRate,
           size: size,
@@ -2371,6 +2421,7 @@ IStream makeStream(Map<String, dynamic> json) {
           audioCodec: audioCodec,
           autoExit: autoExit,
           audioSelect: audioSelect,
+          audioTracksCount: audioTracksCount,
           audioChannelsCount: audioChannelsCount,
           frameRate: frameRate,
           size: size,

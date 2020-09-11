@@ -153,6 +153,18 @@ extension AudioSelect on int {
   }
 }
 
+extension AudioTracksCount on int {
+  static const MIN = 1;
+  static const MAX = _MAX_INTEGER_NUMBER;
+
+  bool isValidAudioTracksCount() {
+    if (this == null) {
+      return false;
+    }
+    return this >= MIN && this <= MAX;
+  }
+}
+
 extension AudioChannelsCount on int {
   static const MIN = 1;
   static const MAX = 8;
