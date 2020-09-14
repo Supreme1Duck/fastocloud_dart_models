@@ -416,6 +416,27 @@ class Server extends MediaServerInfo {
     return Optional<Uri>.of(nginx);
   }
 
+  Optional<Uri> generateHttpProxyUrl(String filePath) {
+    if (filePath == null) {
+      return Optional<Uri>.absent();
+    }
+
+    List<String> parts = proxyDirectory.split('/');
+    if (parts == null || parts.isEmpty) {
+      return Optional<Uri>.absent();
+    }
+
+    final int repalced = filePath.indexOf(parts.last);
+    if (repalced == -1) {
+      return Optional<Uri>.absent();
+    }
+
+    final stabled = filePath.substring(repalced).split('/');
+    List<String> segments = ['fastocloud'] + stabled;
+    Uri nginx = Uri(scheme: 'http', host: nginxHost.host, port: nginxHost.port, pathSegments: segments);
+    return Optional<Uri>.of(nginx);
+  }
+
   HttpOutputUrl genTemplateHLSHttpOutputUrl(int id) {
     return HttpOutputUrl(
         id: 0,
