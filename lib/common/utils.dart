@@ -10,6 +10,10 @@ double fixedDouble(double value, {int precision = 2}) {
   return rounded.toDouble() / mod;
 }
 
+String fixedDoubleString(double value, {int precision = 2}) {
+  return value.toStringAsFixed(precision);
+}
+
 bool isValidDomain(String text) {
   if (text == 'localhost') {
     return true;

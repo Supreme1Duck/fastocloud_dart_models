@@ -14,5 +14,4 @@ void main() {
         id: 0, uri: 'file:///home/ytvmedia/Media/TV/Ballers/Season 5/Ballers.2015.S05E02.720p.HEVC.x265-MeGusta.mkv');
     expect(url.isValid(), true);
   });
-
 }
