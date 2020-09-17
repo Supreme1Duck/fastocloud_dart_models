@@ -92,8 +92,7 @@ class StreamType {
     return StreamType.EVENT;
   }
 
-  static get values =>
-      [
+  static get values => [
         PROXY,
         VOD_PROXY,
         RELAY,
@@ -292,6 +291,21 @@ class RelayType {
 }
 
 class VideoCodec {
+  static const _EAVC_CODEC_GSTREAMER = 'eavcenc';
+  static const _OPENH264_CODEC_GSTREAMER = 'openh264enc';
+  static const _X264_CODEC_GSTREAMER = 'x264enc';
+  static const _X265_CODEC_GSTREAMER = 'x265enc';
+  static const _NVIDIA_H264_CODEC_GSTREAMER = 'nvh264enc';
+  static const _NVIDIA_H265_CODEC_GSTREAMER = 'nvh265enc';
+  static const _NVIDIA_4VL2_H264_CODEC_GSTREAMER = 'nvv4l2h264enc';
+  static const _NVIDIA_4VL2_H265_CODEC_GSTREAMER = 'nvv4l2h265enc';
+  static const _NVIDIA_4VL2_VP8_CODEC_GSTREAMER = 'nvv4l2vp8enc';
+  static const _NVIDIA_4VL2_VP9_CODEC_GSTREAMER = 'nvv4l2vp9enc';
+  static const _VAAPI_H264_CODEC_GSTREAMER = 'vaapih264enc';
+  static const _VAAPI_MPEG2_CODEC_GSTREAMER = 'vaapimpeg2enc';
+  static const _MFX_H264_CODEC_GSTREAMER = 'mfxh264enc';
+  static const _MSDK_H264_CODEC_GSTREAMER = 'msdkh264enc';
+
   final String _value;
 
   const VideoCodec._(this._value);
@@ -301,69 +315,68 @@ class VideoCodec {
   }
 
   String toHumanReadable() {
-    if (_value == 'eavcenc') {
+    if (_value == _EAVC_CODEC_GSTREAMER) {
       return 'EAVC';
-    } else if (_value == 'openh264enc') {
+    } else if (_value == _OPENH264_CODEC_GSTREAMER) {
       return 'OPEN.H264';
-    } else if (_value == 'x264enc') {
+    } else if (_value == _X264_CODEC_GSTREAMER) {
       return 'X264';
-    } else if (_value == 'nvh264enc') {
+    } else if (_value == _NVIDIA_H264_CODEC_GSTREAMER) {
       return 'NVIDIA.H264';
-    } else if (_value == 'nvh265enc') {
+    } else if (_value == _NVIDIA_H265_CODEC_GSTREAMER) {
       return 'NVIDIA.H265';
-    } else if (_value == 'nvv4l2h264enc') {
+    } else if (_value == _NVIDIA_4VL2_H264_CODEC_GSTREAMER) {
       return 'NVIDIA.V4L.H264';
-    } else if (_value == 'nvv4l2h265enc') {
+    } else if (_value == _NVIDIA_4VL2_H265_CODEC_GSTREAMER) {
       return 'NVIDIA.V4L.H265';
-    } else if (_value == 'nvv4l2vp8enc') {
+    } else if (_value == _NVIDIA_4VL2_VP8_CODEC_GSTREAMER) {
       return 'NVIDIA.V4L.VP8';
-    } else if (_value == 'nvv4l2vp9enc') {
+    } else if (_value == _NVIDIA_4VL2_VP9_CODEC_GSTREAMER) {
       return 'NVIDIA.V4L.VP9';
-    } else if (_value == 'vaapih264enc') {
+    } else if (_value == _VAAPI_H264_CODEC_GSTREAMER) {
       return 'VAAPI.H264';
-    } else if (_value == 'vaapimpeg2enc') {
+    } else if (_value == _VAAPI_MPEG2_CODEC_GSTREAMER) {
       return 'VAAPI.MPEG2';
-    } else if (_value == 'mfxh264enc') {
+    } else if (_value == _MFX_H264_CODEC_GSTREAMER) {
       return 'INTEL.H264';
-    } else if (_value == 'x265enc') {
+    } else if (_value == _X265_CODEC_GSTREAMER) {
       return 'X265';
     }
     return 'MSDK.H264';
   }
 
   factory VideoCodec.fromString(String value) {
-    if (value == 'eavcenc') {
+    if (value == _EAVC_CODEC_GSTREAMER) {
       return EAVC_ENC;
-    } else if (value == 'openh264enc') {
+    } else if (value == _OPENH264_CODEC_GSTREAMER) {
       return OPEN_H264_ENC;
-    } else if (value == 'x264enc') {
+    } else if (value == _X264_CODEC_GSTREAMER) {
       return X264_ENC;
-    } else if (value == 'nvh264enc') {
+    } else if (value == _NVIDIA_H264_CODEC_GSTREAMER) {
       return NV_H264_ENC;
-    } else if (value == 'nvh265enc') {
+    } else if (value == _NVIDIA_H265_CODEC_GSTREAMER) {
       return NV_H265_ENC;
-    } else if (value == 'nvv4l2h264enc') {
+    } else if (value == _NVIDIA_4VL2_H264_CODEC_GSTREAMER) {
       return NV_V4L_H264_ENC;
-    } else if (value == 'nvv4l2h265enc') {
+    } else if (value == _NVIDIA_4VL2_H265_CODEC_GSTREAMER) {
       return NV_V4L_H265_ENC;
-    } else if (value == 'nvv4l2vp8enc') {
+    } else if (value == _NVIDIA_4VL2_VP8_CODEC_GSTREAMER) {
       return NV_V4L_VP8_ENC;
-    } else if (value == 'nvv4l2vp9enc') {
+    } else if (value == _NVIDIA_4VL2_VP9_CODEC_GSTREAMER) {
       return NV_V4L_VP9_ENC;
-    } else if (value == 'vaapih264enc') {
+    } else if (value == _VAAPI_H264_CODEC_GSTREAMER) {
       return VAAPI_H264_ENC;
-    } else if (value == 'vaapimpeg2enc') {
+    } else if (value == _VAAPI_MPEG2_CODEC_GSTREAMER) {
       return VAAPI_MPEG2_ENC;
-    } else if (value == 'mfxh264enc') {
+    } else if (value == _MFX_H264_CODEC_GSTREAMER) {
       return MFX_H264_ENC;
-    } else if (value == 'x265enc') {
+    } else if (value == _X265_CODEC_GSTREAMER) {
       return X265_ENC;
     }
     return MSDK_H264_ENC;
   }
 
-  static get values =>
-      [
+  static get values => [
         EAVC_ENC,
         OPEN_H264_ENC,
         X264_ENC,
@@ -380,23 +393,28 @@ class VideoCodec {
         MSDK_H264_ENC
       ];
 
-  static const VideoCodec EAVC_ENC = VideoCodec._('eavcenc');
-  static const VideoCodec OPEN_H264_ENC = VideoCodec._('openh264enc');
-  static const VideoCodec X264_ENC = VideoCodec._('x264enc');
-  static const VideoCodec NV_H264_ENC = VideoCodec._('nvh264enc');
-  static const VideoCodec NV_H265_ENC = VideoCodec._('nvh265enc');
-  static const VideoCodec NV_V4L_H264_ENC = VideoCodec._('nvv4l2h264enc');
-  static const VideoCodec NV_V4L_H265_ENC = VideoCodec._('nvv4l2h265enc');
-  static const VideoCodec NV_V4L_VP8_ENC = VideoCodec._('nvv4l2vp8enc');
-  static const VideoCodec NV_V4L_VP9_ENC = VideoCodec._('nvv4l2vp9enc');
-  static const VideoCodec VAAPI_H264_ENC = VideoCodec._('vaapih264enc');
-  static const VideoCodec VAAPI_MPEG2_ENC = VideoCodec._('vaapimpeg2enc');
-  static const VideoCodec MFX_H264_ENC = VideoCodec._('mfxh264enc');
-  static const VideoCodec X265_ENC = VideoCodec._('x265enc');
-  static const VideoCodec MSDK_H264_ENC = VideoCodec._('msdkh264enc');
+  static const VideoCodec EAVC_ENC = VideoCodec._(_EAVC_CODEC_GSTREAMER);
+  static const VideoCodec OPEN_H264_ENC = VideoCodec._(_OPENH264_CODEC_GSTREAMER);
+  static const VideoCodec X264_ENC = VideoCodec._(_X264_CODEC_GSTREAMER);
+  static const VideoCodec NV_H264_ENC = VideoCodec._(_NVIDIA_H264_CODEC_GSTREAMER);
+  static const VideoCodec NV_H265_ENC = VideoCodec._(_NVIDIA_H265_CODEC_GSTREAMER);
+  static const VideoCodec NV_V4L_H264_ENC = VideoCodec._(_NVIDIA_4VL2_H264_CODEC_GSTREAMER);
+  static const VideoCodec NV_V4L_H265_ENC = VideoCodec._(_NVIDIA_4VL2_H265_CODEC_GSTREAMER);
+  static const VideoCodec NV_V4L_VP8_ENC = VideoCodec._(_NVIDIA_4VL2_VP8_CODEC_GSTREAMER);
+  static const VideoCodec NV_V4L_VP9_ENC = VideoCodec._(_NVIDIA_4VL2_VP9_CODEC_GSTREAMER);
+  static const VideoCodec VAAPI_H264_ENC = VideoCodec._(_VAAPI_H264_CODEC_GSTREAMER);
+  static const VideoCodec VAAPI_MPEG2_ENC = VideoCodec._(_VAAPI_MPEG2_CODEC_GSTREAMER);
+  static const VideoCodec MFX_H264_ENC = VideoCodec._(_MFX_H264_CODEC_GSTREAMER);
+  static const VideoCodec X265_ENC = VideoCodec._(_X265_CODEC_GSTREAMER);
+  static const VideoCodec MSDK_H264_ENC = VideoCodec._(_MSDK_H264_CODEC_GSTREAMER);
 }
 
 class AudioCodec {
+  static const _MP3_CODEC_GSTREAMER = 'lamemp3enc';
+  static const _AAC_CODEC_GSTREAMER = 'faac';
+  static const _VOAAC_CODEC_GSTREAMER = 'voaacenc';
+  static const _OPUS_CODEC_GSTREAMER = 'opusenc';
+
   final String _value;
 
   const AudioCodec._(this._value);
@@ -406,22 +424,22 @@ class AudioCodec {
   }
 
   String toHumanReadable() {
-    if (_value == 'lamemp3enc') {
+    if (_value == _MP3_CODEC_GSTREAMER) {
       return 'LAMEMP3';
-    } else if (_value == 'faac') {
+    } else if (_value == _AAC_CODEC_GSTREAMER) {
       return 'AAC';
-    } else if (_value == 'voaacenc') {
+    } else if (_value == _VOAAC_CODEC_GSTREAMER) {
       return 'VOAAC';
     }
     return 'OPUS';
   }
 
   factory AudioCodec.fromString(String value) {
-    if (value == 'lamemp3enc') {
+    if (value == _MP3_CODEC_GSTREAMER) {
       return LAME_MP3_ENC;
-    } else if (value == 'faac') {
+    } else if (value == _AAC_CODEC_GSTREAMER) {
       return FAAC;
-    } else if (value == 'voaacenc') {
+    } else if (value == _VOAAC_CODEC_GSTREAMER) {
       return VOAAC_ENC;
     }
     return OPUS;
@@ -429,13 +447,17 @@ class AudioCodec {
 
   static get values => [LAME_MP3_ENC, FAAC, VOAAC_ENC, OPUS];
 
-  static const AudioCodec LAME_MP3_ENC = AudioCodec._('lamemp3enc');
-  static const AudioCodec FAAC = AudioCodec._('faac');
-  static const AudioCodec OPUS = AudioCodec._('opusenc');
-  static const AudioCodec VOAAC_ENC = AudioCodec._('voaacenc');
+  static const AudioCodec LAME_MP3_ENC = AudioCodec._(_MP3_CODEC_GSTREAMER);
+  static const AudioCodec FAAC = AudioCodec._(_AAC_CODEC_GSTREAMER);
+  static const AudioCodec OPUS = AudioCodec._(_OPUS_CODEC_GSTREAMER);
+  static const AudioCodec VOAAC_ENC = AudioCodec._(_VOAAC_CODEC_GSTREAMER);
 }
 
 class VideoParser {
+  static const _MPEGTS_PARSER_GSTREAMER = 'tsparse';
+  static const _H264_PARSER_GSTREAMER = 'h264parse';
+  static const _H265_PARSER_GSTREAMER = 'h265parse';
+
   final String _value;
 
   const VideoParser._(this._value);
@@ -445,18 +467,18 @@ class VideoParser {
   }
 
   String toHumanReadable() {
-    if (_value == 'tsparse') {
+    if (_value == _MPEGTS_PARSER_GSTREAMER) {
       return 'MPEGTS';
-    } else if (_value == 'h264parse') {
+    } else if (_value == _H264_PARSER_GSTREAMER) {
       return 'H264';
     }
     return 'H265';
   }
 
   factory VideoParser.fromString(String value) {
-    if (value == 'tsparse') {
+    if (value == _MPEGTS_PARSER_GSTREAMER) {
       return TS;
-    } else if (value == 'h264parse') {
+    } else if (value == _H264_PARSER_GSTREAMER) {
       return H264;
     }
     return H265;
@@ -464,12 +486,18 @@ class VideoParser {
 
   static get values => [TS, H264, H265];
 
-  static const VideoParser TS = VideoParser._('tsparse');
-  static const VideoParser H264 = VideoParser._('h264parse');
-  static const VideoParser H265 = VideoParser._('h265parse');
+  static const VideoParser TS = VideoParser._(_MPEGTS_PARSER_GSTREAMER);
+  static const VideoParser H264 = VideoParser._(_H264_PARSER_GSTREAMER);
+  static const VideoParser H265 = VideoParser._(_H265_PARSER_GSTREAMER);
 }
 
 class AudioParser {
+  static const _AAC_PARSER_GSTREAMER = 'aacparse';
+  static const _AC3_PARSER_GSTREAMER = 'ac3parse';
+  static const _MPEG_PARSER_GSTREAMER = 'mpegaudioparse';
+  static const _OPUS_PARSER_GSTREAMER = 'opusparse';
+  static const _RAW_PARSER_GSTREAMER = 'rawaudioparse';
+
   final String _value;
 
   const AudioParser._(this._value);
@@ -477,26 +505,26 @@ class AudioParser {
   String toString() => _value;
 
   String toHumanReadable() {
-    if (_value == 'aacparse') {
+    if (_value == _AAC_PARSER_GSTREAMER) {
       return 'AAC';
-    } else if (_value == 'ac3parse') {
+    } else if (_value == _AC3_PARSER_GSTREAMER) {
       return 'AC3';
-    } else if (_value == 'mpegaudioparse') {
+    } else if (_value == _MPEG_PARSER_GSTREAMER) {
       return 'MPEG';
-    } else if (_value == 'opusparse') {
+    } else if (_value == _OPUS_PARSER_GSTREAMER) {
       return 'OPUS';
     }
     return 'RAW';
   }
 
   factory AudioParser.fromString(String value) {
-    if (value == 'aacparse') {
+    if (value == _AAC_PARSER_GSTREAMER) {
       return AAC;
-    } else if (value == 'ac3parse') {
+    } else if (value == _AC3_PARSER_GSTREAMER) {
       return AC3;
-    } else if (value == 'mpegaudioparse') {
+    } else if (value == _MPEG_PARSER_GSTREAMER) {
       return MPEG;
-    } else if (value == 'opusparse') {
+    } else if (value == _OPUS_PARSER_GSTREAMER) {
       return OPUS;
     }
     return RAW;
@@ -504,11 +532,11 @@ class AudioParser {
 
   static get values => [AAC, AC3, MPEG, OPUS, RAW];
 
-  static const AudioParser AAC = AudioParser._('aacparse');
-  static const AudioParser AC3 = AudioParser._('ac3parse');
-  static const AudioParser MPEG = AudioParser._('mpegaudioparse');
-  static const AudioParser OPUS = AudioParser._('opusparse');
-  static const AudioParser RAW = AudioParser._('rawaudioparse');
+  static const AudioParser AAC = AudioParser._(_AAC_PARSER_GSTREAMER);
+  static const AudioParser AC3 = AudioParser._(_AC3_PARSER_GSTREAMER);
+  static const AudioParser MPEG = AudioParser._(_MPEG_PARSER_GSTREAMER);
+  static const AudioParser OPUS = AudioParser._(_OPUS_PARSER_GSTREAMER);
+  static const AudioParser RAW = AudioParser._(_RAW_PARSER_GSTREAMER);
 }
 
 class Size {
@@ -831,7 +859,7 @@ class MachineLearning {
   MachineLearning.createExample()
       : backend = MlBackend.NVIDIA,
         modelUrl =
-        'file:///opt/nvidia/deepstream/deepstream-4.0/sources/objectDetector_Yolo/config_infer_primary_yoloV3.txt',
+            'file:///opt/nvidia/deepstream/deepstream-4.0/sources/objectDetector_Yolo/config_infer_primary_yoloV3.txt',
         tracking = false,
         overlay = false;
 
