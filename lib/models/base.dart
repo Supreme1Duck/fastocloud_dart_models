@@ -847,20 +847,28 @@ class MachineLearning {
   static const BACKEND_FIELD = 'backend';
   static const MODEL_PATH_FIELD = 'model_url';
   static const OVERLAY_FIELD = 'overlay';
+  static const DUMP_FILED = 'dump';
   static const TRACKING_FIELD = 'tracking';
 
   MlBackend backend;
   String modelUrl;
   bool overlay;
+  bool dump;
   bool tracking;
 
-  MachineLearning({@required this.backend, @required this.modelUrl, @required this.tracking, @required this.overlay});
+  MachineLearning(
+      {@required this.backend,
+      @required this.modelUrl,
+      @required this.tracking,
+      @required this.dump,
+      @required this.overlay});
 
   MachineLearning.createExample()
       : backend = MlBackend.NVIDIA,
         modelUrl =
             'file:///opt/nvidia/deepstream/deepstream-4.0/sources/objectDetector_Yolo/config_infer_primary_yoloV3.txt',
         tracking = false,
+        dump = false,
         overlay = false;
 
   bool isValid() {
@@ -878,8 +886,9 @@ class MachineLearning {
     final MlBackend backend = MlBackend.fromInt(json[MachineLearning.BACKEND_FIELD]);
     final String uri = json[MachineLearning.MODEL_PATH_FIELD];
     final bool tracking = json[MachineLearning.TRACKING_FIELD];
+    final bool dump = json[MachineLearning.TRACKING_FIELD];
     final bool overlay = json[MachineLearning.OVERLAY_FIELD];
-    return MachineLearning(backend: backend, modelUrl: uri, tracking: tracking, overlay: overlay);
+    return MachineLearning(backend: backend, modelUrl: uri, tracking: tracking, dump: dump, overlay: overlay);
   }
 
   Map<String, dynamic> toJson() {
@@ -887,6 +896,7 @@ class MachineLearning {
       MachineLearning.BACKEND_FIELD: backend.toInt(),
       MachineLearning.MODEL_PATH_FIELD: modelUrl,
       MachineLearning.TRACKING_FIELD: tracking,
+      MachineLearning.DUMP_FILED: dump,
       MachineLearning.OVERLAY_FIELD: overlay
     };
   }
