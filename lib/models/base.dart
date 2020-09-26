@@ -886,7 +886,7 @@ class MachineLearning {
     final MlBackend backend = MlBackend.fromInt(json[MachineLearning.BACKEND_FIELD]);
     final String uri = json[MachineLearning.MODEL_PATH_FIELD];
     final bool tracking = json[MachineLearning.TRACKING_FIELD];
-    final bool dump = json[MachineLearning.DUMP_FIELD];
+    final bool dump = json[MachineLearning.DUMP_FILED];
     final bool overlay = json[MachineLearning.OVERLAY_FIELD];
     return MachineLearning(backend: backend, modelUrl: uri, tracking: tracking, dump: dump, overlay: overlay);
   }
