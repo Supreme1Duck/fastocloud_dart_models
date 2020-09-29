@@ -289,6 +289,12 @@ class Protocol {
       return RTMP;
     } else if (value == 'rtmps') {
       return RTMPS;
+    } else if (value == 'rtmpt') {
+      return RTMPT;
+    } else if (value == 'rtmpe') {
+      return RTMPE;
+    } else if (value == 'rtmfp') {
+      return RTMFP;
     } else if (value == 'dev') {
       return DEV;
     } else if (value == 'rtsp') {
@@ -299,7 +305,7 @@ class Protocol {
     return SRT;
   }
 
-  static get values => [HTTP, HTTPS, FILE, UDP, TCP, RTMP, RTMPS, DEV, RTSP, RTP, SRT];
+  static get values => [HTTP, HTTPS, FILE, UDP, TCP, RTMP, RTMPS, RTMPT, RTMPE, RTMFP, DEV, RTSP, RTP, SRT];
 
   static const Protocol HTTP = Protocol._('http');
   static const Protocol HTTPS = Protocol._('https');
@@ -308,6 +314,9 @@ class Protocol {
   static const Protocol TCP = Protocol._('tcp');
   static const Protocol RTMP = Protocol._('rtmp');
   static const Protocol RTMPS = Protocol._('rtmps');
+  static const Protocol RTMPT = Protocol._('rtmpt');
+  static const Protocol RTMPE = Protocol._('rtmpe');
+  static const Protocol RTMFP = Protocol._('rtmfp');
   static const Protocol DEV = Protocol._('dev');
   static const Protocol RTSP = Protocol._('rtsp');
   static const Protocol RTP = Protocol._('rtp');
