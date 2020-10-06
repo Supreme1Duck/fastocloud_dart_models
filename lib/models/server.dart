@@ -124,6 +124,7 @@ class Server extends MediaServerInfo {
   static const VODS_HOST_FIELD = 'vods_host';
   static const CODS_HOST_FIELD = 'cods_host';
   static const NGINX_HOST_FIELD = 'nginx_host';
+  static const RTMP_HOST_FILED = 'rtmp_host';
   static const FEEDBACK_DIRECOTRY_FIELD = 'feedback_directory';
   static const TIMESHIFTS_DIRECTORY_FIELD = 'timeshifts_directory';
   static const HLS_DIRECTORY_FIELD = 'hls_directory';
@@ -153,6 +154,7 @@ class Server extends MediaServerInfo {
   HostAndPort vodsHost;
   HostAndPort codsHost;
   HostAndPort nginxHost;
+  HostAndPort rtmpHost;
   String feedbackDirectory;
   String timeshiftsDirectory;
   String hlsDirectory;
@@ -174,6 +176,7 @@ class Server extends MediaServerInfo {
       @required this.vodsHost,
       @required this.codsHost,
       @required this.nginxHost,
+      @required this.rtmpHost,
       @required this.feedbackDirectory,
       @required this.timeshiftsDirectory,
       @required this.hlsDirectory,
@@ -235,6 +238,7 @@ class Server extends MediaServerInfo {
         vodsHost = HostAndPort.createDefaultRouteHostV4(port: 7000),
         codsHost = HostAndPort.createDefaultRouteHostV4(port: 6001),
         nginxHost = HostAndPort.createDefaultRouteHostV4(port: 81),
+        rtmpHost = HostAndPort.createDefaultRouteHostV4(port: 1935),
         feedbackDirectory = DEFAULT_FEEDBACK_DIR,
         timeshiftsDirectory = DEFAULT_TIMESHIFTS_DIR,
         hlsDirectory = DEFAULT_HLS_DIR,
@@ -254,6 +258,7 @@ class Server extends MediaServerInfo {
         vodsHost: vodsHost.copy(),
         codsHost: codsHost.copy(),
         nginxHost: nginxHost.copy(),
+        rtmpHost: rtmpHost.copy(),
         feedbackDirectory: feedbackDirectory,
         timeshiftsDirectory: timeshiftsDirectory,
         hlsDirectory: hlsDirectory,
@@ -273,6 +278,7 @@ class Server extends MediaServerInfo {
         vodsHost.isValid() &&
         codsHost.isValid() &&
         nginxHost.isValid() &&
+        rtmpHost.isValid() &&
         feedbackDirectory.isNotEmpty &&
         timeshiftsDirectory.isNotEmpty &&
         hlsDirectory.isNotEmpty &&
@@ -324,6 +330,7 @@ class Server extends MediaServerInfo {
         vodsHost: HostAndPort.fromJson(json[VODS_HOST_FIELD]),
         codsHost: HostAndPort.fromJson(json[CODS_HOST_FIELD]),
         nginxHost: HostAndPort.fromJson(json[NGINX_HOST_FIELD]),
+        rtmpHost: HostAndPort.fromJson(json[RTMP_HOST_FILED]),
         feedbackDirectory: json[FEEDBACK_DIRECOTRY_FIELD],
         timeshiftsDirectory: json[TIMESHIFTS_DIRECTORY_FIELD],
         hlsDirectory: json[HLS_DIRECTORY_FIELD],
@@ -370,6 +377,7 @@ class Server extends MediaServerInfo {
     result[VODS_HOST_FIELD] = vodsHost.toJson();
     result[CODS_HOST_FIELD] = codsHost.toJson();
     result[NGINX_HOST_FIELD] = nginxHost.toJson();
+    result[RTMP_HOST_FILED] = rtmpHost.toJson();
     result[FEEDBACK_DIRECOTRY_FIELD] = feedbackDirectory;
     result[TIMESHIFTS_DIRECTORY_FIELD] = timeshiftsDirectory;
     result[HLS_DIRECTORY_FIELD] = hlsDirectory;
@@ -393,7 +401,17 @@ class Server extends MediaServerInfo {
     return ProviderRole.READ;
   }
 
-  Optional<Uri> generateNginxUrl(String httpUrl) {
+  Optional<Uri> generateRtmpUrl(String streamName, {String protocol = 'rtmp', String root = 'live'}) {
+    if (streamName == null) {
+      return Optional<Uri>.absent();
+    }
+
+    List<String> segments = [root, streamName];
+    Uri rtmp = Uri(scheme: protocol, host: rtmpHost.host, port: rtmpHost.port, pathSegments: segments);
+    return Optional<Uri>.of(rtmp);
+  }
+
+  Optional<Uri> generateNginxUrl(String httpUrl, {String root = 'fastocloud'}) {
     Uri original = Uri.tryParse(httpUrl);
     if (original == null) {
       return Optional<Uri>.absent();
@@ -411,12 +429,12 @@ class Server extends MediaServerInfo {
       return Optional<Uri>.absent();
     }
 
-    List<String> segments = ['fastocloud'] + [parts.last] + original.pathSegments;
+    List<String> segments = [root] + [parts.last] + original.pathSegments;
     Uri nginx = Uri(scheme: 'http', host: nginxHost.host, port: nginxHost.port, pathSegments: segments);
     return Optional<Uri>.of(nginx);
   }
 
-  Optional<Uri> generateHttpProxyUrl(String filePath) {
+  Optional<Uri> generateHttpProxyUrl(String filePath, {String root = 'fastocloud'}) {
     if (filePath == null) {
       return Optional<Uri>.absent();
     }
@@ -432,7 +450,7 @@ class Server extends MediaServerInfo {
     }
 
     final stabled = filePath.substring(repalced).split('/');
-    List<String> segments = ['fastocloud'] + stabled;
+    List<String> segments = [root] + stabled;
     Uri nginx = Uri(scheme: 'http', host: nginxHost.host, port: nginxHost.port, pathSegments: segments);
     return Optional<Uri>.of(nginx);
   }
