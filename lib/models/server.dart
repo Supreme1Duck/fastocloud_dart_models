@@ -411,7 +411,7 @@ class Server extends MediaServerInfo {
     return Optional<Uri>.of(rtmp);
   }
 
-  Optional<Uri> generateNginxUrl(String httpUrl, {String root = 'fastocloud'}) {
+  Optional<Uri> generateNginxUrl(String httpUrl, {String protocol = 'http', String root = 'fastocloud'}) {
     Uri original = Uri.tryParse(httpUrl);
     if (original == null) {
       return Optional<Uri>.absent();
@@ -430,11 +430,11 @@ class Server extends MediaServerInfo {
     }
 
     List<String> segments = [root] + [parts.last] + original.pathSegments;
-    Uri nginx = Uri(scheme: 'http', host: nginxHost.host, port: nginxHost.port, pathSegments: segments);
+    Uri nginx = Uri(scheme: protocol, host: nginxHost.host, port: nginxHost.port, pathSegments: segments);
     return Optional<Uri>.of(nginx);
   }
 
-  Optional<Uri> generateHttpProxyUrl(String filePath, {String root = 'fastocloud'}) {
+  Optional<Uri> generateHttpProxyUrl(String filePath, {String protocol = 'http', String root = 'fastocloud'}) {
     if (filePath == null) {
       return Optional<Uri>.absent();
     }
@@ -451,7 +451,7 @@ class Server extends MediaServerInfo {
 
     final stabled = filePath.substring(repalced).split('/');
     List<String> segments = [root] + stabled;
-    Uri nginx = Uri(scheme: 'http', host: nginxHost.host, port: nginxHost.port, pathSegments: segments);
+    Uri nginx = Uri(scheme: protocol, host: nginxHost.host, port: nginxHost.port, pathSegments: segments);
     return Optional<Uri>.of(nginx);
   }
 
