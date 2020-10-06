@@ -457,7 +457,7 @@ class Server extends MediaServerInfo {
 
   HttpOutputUrl genTemplateHLSHttpOutputUrl(int id) {
     return HttpOutputUrl(
-        id: 0,
+        id: id,
         uri: 'http://${httpHost.toString()}/master.m3u8',
         httpRoot: hlsDirectory,
         hlsType: HlsType.HLS_PULL,
@@ -466,7 +466,7 @@ class Server extends MediaServerInfo {
 
   HttpOutputUrl genTemplateCodsHttpOutputUrl(int id) {
     return HttpOutputUrl(
-        id: 0,
+        id: id,
         uri: 'http://${codsHost.toString()}/master.m3u8',
         httpRoot: codsDirectory,
         hlsType: HlsType.HLS_PULL,
@@ -475,7 +475,7 @@ class Server extends MediaServerInfo {
 
   HttpOutputUrl genTemplateVodsHttpOutputUrl(int id) {
     return HttpOutputUrl(
-        id: 0,
+        id: id,
         uri: 'http://${vodsHost.toString()}/master.m3u8',
         httpRoot: vodsDirectory,
         hlsType: HlsType.HLS_PULL,
