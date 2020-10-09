@@ -132,8 +132,7 @@ class HttpOutputUrl extends OutputUrl {
   static const CHUNK_DURATION_FIELD = 'chunk_duration';
   static const PLAYLIST_ROOT_FIELD = 'playlist_root';
 
-  static const protocol_1 = Protocol.HTTP;
-  static const protocol_2 = Protocol.HTTPS;
+  static const List<Protocol> protocols = [Protocol.HTTP, Protocol.HTTPS];
 
   Optional<HlsSinkType> _hlsSinkType = Optional<HlsSinkType>.absent();
   Optional<String> _httpRoot = Optional<String>.absent();
@@ -279,6 +278,37 @@ class SrtOutputUrl extends OutputUrl {
   }
 }
 
+class RtmpOutputUrl extends OutputUrl {
+  static const List<Protocol> protocols = [
+    Protocol.RTMP,
+    Protocol.RTMPS,
+    Protocol.RTMPT,
+    Protocol.RTMPE,
+    Protocol.RTMFP
+  ];
+
+  RtmpOutputUrl({@required int id, @required String uri}) : super(id: id, uri: uri);
+
+  RtmpOutputUrl copy() {
+    return RtmpOutputUrl(id: id, uri: uri);
+  }
+
+  factory RtmpOutputUrl.fromJson(Map<String, dynamic> json) {
+    if (json == null) {
+      return null;
+    }
+
+    final id = json[OutputUrl.ID_FIELD];
+    final uri = json[OutputUrl.URI_FIELD];
+    return RtmpOutputUrl(id: id, uri: uri);
+  }
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> result = super.toJson();
+    return result;
+  }
+}
+
 OutputUrl makeOutputUrl(Map<String, dynamic> json) {
   if (json == null) {
     return null;
@@ -288,10 +318,12 @@ OutputUrl makeOutputUrl(Map<String, dynamic> json) {
   final uri = json[OutputUrl.URI_FIELD];
   final Uri parsed = Uri.parse(uri);
   final proto = Protocol.fromString(parsed.scheme);
-  if (proto == HttpOutputUrl.protocol_1 || proto == HttpOutputUrl.protocol_2) {
+  if (proto == HttpOutputUrl.protocols.contains(proto)) {
     return HttpOutputUrl.fromJson(json);
   } else if (proto == SrtOutputUrl.protocol) {
     return SrtOutputUrl.fromJson(json);
+  } else if (RtmpOutputUrl.protocols.contains(proto)) {
+    return RtmpOutputUrl.fromJson(json);
   }
   return OutputUrl(id: id, uri: uri);
 }
