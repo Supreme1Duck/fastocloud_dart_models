@@ -148,8 +148,7 @@ class HttpInputUrl extends InputUrl {
   static const USER_AGENT_FIELD = 'user_agent';
   static const PROXY_FIELD = 'proxy';
 
-  static const protocol_1 = Protocol.HTTP;
-  static const protocol_2 = Protocol.HTTPS;
+  static const List<Protocol> protocols = [Protocol.HTTP, Protocol.HTTPS];
 
   Optional<StreamLink> _streamLink = Optional<StreamLink>.absent();
   Optional<UserAgent> _userAgent = Optional<UserAgent>.absent();
@@ -326,7 +325,7 @@ InputUrl makeInputUrl(Map<String, dynamic> json) {
   final uri = json[InputUrl.URI_FIELD];
   final Uri parsed = Uri.parse(uri);
   final proto = Protocol.fromString(parsed.scheme);
-  if (proto == HttpInputUrl.protocol_1 || proto == HttpInputUrl.protocol_2) {
+  if (HttpInputUrl.protocols.contains(proto)) {
     return HttpInputUrl.fromJson(json);
   } else if (proto == UdpInputUrl.protocol) {
     return UdpInputUrl.fromJson(json);

@@ -318,7 +318,7 @@ OutputUrl makeOutputUrl(Map<String, dynamic> json) {
   final uri = json[OutputUrl.URI_FIELD];
   final Uri parsed = Uri.parse(uri);
   final proto = Protocol.fromString(parsed.scheme);
-  if (proto == HttpOutputUrl.protocols.contains(proto)) {
+  if (HttpOutputUrl.protocols.contains(proto)) {
     return HttpOutputUrl.fromJson(json);
   } else if (proto == SrtOutputUrl.protocol) {
     return SrtOutputUrl.fromJson(json);
