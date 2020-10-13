@@ -72,6 +72,7 @@ class Provider {
   static const LANGUAGE_FIELD = 'language';
   static const COUNTRY_FIELD = 'country';
   static const CREDITS_FIELD = 'credits';
+  static const CREDITS_REMAINING_RO_FIELD = 'credits_remaining';
 
   static const MIN_NAME = 2;
   static const MAX_NAME = 64;
@@ -87,6 +88,7 @@ class Provider {
   String language;
   String country;
   int credits;
+  int creditsRemaining;
 
   Provider copy() {
     return Provider.edit(
@@ -100,7 +102,8 @@ class Provider {
         country: country,
         type: type,
         status: status,
-        credits: credits);
+        credits: credits,
+        creditsRemaining: creditsRemaining);
   }
 
   Provider.create(
@@ -127,6 +130,7 @@ class Provider {
       this.status,
       this.type,
       this.credits,
+      this.creditsRemaining,
       this.language,
       this.country})
       : _password = Optional<String>.fromNullable(password);
@@ -140,7 +144,8 @@ class Provider {
         _password = Optional<String>.absent(),
         status = ProviderStatus.ACTIVE,
         type = ProviderType.ADMIN,
-        credits = Credits.DEFAULT;
+        credits = Credits.DEFAULT,
+        creditsRemaining = 0;
 
   String get password {
     return _password.orNull;
@@ -197,6 +202,7 @@ class Provider {
         type: ProviderType.fromInt(json[TYPE_FIELD]),
         status: ProviderStatus.fromInt(json[STATUS_FIELD]),
         credits: json[CREDITS_FIELD],
+        creditsRemaining: json[CREDITS_REMAINING_RO_FIELD],
         language: json[LANGUAGE_FIELD],
         country: json[COUNTRY_FIELD],
         password: password);
