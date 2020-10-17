@@ -1,3 +1,4 @@
+import 'package:fastocloud_dart_models/models/rtmp/rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/types.dart';
 import 'package:meta/meta.dart';
 import 'package:quiver/core.dart';
@@ -323,7 +324,11 @@ OutputUrl makeOutputUrl(Map<String, dynamic> json) {
   } else if (proto == SrtOutputUrl.protocol) {
     return SrtOutputUrl.fromJson(json);
   } else if (RtmpOutputUrl.protocols.contains(proto)) {
-    return RtmpOutputUrl.fromJson(json);
+    if (!json.containsKey(TagsRtmpOutputUrl.TYPE_FIELD)) {
+      return RtmpOutputUrl.fromJson(json);
+    }
+    final type = json[TagsRtmpOutputUrl.TYPE_FIELD];
+    return TagsRtmpOutputUrl.fromJson(PubSubStreamType.fromInt(type), json);
   }
   return OutputUrl(id: id, uri: uri);
 }
