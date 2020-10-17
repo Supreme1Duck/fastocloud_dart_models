@@ -330,6 +330,10 @@ OutputUrl makeOutputUrl(Map<String, dynamic> json) {
 
 extension OutputUrls on List<OutputUrl> {
   bool isValidOutputUrls() {
+    if (this.isEmpty) {
+      return false;
+    }
+
     for (int i = 0; i < this.length; i++) {
       if (!this[i].isValid()) {
         return false;

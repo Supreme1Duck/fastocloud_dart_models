@@ -337,6 +337,10 @@ InputUrl makeInputUrl(Map<String, dynamic> json) {
 
 extension InputUrls on List<InputUrl> {
   bool isValidInputUrls() {
+    if (this.isEmpty) {
+      return false;
+    }
+    
     for (int i = 0; i < this.length; i++) {
       if (!this[i].isValid()) {
         return false;
