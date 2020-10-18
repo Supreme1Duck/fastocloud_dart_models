@@ -144,6 +144,7 @@ class Server extends MediaServerInfo {
   static const String DEFAULT_VODS_DIR = '~/streamer/vods';
   static const String DEFAULT_CODS_DIR = '~/streamer/cods';
   static const String DEFAULT_PROXY_DIR = '~/streamer/proxy';
+  static const String DEFAULT_DATA_DIR = '~/streamer/data';
 
   static const MIN_NAME_LENGTH = ServiceName.MIN_LENGTH;
   static const MAX_NAME_LENGTH = ServiceName.MAX_LENGTH;
@@ -248,6 +249,7 @@ class Server extends MediaServerInfo {
         vodsDirectory = DEFAULT_VODS_DIR,
         codsDirectory = DEFAULT_CODS_DIR,
         proxyDirectory = DEFAULT_PROXY_DIR,
+        dataDirectory = DEFAULT_DATA_DIR,
         monitoring = false,
         autoStart = false,
         providers = [];
