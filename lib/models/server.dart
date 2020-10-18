@@ -131,6 +131,7 @@ class Server extends MediaServerInfo {
   static const VODS_DIRECTORY_FIELD = 'vods_directory';
   static const CODS_DIRECTORY_FIELD = 'cods_directory';
   static const PROXY_DIRECTORY_FIELD = 'proxy_directory';
+  static const DATA_DIRECTORY_FIELD = 'data_direcotry';
   static const PROVIDERS_FIELD = 'providers';
   static const AUTO_START_FIELD = 'auto_start';
   static const ACTIVATION_KEY_FIELD = 'activation_key';
@@ -161,6 +162,7 @@ class Server extends MediaServerInfo {
   String vodsDirectory;
   String codsDirectory;
   String proxyDirectory;
+  String dataDirectory;
   bool monitoring;
   bool autoStart;
   List<ServerProvider> providers;
@@ -183,6 +185,7 @@ class Server extends MediaServerInfo {
       @required this.vodsDirectory,
       @required this.codsDirectory,
       @required this.proxyDirectory,
+      @required this.dataDirectory,
       @required this.providers,
       @required this.monitoring,
       @required this.autoStart,
@@ -265,6 +268,7 @@ class Server extends MediaServerInfo {
         vodsDirectory: vodsDirectory,
         codsDirectory: codsDirectory,
         proxyDirectory: proxyDirectory,
+        dataDirectory: dataDirectory,
         monitoring: monitoring,
         autoStart: autoStart,
         providers: providers,
@@ -337,6 +341,7 @@ class Server extends MediaServerInfo {
         vodsDirectory: json[VODS_DIRECTORY_FIELD],
         codsDirectory: json[CODS_DIRECTORY_FIELD],
         proxyDirectory: json[PROXY_DIRECTORY_FIELD],
+        dataDirectory: json[DATA_DIRECTORY_FIELD],
         providers: _providers,
         monitoring: json[MONITORING_FIELD],
         autoStart: json[AUTO_START_FIELD],
@@ -384,6 +389,7 @@ class Server extends MediaServerInfo {
     result[VODS_DIRECTORY_FIELD] = vodsDirectory;
     result[CODS_DIRECTORY_FIELD] = codsDirectory;
     result[PROXY_DIRECTORY_FIELD] = proxyDirectory;
+    result[DATA_DIRECTORY_FIELD] = dataDirectory;
     result[MONITORING_FIELD] = monitoring;
     result[AUTO_START_FIELD] = autoStart;
     if (_activationKey.isPresent) {
