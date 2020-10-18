@@ -131,7 +131,7 @@ class Server extends MediaServerInfo {
   static const VODS_DIRECTORY_FIELD = 'vods_directory';
   static const CODS_DIRECTORY_FIELD = 'cods_directory';
   static const PROXY_DIRECTORY_FIELD = 'proxy_directory';
-  static const DATA_DIRECTORY_FIELD = 'data_direcotry';
+  static const DATA_DIRECTORY_FIELD = 'data_directory';
   static const PROVIDERS_FIELD = 'providers';
   static const AUTO_START_FIELD = 'auto_start';
   static const ACTIVATION_KEY_FIELD = 'activation_key';
@@ -290,7 +290,8 @@ class Server extends MediaServerInfo {
         hlsDirectory.isNotEmpty &&
         vodsDirectory.isNotEmpty &&
         codsDirectory.isNotEmpty &&
-        proxyDirectory.isNotEmpty;
+        proxyDirectory.isNotEmpty &&
+        dataDirectory.isNotEmpty;
 
     if (req && _activationKey.isPresent) {
       req &= _activationKey.value.isValidActivationKey();
