@@ -536,7 +536,9 @@ class Server extends MediaServerInfo {
       cat.output = [genTemplateHLSHttpOutputUrl(0)];
       return cat;
     } else if (type == StreamType.TEST_LIFE) {
-      return TestLifeStream.create(icon: streamLogoIcon);
+      final test = TestLifeStream.create(icon: streamLogoIcon);
+      test.output = [OutputUrl.createTest(id: 0)];
+      return test;
     } else if (type == StreamType.VOD_RELAY) {
       final vod = VodRelayStream.create(primeDate: 0, icon: streamLogoIcon, trailerUrl: vodTrailerUrl);
       vod.output = [genTemplateVodsHttpOutputUrl(0)];
@@ -558,6 +560,8 @@ class Server extends MediaServerInfo {
       event.output = [genTemplateVodsHttpOutputUrl(0)];
       return event;
     }
-    return CvDataStream.create(icon: streamLogoIcon);
+    final cv = CvDataStream.create(icon: streamLogoIcon);
+    cv.output = [OutputUrl.createFake(id: 0)];
+    return cv;
   }
 }

@@ -101,6 +101,9 @@ class SrtMode {
 }
 
 class OutputUrl {
+  static const TEST_URL = 'test';
+  static const FAKE_URL = 'fake';
+
   static const ID_FIELD = 'id';
   static const URI_FIELD = 'uri';
 
@@ -108,6 +111,10 @@ class OutputUrl {
   String uri;
 
   OutputUrl({@required this.id, @required this.uri});
+
+  OutputUrl.createTest({@required this.id}) : uri = TEST_URL;
+
+  OutputUrl.createFake({@required this.id}) : uri = FAKE_URL;
 
   OutputUrl copy() {
     return OutputUrl(id: id, uri: uri);
