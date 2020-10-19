@@ -1164,7 +1164,9 @@ class CatchupStream extends TimeshiftRecorderStream {
 }
 
 class TestLifeStream extends RelayStream {
-  TestLifeStream.create({@required String icon}) : super.create(icon: icon);
+  TestLifeStream.create({@required String icon}) : super.create(icon: icon) {
+    visible = false;
+  }
 
   TestLifeStream.edit({@required String id, @required String name, @required List<InputUrl> input})
       : super.edit(id: id, name: name, input: input, output: []);
@@ -1737,7 +1739,9 @@ class EventStream extends VodEncodeStream {
 }
 
 class CvDataStream extends EncodeStream {
-  CvDataStream.create({@required String icon}) : super.create(icon: icon);
+  CvDataStream.create({@required String icon}) : super.create(icon: icon) {
+    visible = false;
+  }
 
   CvDataStream.edit(
       {@required String id, @required String name, @required List<InputUrl> input, @required List<OutputUrl> output})
