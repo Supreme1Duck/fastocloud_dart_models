@@ -553,9 +553,11 @@ class Server extends MediaServerInfo {
       final cod = CodEncodeStream.create(icon: streamLogoIcon);
       cod.output = [genTemplateCodsHttpOutputUrl(0)];
       return cod;
+    } else if (type == StreamType.EVENT) {
+      final event = EventStream.create(primeDate: 0, icon: streamLogoIcon, trailerUrl: vodTrailerUrl);
+      event.output = [genTemplateVodsHttpOutputUrl(0)];
+      return event;
     }
-    final event = EventStream.create(primeDate: 0, icon: streamLogoIcon, trailerUrl: vodTrailerUrl);
-    event.output = [genTemplateVodsHttpOutputUrl(0)];
-    return event;
+    return CvDataStream.create(icon: streamLogoIcon);
   }
 }
