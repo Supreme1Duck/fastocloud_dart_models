@@ -59,8 +59,10 @@ class StreamType {
       return 'COD Restream';
     } else if (_value == 11) {
       return 'COD Encode';
+    } else if (_value == 12) {
+      return 'Event';
     }
-    return 'Event';
+    return 'CV Stream';
   }
 
   factory StreamType.fromInt(int value) {
@@ -88,8 +90,10 @@ class StreamType {
       return StreamType.COD_RELAY;
     } else if (value == 11) {
       return StreamType.COD_ENCODE;
+    } else if (value == 12) {
+      return StreamType.CV_DATA;
     }
-    return StreamType.EVENT;
+    return StreamType.CV_DATA;
   }
 
   static get values => [
@@ -105,7 +109,8 @@ class StreamType {
         VOD_ENCODE,
         COD_RELAY,
         COD_ENCODE,
-        EVENT
+        EVENT,
+        CV_DATA
       ];
 
   static const StreamType PROXY = StreamType._(0);
@@ -121,6 +126,7 @@ class StreamType {
   static const StreamType COD_RELAY = StreamType._(10);
   static const StreamType COD_ENCODE = StreamType._(11);
   static const StreamType EVENT = StreamType._(12);
+  static const StreamType CV_DATA = StreamType._(13);
 }
 
 class StreamStatus {

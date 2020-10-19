@@ -1736,6 +1736,70 @@ class EventStream extends VodEncodeStream {
   }
 }
 
+class CvDataStream extends EncodeStream {
+  CvDataStream.create({@required String icon}) : super.create(icon: icon);
+
+  CvDataStream.edit(
+      {@required String id, @required String name, @required List<InputUrl> input, @required List<OutputUrl> output})
+      : super.edit(id: id, name: name, input: input, output: output);
+
+  CvDataStream copy() {
+    List<InputUrl> inp = [];
+    for (InputUrl url in input) {
+      inp.add(url.copy());
+    }
+    List<OutputUrl> out = [];
+    for (OutputUrl url in output) {
+      out.add(url.copy());
+    }
+    CvDataStream stream = CvDataStream.edit(id: id, name: name, output: out, input: inp);
+    stream.setOptional(
+        icon: icon,
+        epgId: epgId,
+        groups: groups,
+        price: price,
+        visible: visible,
+        iarc: iarc,
+        views: views,
+        meta: meta,
+        logLevel: logLevel,
+        feedbackDirectory: feedbackDirectory,
+        haveVideo: haveVideo,
+        haveAudio: haveAudio,
+        relayVideoType: relayVideoType,
+        relayAudioType: relayAudioType,
+        phoenix: phoenix,
+        loop: loop,
+        restartAttempts: restartAttempts,
+        extraConfig: extraConfig,
+        autoStart: autoStart,
+        relayVideo: relayVideo,
+        relayAudio: relayAudio,
+        deinterlace: deinterlace,
+        volume: volume,
+        videoCodec: videoCodec,
+        audioCodec: audioCodec,
+        autoExit: autoExit,
+        audioSelect: audioSelect,
+        audioTracksCount: audioTracksCount,
+        audioChannelsCount: audioChannelsCount,
+        frameRate: frameRate,
+        size: size,
+        machineLearning: machineLearning,
+        videoBitRate: videoBitRate,
+        audioBitRate: audioBitRate,
+        aspectRatio: aspectRatio,
+        logo: logo,
+        rsvgLogo: rsvgLogo);
+    return stream;
+  }
+
+  @override
+  StreamType type() {
+    return StreamType.EVENT;
+  }
+}
+
 IStream makeStream(Map<String, dynamic> json) {
   final id = json[IStream.ID_FIELD];
   final name = json[IStream.NAME_FIELD];
@@ -2301,6 +2365,59 @@ IStream makeStream(Map<String, dynamic> json) {
         outputStreams: outputStreams,
         quality: quality);
     return cod;
+  } else if (type == StreamType.CV_DATA) {
+    CvDataStream cvdata = CvDataStream.edit(id: id, name: name, input: input, output: output);
+    cvdata.setOptional(
+        icon: icon,
+        epgId: epgId,
+        groups: groups,
+        price: price,
+        visible: visible,
+        iarc: iarc,
+        views: views,
+        meta: meta,
+        logLevel: logLevel,
+        feedbackDirectory: feedbackDirectory,
+        loop: loop,
+        restartAttempts: restartAttempts,
+        extraConfig: extraConfig,
+        autoStart: autoStart,
+        haveVideo: haveVideo,
+        haveAudio: haveAudio,
+        relayVideoType: relayVideoType,
+        relayAudioType: relayAudioType,
+        phoenix: phoenix,
+        relayVideo: relayVideo,
+        relayAudio: relayAudio,
+        deinterlace: deinterlace,
+        volume: volume,
+        videoCodec: videoCodec,
+        audioCodec: audioCodec,
+        autoExit: autoExit,
+        audioSelect: audioSelect,
+        audioTracksCount: audioTracksCount,
+        audioChannelsCount: audioChannelsCount,
+        frameRate: frameRate,
+        size: size,
+        machineLearning: machine,
+        videoBitRate: videoBitrate,
+        audioBitRate: audioBitrate,
+        aspectRatio: ratio,
+        logo: logo,
+        rsvgLogo: rsvgLogo);
+    cvdata.setRuntime(
+        status: status,
+        cpu: cpu,
+        timestamp: timestamp,
+        idleTime: idleTime,
+        rss: rss,
+        loopStartTime: loopStartTime,
+        restarts: restarts,
+        startTime: startTime,
+        inputStreams: inputStreams,
+        outputStreams: outputStreams,
+        quality: quality);
+    return cvdata;
   }
 
   // enc vods
