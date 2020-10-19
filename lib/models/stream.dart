@@ -1800,7 +1800,7 @@ class CvDataStream extends EncodeStream {
 
   @override
   StreamType type() {
-    return StreamType.EVENT;
+    return StreamType.CV_DATA;
   }
 }
 
