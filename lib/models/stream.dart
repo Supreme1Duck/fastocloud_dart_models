@@ -7,6 +7,74 @@ import 'package:fastotv_dart/commands_info/meta_url.dart';
 import 'package:meta/meta.dart';
 import 'package:quiver/core.dart';
 
+class StreamRuntimeStats {
+  static const STATUS_FIELD = 'status';
+  static const CPU_FIELD = 'cpu';
+  static const TIMESTAMP_FIELD = 'timestamp';
+  static const IDLE_TIME_FIELD = 'idle_time';
+  static const LOOP_START_TIME_FIELD = 'loop_start_time';
+  static const RSS_FIELD = 'rss';
+  static const RESTARTS_FIELD = 'restarts';
+  static const START_TIME_FIELD = 'start_time';
+  static const INPUT_STREAMS_FIELD = 'input_streams';
+  static const OUTPUT_STREAMS_FIELD = 'output_streams';
+  static const QUALITY_FIELD = 'quality';
+
+  StreamStatus status = StreamStatus.NEW;
+  double cpu = 0.0;
+  int timestamp = 0;
+  int idleTime = 0;
+  int rss = 0;
+  int loopStartTime = 0;
+  int restarts = 0;
+  int startTime = 0;
+  List<ChannelStats> inputStreams = [];
+  List<ChannelStats> outputStreams = [];
+  double quality = 100.0;
+
+  StreamRuntimeStats();
+
+  factory StreamRuntimeStats.fromJson(Map<String, dynamic> json) {
+    if (json == null) {
+      return null;
+    }
+
+    StreamRuntimeStats result;
+    result.status = StreamStatus.fromInt(json[STATUS_FIELD]);
+    result.cpu = json[CPU_FIELD].toDouble();
+    result.timestamp = json[TIMESTAMP_FIELD];
+    result.idleTime = json[IDLE_TIME_FIELD];
+    result.rss = json[RSS_FIELD];
+    result.loopStartTime = json[LOOP_START_TIME_FIELD];
+    result.restarts = json[RESTARTS_FIELD];
+    result.startTime = json[START_TIME_FIELD];
+    json[INPUT_STREAMS_FIELD].forEach((s) {
+      result.inputStreams.add(ChannelStats.fromJson(s));
+    });
+    json[OUTPUT_STREAMS_FIELD].forEach((s) {
+      result.outputStreams.add(ChannelStats.fromJson(s));
+    });
+    result.quality = json[QUALITY_FIELD].toDouble();
+    return result;
+  }
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> data = {};
+    data[STATUS_FIELD] = status.toInt();
+    data[CPU_FIELD] = cpu;
+    data[TIMESTAMP_FIELD] = timestamp;
+    data[IDLE_TIME_FIELD] = idleTime;
+    data[RSS_FIELD] = rss;
+    data[LOOP_START_TIME_FIELD] = loopStartTime;
+    data[RESTARTS_FIELD] = restarts;
+    data[START_TIME_FIELD] = startTime;
+    data[INPUT_STREAMS_FIELD] = inputStreams;
+    data[OUTPUT_STREAMS_FIELD] = outputStreams;
+    data[QUALITY_FIELD] = quality;
+    return data;
+  }
+}
+
 abstract class IStream {
   static const NAME_FIELD = 'name';
   static const ID_FIELD = 'id';
@@ -119,18 +187,8 @@ abstract class HardwareStream extends IStream {
   static const AUDIO_SELECT_FIELD = 'audio_select';
   static const AUTO_EXIT_TIME_FIELD = 'auto_exit_time';
 
-  // dynamic fields
-  static const STATUS_FIELD = 'status';
-  static const CPU_FIELD = 'cpu';
-  static const TIMESTAMP_FIELD = 'timestamp';
-  static const IDLE_TIME_FIELD = 'idle_time';
-  static const LOOP_START_TIME_FIELD = 'loop_start_time';
-  static const RSS_FIELD = 'rss';
-  static const RESTARTS_FIELD = 'restarts';
-  static const START_TIME_FIELD = 'start_time';
-  static const INPUT_STREAMS_FIELD = 'input_streams';
-  static const OUTPUT_STREAMS_FIELD = 'output_streams';
-  static const QUALITY_FIELD = 'quality';
+  // dynamic
+  static const RUNTIME_FIELD = 'runtime';
 
   List<InputUrl> input = [InputUrl(id: 1, uri: '')];
   StreamLogLevel logLevel = StreamLogLevel.INFO;
@@ -150,38 +208,28 @@ abstract class HardwareStream extends IStream {
   Optional<int> _autoExit = Optional<int>.absent();
   Optional<int> _audioSelect = Optional<int>.absent();
 
-  // dynamic
-  StreamStatus status = StreamStatus.NEW;
-  double cpu = 0.0;
-  int timestamp = 0;
-  int idleTime = 0;
-  int rss = 0;
-  int loopStartTime = 0;
-  int restarts = 0;
-  int startTime = 0;
-  List<ChannelStats> inputStreams = [];
-  List<ChannelStats> outputStreams = [];
-  double quality = 100.0;
+  // dynamic should have defaults
+  StreamRuntimeStats stats = StreamRuntimeStats();
 
   double rssInMegabytes() {
-    final double inMegabytes = rss / (1024 * 1024);
+    final double inMegabytes = stats.rss / (1024 * 1024);
     return fixedDouble(inMegabytes);
   }
 
   double fixedCpu() {
-    return fixedDouble(cpu);
+    return fixedDouble(stats.cpu);
   }
 
   double fixedQuality() {
-    return fixedDouble(quality);
+    return fixedDouble(stats.quality);
   }
 
   double fixedStartTime() {
-    return fixedDouble((timestamp - startTime) / 1000);
+    return fixedDouble((stats.timestamp - stats.startTime) / 1000);
   }
 
   double fixedLoopTime() {
-    return fixedDouble((timestamp - loopStartTime) / 1000);
+    return fixedDouble((stats.timestamp - stats.loopStartTime) / 1000);
   }
 
   double fixedInputMBitsPerSecond() {
@@ -191,7 +239,7 @@ abstract class HardwareStream extends IStream {
 
   int inputBitsPerSecond() {
     int result = 0;
-    for (ChannelStats stat in inputStreams) {
+    for (ChannelStats stat in stats.inputStreams) {
       result += stat.bps;
     }
     return result;
@@ -204,7 +252,7 @@ abstract class HardwareStream extends IStream {
 
   int outputBitsPerSecond() {
     int result = 0;
-    for (ChannelStats stat in outputStreams) {
+    for (ChannelStats stat in stats.outputStreams) {
       result += stat.bps;
     }
     return result;
@@ -274,29 +322,8 @@ abstract class HardwareStream extends IStream {
     _audioSelect = Optional<int>.fromNullable(audioSelect);
   }
 
-  void setRuntime(
-      {@required StreamStatus status,
-      @required double cpu,
-      @required int timestamp,
-      @required int idleTime,
-      @required int rss,
-      @required int loopStartTime,
-      @required int restarts,
-      @required int startTime,
-      @required List<ChannelStats> inputStreams,
-      @required List<ChannelStats> outputStreams,
-      @required double quality}) {
-    this.status = status;
-    this.cpu = cpu;
-    this.timestamp = timestamp;
-    this.idleTime = idleTime;
-    this.rss = rss;
-    this.loopStartTime = loopStartTime;
-    this.restarts = restarts;
-    this.startTime = startTime;
-    this.inputStreams = inputStreams;
-    this.outputStreams = outputStreams;
-    this.quality = quality;
+  void setRuntime({@required StreamRuntimeStats stats}) {
+    this.stats = stats;
   }
 
   StreamType type();
@@ -345,18 +372,8 @@ abstract class HardwareStream extends IStream {
     data[EXTRA_CONFIG_FIELD] = extraConfig;
     data[AUTO_START_FIELD] = autoStart;
 
-    // dynamic
-    data[STATUS_FIELD] = status.toInt();
-    data[CPU_FIELD] = cpu;
-    data[TIMESTAMP_FIELD] = timestamp;
-    data[IDLE_TIME_FIELD] = idleTime;
-    data[RSS_FIELD] = rss;
-    data[LOOP_START_TIME_FIELD] = loopStartTime;
-    data[RESTARTS_FIELD] = restarts;
-    data[START_TIME_FIELD] = startTime;
-    data[INPUT_STREAMS_FIELD] = inputStreams;
-    data[OUTPUT_STREAMS_FIELD] = outputStreams;
-    data[QUALITY_FIELD] = quality;
+    //
+    data[RUNTIME_FIELD] = stats.toJson();
     return data;
   }
 }
@@ -1882,24 +1899,10 @@ IStream makeStream(Map<String, dynamic> json) {
   }
 
   // dynamic
-  final status = StreamStatus.fromInt(json[HardwareStream.STATUS_FIELD]);
-  final double cpu = json[HardwareStream.CPU_FIELD].toDouble();
-  final timestamp = json[HardwareStream.TIMESTAMP_FIELD];
-  final idleTime = json[HardwareStream.IDLE_TIME_FIELD];
-  final rss = json[HardwareStream.RSS_FIELD];
-  final loopStartTime = json[HardwareStream.LOOP_START_TIME_FIELD];
-  final restarts = json[HardwareStream.RESTARTS_FIELD];
-  final startTime = json[HardwareStream.START_TIME_FIELD];
-  List<ChannelStats> inputStreams = [];
-  json[HardwareStream.INPUT_STREAMS_FIELD].forEach((s) {
-    inputStreams.add(ChannelStats.fromJson(s));
-  });
-  List<ChannelStats> outputStreams = [];
-  json[HardwareStream.OUTPUT_STREAMS_FIELD].forEach((s) {
-    outputStreams.add(ChannelStats.fromJson(s));
-  });
-  final double quality = json[HardwareStream.QUALITY_FIELD].toDouble();
-
+  StreamRuntimeStats stats = StreamRuntimeStats();
+  if (json.containsKey(HardwareStream.RUNTIME_FIELD)) {
+    stats = StreamRuntimeStats.fromJson(json[HardwareStream.RUNTIME_FIELD]);
+  }
   if (type == StreamType.RELAY ||
       type == StreamType.TIMESHIFT_PLAYER ||
       type == StreamType.TIMESHIFT_RECORDER ||
@@ -1944,18 +1947,7 @@ IStream makeStream(Map<String, dynamic> json) {
           autoExit: autoExit,
           audioSelect: audioSelect,
           audioTracksCount: audioTracksCount);
-      relay.setRuntime(
-          status: status,
-          cpu: cpu,
-          timestamp: timestamp,
-          idleTime: idleTime,
-          rss: rss,
-          loopStartTime: loopStartTime,
-          restarts: restarts,
-          startTime: startTime,
-          inputStreams: inputStreams,
-          outputStreams: outputStreams,
-          quality: quality);
+      relay.setRuntime(stats: stats);
       return relay;
     } else if (type == StreamType.TIMESHIFT_PLAYER) {
       TimeshiftPlayerStream time = TimeshiftPlayerStream.edit(id: id, name: name, output: output);
@@ -1984,18 +1976,7 @@ IStream makeStream(Map<String, dynamic> json) {
           autoExit: autoExit,
           audioSelect: audioSelect,
           audioTracksCount: audioTracksCount);
-      time.setRuntime(
-          status: status,
-          cpu: cpu,
-          timestamp: timestamp,
-          idleTime: idleTime,
-          rss: rss,
-          loopStartTime: loopStartTime,
-          restarts: restarts,
-          startTime: startTime,
-          inputStreams: inputStreams,
-          outputStreams: outputStreams,
-          quality: quality);
+      time.setRuntime(stats: stats);
       return time;
     } else if (type == StreamType.TIMESHIFT_RECORDER) {
       TimeshiftRecorderStream time = TimeshiftRecorderStream.edit(id: id, name: name, input: input, output: output);
@@ -2024,18 +2005,7 @@ IStream makeStream(Map<String, dynamic> json) {
           autoExit: autoExit,
           audioSelect: audioSelect,
           audioTracksCount: audioTracksCount);
-      time.setRuntime(
-          status: status,
-          cpu: cpu,
-          timestamp: timestamp,
-          idleTime: idleTime,
-          rss: rss,
-          loopStartTime: loopStartTime,
-          restarts: restarts,
-          startTime: startTime,
-          inputStreams: inputStreams,
-          outputStreams: outputStreams,
-          quality: quality);
+      time.setRuntime(stats: stats);
       return time;
     } else if (type == StreamType.CATCHUP) {
       final start = json[CatchupStream.START_FIELD];
@@ -2068,18 +2038,7 @@ IStream makeStream(Map<String, dynamic> json) {
           autoExit: autoExit,
           audioSelect: audioSelect,
           audioTracksCount: audioTracksCount);
-      cat.setRuntime(
-          status: status,
-          cpu: cpu,
-          timestamp: timestamp,
-          idleTime: idleTime,
-          rss: rss,
-          loopStartTime: loopStartTime,
-          restarts: restarts,
-          startTime: startTime,
-          inputStreams: inputStreams,
-          outputStreams: outputStreams,
-          quality: quality);
+      cat.setRuntime(stats: stats);
       return cat;
     } else if (type == StreamType.TEST_LIFE) {
       TestLifeStream test = TestLifeStream.edit(id: id, input: input, name: name);
@@ -2108,18 +2067,7 @@ IStream makeStream(Map<String, dynamic> json) {
           autoExit: autoExit,
           audioSelect: audioSelect,
           audioTracksCount: audioTracksCount);
-      test.setRuntime(
-          status: status,
-          cpu: cpu,
-          timestamp: timestamp,
-          idleTime: idleTime,
-          rss: rss,
-          loopStartTime: loopStartTime,
-          restarts: restarts,
-          startTime: startTime,
-          inputStreams: inputStreams,
-          outputStreams: outputStreams,
-          quality: quality);
+      test.setRuntime(stats: stats);
       return test;
     } else if (type == StreamType.VOD_RELAY) {
       final primeDate = json[VodMixin.PRIME_DATE_FIELD];
@@ -2161,18 +2109,7 @@ IStream makeStream(Map<String, dynamic> json) {
           autoExit: autoExit,
           audioSelect: audioSelect,
           audioTracksCount: audioTracksCount);
-      vod.setRuntime(
-          status: status,
-          cpu: cpu,
-          timestamp: timestamp,
-          idleTime: idleTime,
-          rss: rss,
-          loopStartTime: loopStartTime,
-          restarts: restarts,
-          startTime: startTime,
-          inputStreams: inputStreams,
-          outputStreams: outputStreams,
-          quality: quality);
+      vod.setRuntime(stats: stats);
       return vod;
     } else if (type == StreamType.COD_RELAY) {
       CodRelayStream cod = CodRelayStream.edit(id: id, name: name, input: input, output: output);
@@ -2201,18 +2138,7 @@ IStream makeStream(Map<String, dynamic> json) {
           autoExit: autoExit,
           audioSelect: audioSelect,
           audioTracksCount: audioTracksCount);
-      cod.setRuntime(
-          status: status,
-          cpu: cpu,
-          timestamp: timestamp,
-          idleTime: idleTime,
-          rss: rss,
-          loopStartTime: loopStartTime,
-          restarts: restarts,
-          startTime: startTime,
-          inputStreams: inputStreams,
-          outputStreams: outputStreams,
-          quality: quality);
+      cod.setRuntime(stats: stats);
       return cod;
     }
   }
@@ -2303,18 +2229,7 @@ IStream makeStream(Map<String, dynamic> json) {
         aspectRatio: ratio,
         logo: logo,
         rsvgLogo: rsvgLogo);
-    encode.setRuntime(
-        status: status,
-        cpu: cpu,
-        timestamp: timestamp,
-        idleTime: idleTime,
-        rss: rss,
-        loopStartTime: loopStartTime,
-        restarts: restarts,
-        startTime: startTime,
-        inputStreams: inputStreams,
-        outputStreams: outputStreams,
-        quality: quality);
+    encode.setRuntime(stats: stats);
     return encode;
   } else if (type == StreamType.COD_ENCODE) {
     CodEncodeStream cod = CodEncodeStream.edit(id: id, name: name, input: input, output: output);
@@ -2356,18 +2271,7 @@ IStream makeStream(Map<String, dynamic> json) {
         aspectRatio: ratio,
         logo: logo,
         rsvgLogo: rsvgLogo);
-    cod.setRuntime(
-        status: status,
-        cpu: cpu,
-        timestamp: timestamp,
-        idleTime: idleTime,
-        rss: rss,
-        loopStartTime: loopStartTime,
-        restarts: restarts,
-        startTime: startTime,
-        inputStreams: inputStreams,
-        outputStreams: outputStreams,
-        quality: quality);
+    cod.setRuntime(stats: stats);
     return cod;
   } else if (type == StreamType.CV_DATA) {
     CvDataStream cvdata = CvDataStream.edit(id: id, name: name, input: input, output: output);
@@ -2409,18 +2313,7 @@ IStream makeStream(Map<String, dynamic> json) {
         aspectRatio: ratio,
         logo: logo,
         rsvgLogo: rsvgLogo);
-    cvdata.setRuntime(
-        status: status,
-        cpu: cpu,
-        timestamp: timestamp,
-        idleTime: idleTime,
-        rss: rss,
-        loopStartTime: loopStartTime,
-        restarts: restarts,
-        startTime: startTime,
-        inputStreams: inputStreams,
-        outputStreams: outputStreams,
-        quality: quality);
+    cvdata.setRuntime(stats: stats);
     return cvdata;
   }
 
@@ -2479,18 +2372,7 @@ IStream makeStream(Map<String, dynamic> json) {
           aspectRatio: ratio,
           logo: logo,
           rsvgLogo: rsvgLogo);
-      vod.setRuntime(
-          status: status,
-          cpu: cpu,
-          timestamp: timestamp,
-          idleTime: idleTime,
-          rss: rss,
-          loopStartTime: loopStartTime,
-          restarts: restarts,
-          startTime: startTime,
-          inputStreams: inputStreams,
-          outputStreams: outputStreams,
-          quality: quality);
+      vod.setRuntime(stats: stats);
       return vod;
     } else if (type == StreamType.EVENT) {
       EventStream event =
@@ -2538,18 +2420,7 @@ IStream makeStream(Map<String, dynamic> json) {
           aspectRatio: ratio,
           logo: logo,
           rsvgLogo: rsvgLogo);
-      event.setRuntime(
-          status: status,
-          cpu: cpu,
-          timestamp: timestamp,
-          idleTime: idleTime,
-          rss: rss,
-          loopStartTime: loopStartTime,
-          restarts: restarts,
-          startTime: startTime,
-          inputStreams: inputStreams,
-          outputStreams: outputStreams,
-          quality: quality);
+      event.setRuntime(stats: stats);
       return event;
     }
   }
