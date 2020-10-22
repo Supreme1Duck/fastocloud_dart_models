@@ -208,27 +208,47 @@ abstract class HardwareStream extends IStream {
   Optional<int> _autoExit = Optional<int>.absent();
   Optional<int> _audioSelect = Optional<int>.absent();
 
-  // dynamic should have defaults
-  StreamRuntimeStats stats = StreamRuntimeStats();
+  // dynamic optional
+  Optional<StreamRuntimeStats> _stats = Optional<StreamRuntimeStats>.absent();
 
   double rssInMegabytes() {
+    if (stats == null) {
+      return 0.0;
+    }
+
     final double inMegabytes = stats.rss / (1024 * 1024);
     return fixedDouble(inMegabytes);
   }
 
   double fixedCpu() {
+    if (stats == null) {
+      return 0.0;
+    }
+
     return fixedDouble(stats.cpu);
   }
 
   double fixedQuality() {
+    if (stats == null) {
+      return 0.0;
+    }
+
     return fixedDouble(stats.quality);
   }
 
   double fixedStartTime() {
+    if (stats == null) {
+      return 0.0;
+    }
+
     return fixedDouble((stats.timestamp - stats.startTime) / 1000);
   }
 
   double fixedLoopTime() {
+    if (stats == null) {
+      return 0.0;
+    }
+
     return fixedDouble((stats.timestamp - stats.loopStartTime) / 1000);
   }
 
@@ -238,6 +258,10 @@ abstract class HardwareStream extends IStream {
   }
 
   int inputBitsPerSecond() {
+    if (stats == null) {
+      return 0;
+    }
+
     int result = 0;
     for (ChannelStats stat in stats.inputStreams) {
       result += stat.bps;
@@ -251,6 +275,10 @@ abstract class HardwareStream extends IStream {
   }
 
   int outputBitsPerSecond() {
+    if (stats == null) {
+      return 0;
+    }
+
     int result = 0;
     for (ChannelStats stat in stats.outputStreams) {
       result += stat.bps;
@@ -306,6 +334,14 @@ abstract class HardwareStream extends IStream {
   }
 
   // optional
+  StreamRuntimeStats get stats {
+    return _stats.orNull;
+  }
+
+  set stats(StreamRuntimeStats stats) {
+    _stats = Optional<StreamRuntimeStats>.fromNullable(stats);
+  }
+
   int get autoExit {
     return _autoExit.orNull;
   }
@@ -1899,7 +1935,7 @@ IStream makeStream(Map<String, dynamic> json) {
   }
 
   // dynamic
-  StreamRuntimeStats stats = StreamRuntimeStats();
+  StreamRuntimeStats stats;
   if (json.containsKey(HardwareStream.RUNTIME_FIELD)) {
     stats = StreamRuntimeStats.fromJson(json[HardwareStream.RUNTIME_FIELD]);
   }
