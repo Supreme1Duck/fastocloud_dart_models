@@ -39,7 +39,7 @@ class StreamRuntimeStats {
       return null;
     }
 
-    StreamRuntimeStats result;
+    StreamRuntimeStats result = StreamRuntimeStats();
     result.status = StreamStatus.fromInt(json[STATUS_FIELD]);
     result.cpu = json[CPU_FIELD].toDouble();
     result.timestamp = json[TIMESTAMP_FIELD];
