@@ -409,7 +409,9 @@ abstract class HardwareStream extends IStream {
     data[AUTO_START_FIELD] = autoStart;
 
     //
-    data[RUNTIME_FIELD] = stats.toJson();
+    if (_stats.isPresent) {
+      data[RUNTIME_FIELD] = _stats.value.toJson();
+    }
     return data;
   }
 }
