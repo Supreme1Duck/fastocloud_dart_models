@@ -136,7 +136,7 @@ class SrtKey {
     }
 
     String pass = json[PASSPHRASE_FIELD];
-    int kl = json[PASSPHRASE_FIELD];
+    int kl = json[KEY_LEN_FIELD];
     return SrtKey(pass, kl);
   }
 
