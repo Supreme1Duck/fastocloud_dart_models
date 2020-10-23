@@ -330,7 +330,8 @@ class SrtInputUrl extends InputUrl {
         super(id: id, uri: uri);
 
   SrtInputUrl copy() {
-    return SrtInputUrl(id: id, uri: uri, srt: srtKey);
+    SrtKey key = _srtKey.isPresent ? _srtKey.value.copy() : null;
+    return SrtInputUrl(id: id, uri: uri, srt: key);
   }
 
   SrtKey get srtKey {
