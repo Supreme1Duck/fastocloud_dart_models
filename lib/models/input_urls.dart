@@ -117,6 +117,34 @@ class StreamLink {
   }
 }
 
+class SrtKey {
+  static const PASSPHRASE_FIELD = 'passphrase';
+  static const KEY_LEN_FIELD = 'pbkeylen';
+
+  String passphrase;
+  int keyLen;
+
+  SrtKey(this.passphrase, this.keyLen);
+
+  SrtKey copy() {
+    return SrtKey(passphrase, keyLen);
+  }
+
+  factory SrtKey.fromJson(Map<String, dynamic> json) {
+    if (json == null) {
+      return null;
+    }
+
+    String pass = json[PASSPHRASE_FIELD];
+    int kl = json[PASSPHRASE_FIELD];
+    return SrtKey(pass, kl);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {PASSPHRASE_FIELD: passphrase, KEY_LEN_FIELD: keyLen};
+  }
+}
+
 class InputUrl {
   static const ID_FIELD = 'id';
   static const URI_FIELD = 'uri';
@@ -291,26 +319,26 @@ class UdpInputUrl extends InputUrl {
 }
 
 class SrtInputUrl extends InputUrl {
-  static const PASSPHRASE_FIELD = 'passphrase';
+  static const SRT_KEY_FIELD = 'srt_key';
 
   static const protocol = Protocol.SRT;
 
-  Optional<String> _passphrase = Optional<String>.absent();
+  Optional<SrtKey> _srtKey = Optional<SrtKey>.absent();
 
-  SrtInputUrl({@required int id, @required String uri, String passphrase})
-      : _passphrase = Optional<String>.fromNullable(passphrase),
+  SrtInputUrl({@required int id, @required String uri, SrtKey srt})
+      : _srtKey = Optional<SrtKey>.fromNullable(srt),
         super(id: id, uri: uri);
 
   SrtInputUrl copy() {
-    return SrtInputUrl(id: id, uri: uri, passphrase: passphrase);
+    return SrtInputUrl(id: id, uri: uri, srt: srtKey);
   }
 
-  String get passphrase {
-    return _passphrase.orNull;
+  SrtKey get srtKey {
+    return _srtKey.orNull;
   }
 
-  set passphrase(String pass) {
-    _passphrase = Optional<String>.fromNullable(pass);
+  set srtKey(SrtKey pass) {
+    _srtKey = Optional<SrtKey>.fromNullable(pass);
   }
 
   factory SrtInputUrl.fromJson(Map<String, dynamic> json) {
@@ -322,16 +350,17 @@ class SrtInputUrl extends InputUrl {
     final uri = json[InputUrl.URI_FIELD];
     SrtInputUrl result = SrtInputUrl(id: id, uri: uri);
 
-    if (json.containsKey(PASSPHRASE_FIELD)) {
-      result._passphrase = Optional<String>.of(json[PASSPHRASE_FIELD]);
+    if (json.containsKey(SRT_KEY_FIELD)) {
+      final SrtKey key = SrtKey.fromJson(json[SRT_KEY_FIELD]);
+      result._srtKey = Optional<SrtKey>.of(key);
     }
     return result;
   }
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> result = super.toJson();
-    if (_passphrase.isPresent) {
-      result[PASSPHRASE_FIELD] = _passphrase.value;
+    if (_srtKey.isPresent) {
+      result[SRT_KEY_FIELD] = _srtKey.value.toJson();
     }
     return result;
   }
