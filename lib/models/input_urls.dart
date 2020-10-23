@@ -290,6 +290,53 @@ class UdpInputUrl extends InputUrl {
   }
 }
 
+class SrtInputUrl extends InputUrl {
+  static const PASSPHRASE_FIELD = 'passphrase';
+
+  static const protocol = Protocol.SRT;
+
+  Optional<String> _passphrase = Optional<String>.absent();
+
+  SrtInputUrl({@required int id, @required String uri, String passphrase})
+      : _passphrase = Optional<String>.fromNullable(passphrase),
+        super(id: id, uri: uri);
+
+  SrtInputUrl copy() {
+    return SrtInputUrl(id: id, uri: uri, passphrase: passphrase);
+  }
+
+  String get passphrase {
+    return _passphrase.orNull;
+  }
+
+  set passphrase(String pass) {
+    _passphrase = Optional<String>.fromNullable(pass);
+  }
+
+  factory SrtInputUrl.fromJson(Map<String, dynamic> json) {
+    if (json == null) {
+      return null;
+    }
+
+    final id = json[InputUrl.ID_FIELD];
+    final uri = json[InputUrl.URI_FIELD];
+    SrtInputUrl result = SrtInputUrl(id: id, uri: uri);
+
+    if (json.containsKey(PASSPHRASE_FIELD)) {
+      result._passphrase = Optional<String>.of(json[PASSPHRASE_FIELD]);
+    }
+    return result;
+  }
+
+  Map<String, dynamic> toJson() {
+    Map<String, dynamic> result = super.toJson();
+    if (_passphrase.isPresent) {
+      result[PASSPHRASE_FIELD] = _passphrase.value;
+    }
+    return result;
+  }
+}
+
 class FileInputUrl extends InputUrl {
   static const protocol = Protocol.FILE;
 
@@ -331,6 +378,8 @@ InputUrl makeInputUrl(Map<String, dynamic> json) {
     return UdpInputUrl.fromJson(json);
   } else if (proto == FileInputUrl.protocol) {
     return FileInputUrl.fromJson(json);
+  } else if (proto == SrtInputUrl.protocol) {
+    return SrtInputUrl.fromJson(json);
   }
   return InputUrl(id: id, uri: uri);
 }
@@ -340,7 +389,7 @@ extension InputUrls on List<InputUrl> {
     if (this.isEmpty) {
       return false;
     }
-    
+
     for (int i = 0; i < this.length; i++) {
       if (!this[i].isValid()) {
         return false;
