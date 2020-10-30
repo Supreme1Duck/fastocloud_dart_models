@@ -169,6 +169,16 @@ class InputUrl {
   InputUrl copy() {
     return InputUrl(id: id, uri: uri);
   }
+
+  factory InputUrl.fromJson(Map<String, dynamic> json) {
+    if (json == null) {
+      return null;
+    }
+
+    final id = json[InputUrl.ID_FIELD];
+    final uri = json[InputUrl.URI_FIELD];
+    return InputUrl(id: id, uri: uri);
+  }
 }
 
 class HttpInputUrl extends InputUrl {
