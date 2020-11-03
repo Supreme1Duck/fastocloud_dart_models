@@ -20,6 +20,9 @@ import 'package:fastocloud_dart_models/models/rtmp/channels/mixer_rtmp_urls.dart
 import 'package:fastocloud_dart_models/models/rtmp/channels/myfreecams_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/navertv_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/nimotv_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/odnoklassniki_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/periscope_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/picarto_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/twitch_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/youtube_rtmp_urls.dart';
 import 'package:meta/meta.dart';
@@ -80,6 +83,12 @@ class PubSubStreamType {
       return NaverTVRtmpOut.NAME;
     } else if (_value == 22) {
       return NimoTVRtmpOut.NAME;
+    } else if (_value == 23) {
+      return OdnoklassnikiRtmpOut.NAME;
+    } else if (_value == 24) {
+      return PeriscopeRtmpOut.NAME;
+    } else if (_value == 25) {
+      return PicartoRtmpOut.NAME;
     }
     return CustomRtmpOut.NAME;
   }
@@ -131,6 +140,12 @@ class PubSubStreamType {
       return NAVERTV;
     } else if (value == 22) {
       return NIMOTV;
+    } else if (value == 23) {
+      return ODNOKLASSNIKI;
+    } else if (value == 24) {
+      return PERISCOPE;
+    } else if (value == 25) {
+      return PICARTO;
     }
     return CUSTOM;
   }
@@ -158,7 +173,10 @@ class PubSubStreamType {
         MIXER,
         MYFREECAMS,
         NAVERTV,
-        NIMOTV
+        NIMOTV,
+        ODNOKLASSNIKI,
+        PERISCOPE,
+        PICARTO
       ];
 
   static const PubSubStreamType CUSTOM = PubSubStreamType._(0);
@@ -184,6 +202,10 @@ class PubSubStreamType {
   static const PubSubStreamType MYFREECAMS = PubSubStreamType._(20);
   static const PubSubStreamType NAVERTV = PubSubStreamType._(21);
   static const PubSubStreamType NIMOTV = PubSubStreamType._(22);
+
+  static const PubSubStreamType ODNOKLASSNIKI = PubSubStreamType._(23);
+  static const PubSubStreamType PERISCOPE = PubSubStreamType._(24);
+  static const PubSubStreamType PICARTO = PubSubStreamType._(25);
 }
 
 abstract class TagsRtmpOutputUrl extends RtmpOutputUrl {
@@ -241,12 +263,18 @@ abstract class TagsRtmpOutputUrl extends RtmpOutputUrl {
       return KakaoTVRtmpOut.fromJson(json);
     } else if (type == PubSubStreamType.MIXER) {
       return MixerRtmpOut.fromJson(json);
-    } else if (type == PubSubStreamType.MIXER) {
+    } else if (type == PubSubStreamType.MYFREECAMS) {
       return MyFreeCamsRtmpOut.fromJson(json);
-    } else if (type == PubSubStreamType.MIXER) {
+    } else if (type == PubSubStreamType.NAVERTV) {
       return NaverTVRtmpOut.fromJson(json);
-    } else if (type == PubSubStreamType.MIXER) {
+    } else if (type == PubSubStreamType.NIMOTV) {
       return NimoTVRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.ODNOKLASSNIKI) {
+      return OdnoklassnikiRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.PERISCOPE) {
+      return PeriscopeRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.PICARTO) {
+      return PicartoRtmpOut.fromJson(json);
     }
     return CustomRtmpOut.fromJson(json);
   }
