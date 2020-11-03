@@ -8,7 +8,7 @@ class PicartoRtmpOut extends TagsRtmpOutputUrl {
   String webUrl = 'https://picarto.tv';
 
   PicartoRtmpOut({@required int id, @required String uri, this.webUrl})
-      : super(id: id, uri: uri, type: PubSubStreamType.YOUTUBE);
+      : super(id: id, uri: uri, type: PubSubStreamType.PICARTO);
 
   String get name {
     return NAME;

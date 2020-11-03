@@ -8,7 +8,7 @@ class PeriscopeRtmpOut extends TagsRtmpOutputUrl {
   String webUrl = 'https://www.pscp.tv';
 
   PeriscopeRtmpOut({@required int id, @required String uri, this.webUrl})
-      : super(id: id, uri: uri, type: PubSubStreamType.YOUTUBE);
+      : super(id: id, uri: uri, type: PubSubStreamType.PERISCOPE);
 
   String get name {
     return NAME;

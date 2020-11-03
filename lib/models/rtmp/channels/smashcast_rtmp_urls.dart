@@ -9,7 +9,7 @@ class SmashCastRtmpOut extends TagsRtmpOutputUrl {
   String webUrl = 'https://www.smashcast.tv';
 
   SmashCastRtmpOut({@required int id, @required String uri, this.webUrl})
-      : super(id: id, uri: uri, type: PubSubStreamType.YOUTUBE);
+      : super(id: id, uri: uri, type: PubSubStreamType.SMASHCAST);
 
   String get name {
     return NAME;

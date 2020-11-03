@@ -9,7 +9,7 @@ class NimoTVRtmpOut extends TagsRtmpOutputUrl {
   String webUrl = 'https://www.nimo.tv/i/stream-manager';
 
   NimoTVRtmpOut({@required int id, @required String uri, this.webUrl})
-      : super(id: id, uri: uri, type: PubSubStreamType.YOUTUBE);
+      : super(id: id, uri: uri, type: PubSubStreamType.NIMOTV);
 
   String get name {
     return NAME;

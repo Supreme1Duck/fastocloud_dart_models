@@ -8,7 +8,7 @@ class NaverTVRtmpOut extends TagsRtmpOutputUrl {
   String webUrl = 'https://tv.naver.com/';
 
   NaverTVRtmpOut({@required int id, @required String uri, this.webUrl})
-      : super(id: id, uri: uri, type: PubSubStreamType.MIXER);
+      : super(id: id, uri: uri, type: PubSubStreamType.NAVERTV);
 
   String get name {
     return NAME;

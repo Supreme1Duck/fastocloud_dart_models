@@ -27,6 +27,9 @@ import 'package:fastocloud_dart_models/models/rtmp/channels/smashcast_rtmp_urls.
 import 'package:fastocloud_dart_models/models/rtmp/channels/streamray_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/stripchat_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/twitch_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/vaughnlive_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/vimeo_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/virtwish_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/youtube_rtmp_urls.dart';
 import 'package:meta/meta.dart';
 
@@ -98,6 +101,12 @@ class PubSubStreamType {
       return StreamRayRtmpOut.NAME;
     } else if (_value == 28) {
       return StripchatRtmpOut.NAME;
+    } else if (_value == 29) {
+      return VaughnLiveRtmpOut.NAME;
+    } else if (_value == 30) {
+      return VimeoRtmpOut.NAME;
+    } else if (_value == 31) {
+      return VirtWishRtmpOut.NAME;
     }
     return CustomRtmpOut.NAME;
   }
@@ -155,12 +164,18 @@ class PubSubStreamType {
       return PERISCOPE;
     } else if (value == 25) {
       return PICARTO;
-    } else if (value == 25) {
-      return SMASHCAST;
     } else if (value == 26) {
-      return STREAMRAY;
+      return SMASHCAST;
     } else if (value == 27) {
+      return STREAMRAY;
+    } else if (value == 28) {
       return STRIPCHAT;
+    } else if (value == 29) {
+      return VAUGHNLIVE;
+    } else if (value == 30) {
+      return VIMEO;
+    } else if (value == 31) {
+      return VIRTWISH;
     }
     return CUSTOM;
   }
@@ -194,7 +209,10 @@ class PubSubStreamType {
         PICARTO,
         SMASHCAST,
         STREAMRAY,
-        STRIPCHAT
+        STRIPCHAT,
+        VAUGHNLIVE,
+        VIMEO,
+        VIRTWISH
       ];
 
   static const PubSubStreamType CUSTOM = PubSubStreamType._(0);
@@ -226,6 +244,10 @@ class PubSubStreamType {
   static const PubSubStreamType SMASHCAST = PubSubStreamType._(26);
   static const PubSubStreamType STREAMRAY = PubSubStreamType._(27);
   static const PubSubStreamType STRIPCHAT = PubSubStreamType._(28);
+
+  static const PubSubStreamType VAUGHNLIVE = PubSubStreamType._(29);
+  static const PubSubStreamType VIMEO = PubSubStreamType._(30);
+  static const PubSubStreamType VIRTWISH = PubSubStreamType._(31);
 }
 
 abstract class TagsRtmpOutputUrl extends RtmpOutputUrl {
@@ -301,6 +323,12 @@ abstract class TagsRtmpOutputUrl extends RtmpOutputUrl {
       return StreamRayRtmpOut.fromJson(json);
     } else if (type == PubSubStreamType.STRIPCHAT) {
       return StripchatRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.VAUGHNLIVE) {
+      return VaughnLiveRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.VIMEO) {
+      return VimeoRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.VIRTWISH) {
+      return VirtWishRtmpOut.fromJson(json);
     }
     return CustomRtmpOut.fromJson(json);
   }

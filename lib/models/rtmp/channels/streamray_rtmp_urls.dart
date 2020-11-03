@@ -8,7 +8,7 @@ class StreamRayRtmpOut extends TagsRtmpOutputUrl {
   String webUrl = 'https://models.streamray.com';
 
   StreamRayRtmpOut({@required int id, @required String uri, this.webUrl})
-      : super(id: id, uri: uri, type: PubSubStreamType.YOUTUBE);
+      : super(id: id, uri: uri, type: PubSubStreamType.STREAMRAY);
 
   String get name {
     return NAME;

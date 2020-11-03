@@ -9,7 +9,7 @@ class MyFreeCamsRtmpOut extends TagsRtmpOutputUrl {
   String webUrl = 'https://profiles.myfreecams.com/_/model_start_page';
 
   MyFreeCamsRtmpOut({@required int id, @required String uri, this.webUrl})
-      : super(id: id, uri: uri, type: PubSubStreamType.YOUTUBE);
+      : super(id: id, uri: uri, type: PubSubStreamType.MYFREECAMS);
 
   String get name {
     return NAME;

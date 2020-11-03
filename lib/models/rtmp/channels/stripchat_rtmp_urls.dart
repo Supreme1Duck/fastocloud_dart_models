@@ -9,7 +9,7 @@ class StripchatRtmpOut extends TagsRtmpOutputUrl {
   String webUrl = 'https://stripchat.com/login';
 
   StripchatRtmpOut({@required int id, @required String uri, this.webUrl})
-      : super(id: id, uri: uri, type: PubSubStreamType.YOUTUBE);
+      : super(id: id, uri: uri, type: PubSubStreamType.STRIPCHAT);
 
   String get name {
     return NAME;
