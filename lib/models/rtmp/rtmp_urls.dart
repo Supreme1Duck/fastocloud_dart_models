@@ -23,6 +23,9 @@ import 'package:fastocloud_dart_models/models/rtmp/channels/nimotv_rtmp_urls.dar
 import 'package:fastocloud_dart_models/models/rtmp/channels/odnoklassniki_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/periscope_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/picarto_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/smashcast_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/streamray_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/stripchat_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/twitch_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/youtube_rtmp_urls.dart';
 import 'package:meta/meta.dart';
@@ -89,6 +92,12 @@ class PubSubStreamType {
       return PeriscopeRtmpOut.NAME;
     } else if (_value == 25) {
       return PicartoRtmpOut.NAME;
+    } else if (_value == 26) {
+      return SmashCastRtmpOut.NAME;
+    } else if (_value == 27) {
+      return StreamRayRtmpOut.NAME;
+    } else if (_value == 28) {
+      return StripchatRtmpOut.NAME;
     }
     return CustomRtmpOut.NAME;
   }
@@ -146,6 +155,12 @@ class PubSubStreamType {
       return PERISCOPE;
     } else if (value == 25) {
       return PICARTO;
+    } else if (value == 25) {
+      return SMASHCAST;
+    } else if (value == 26) {
+      return STREAMRAY;
+    } else if (value == 27) {
+      return STRIPCHAT;
     }
     return CUSTOM;
   }
@@ -176,7 +191,10 @@ class PubSubStreamType {
         NIMOTV,
         ODNOKLASSNIKI,
         PERISCOPE,
-        PICARTO
+        PICARTO,
+        SMASHCAST,
+        STREAMRAY,
+        STRIPCHAT
       ];
 
   static const PubSubStreamType CUSTOM = PubSubStreamType._(0);
@@ -202,10 +220,12 @@ class PubSubStreamType {
   static const PubSubStreamType MYFREECAMS = PubSubStreamType._(20);
   static const PubSubStreamType NAVERTV = PubSubStreamType._(21);
   static const PubSubStreamType NIMOTV = PubSubStreamType._(22);
-
   static const PubSubStreamType ODNOKLASSNIKI = PubSubStreamType._(23);
   static const PubSubStreamType PERISCOPE = PubSubStreamType._(24);
   static const PubSubStreamType PICARTO = PubSubStreamType._(25);
+  static const PubSubStreamType SMASHCAST = PubSubStreamType._(26);
+  static const PubSubStreamType STREAMRAY = PubSubStreamType._(27);
+  static const PubSubStreamType STRIPCHAT = PubSubStreamType._(28);
 }
 
 abstract class TagsRtmpOutputUrl extends RtmpOutputUrl {
@@ -275,6 +295,12 @@ abstract class TagsRtmpOutputUrl extends RtmpOutputUrl {
       return PeriscopeRtmpOut.fromJson(json);
     } else if (type == PubSubStreamType.PICARTO) {
       return PicartoRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.SMASHCAST) {
+      return SmashCastRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.STREAMRAY) {
+      return StreamRayRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.STRIPCHAT) {
+      return StripchatRtmpOut.fromJson(json);
     }
     return CustomRtmpOut.fromJson(json);
   }
