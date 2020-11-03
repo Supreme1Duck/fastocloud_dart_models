@@ -9,7 +9,11 @@ import 'package:fastocloud_dart_models/models/rtmp/channels/camsoda_rtmp_urls.da
 import 'package:fastocloud_dart_models/models/rtmp/channels/chaturbate_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/custom_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/dlive_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/douyu_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/facebook_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/fc2_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/flirt4free_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/goodgame_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/twitch_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/youtube_rtmp_urls.dart';
 import 'package:meta/meta.dart';
@@ -50,6 +54,14 @@ class PubSubStreamType {
       return ChaturbateRtmpOut.NAME;
     } else if (_value == 12) {
       return DLiveRtmpOut.NAME;
+    } else if (_value == 13) {
+      return DouyuRtmpOut.NAME;
+    } else if (_value == 14) {
+      return FC2RtmpOut.NAME;
+    } else if (_value == 15) {
+      return Flirt4FreeRtmpOut.NAME;
+    } else if (_value == 16) {
+      return GoodGameRtmpOut.NAME;
     }
     return CustomRtmpOut.NAME;
   }
@@ -81,6 +93,14 @@ class PubSubStreamType {
       return CHATURBATE;
     } else if (value == 12) {
       return DLIVE;
+    } else if (value == 13) {
+      return DOUYU;
+    } else if (value == 14) {
+      return FC2;
+    } else if (value == 15) {
+      return FLIRT4FREE;
+    } else if (value == 16) {
+      return GOODGAME;
     }
     return CUSTOM;
   }
@@ -98,7 +118,11 @@ class PubSubStreamType {
         CAMSODA,
         BREAKERSTV,
         CHATURBATE,
-        DLIVE
+        DLIVE,
+        DOUYU,
+        FC2,
+        FLIRT4FREE,
+        GOODGAME
       ];
 
   static const PubSubStreamType CUSTOM = PubSubStreamType._(0);
@@ -114,6 +138,10 @@ class PubSubStreamType {
   static const PubSubStreamType BREAKERSTV = PubSubStreamType._(10);
   static const PubSubStreamType CHATURBATE = PubSubStreamType._(11);
   static const PubSubStreamType DLIVE = PubSubStreamType._(12);
+  static const PubSubStreamType DOUYU = PubSubStreamType._(13);
+  static const PubSubStreamType FC2 = PubSubStreamType._(14);
+  static const PubSubStreamType FLIRT4FREE = PubSubStreamType._(15);
+  static const PubSubStreamType GOODGAME = PubSubStreamType._(16);
 }
 
 abstract class TagsRtmpOutputUrl extends RtmpOutputUrl {
@@ -157,6 +185,14 @@ abstract class TagsRtmpOutputUrl extends RtmpOutputUrl {
       return BreakersTVRtmpOut.fromJson(json);
     } else if (type == PubSubStreamType.DLIVE) {
       return DLiveRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.DOUYU) {
+      return DouyuRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.FC2) {
+      return FC2RtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.FLIRT4FREE) {
+      return Flirt4FreeRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.GOODGAME) {
+      return GoodGameRtmpOut.fromJson(json);
     }
     return CustomRtmpOut.fromJson(json);
   }

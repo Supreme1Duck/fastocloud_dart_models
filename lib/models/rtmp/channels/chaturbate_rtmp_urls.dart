@@ -5,7 +5,7 @@ import 'package:meta/meta.dart';
 class ChaturbateRtmpOut extends TagsRtmpOutputUrl {
   static const String NAME = 'Breakers TV';
 
-  String webUrl = 'https://chaturbate.com/auth/login/';
+  String webUrl = 'https://chaturbate.com/auth/login';
   static const BASE_URL = 'rtmp://live.stream.highwebmedia.com/live-origin';
 
   ChaturbateRtmpOut({@required int id, @required String uri, this.webUrl})
