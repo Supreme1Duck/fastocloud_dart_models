@@ -14,6 +14,12 @@ import 'package:fastocloud_dart_models/models/rtmp/channels/facebook_rtmp_urls.d
 import 'package:fastocloud_dart_models/models/rtmp/channels/fc2_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/flirt4free_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/goodgame_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/huya_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/kakaotv_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/mixer_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/myfreecams_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/navertv_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/nimotv_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/twitch_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/youtube_rtmp_urls.dart';
 import 'package:meta/meta.dart';
@@ -62,6 +68,18 @@ class PubSubStreamType {
       return Flirt4FreeRtmpOut.NAME;
     } else if (_value == 16) {
       return GoodGameRtmpOut.NAME;
+    } else if (_value == 17) {
+      return HuyaRtmpOut.NAME;
+    } else if (_value == 18) {
+      return KakaoTVRtmpOut.NAME;
+    } else if (_value == 19) {
+      return MixerRtmpOut.NAME;
+    } else if (_value == 20) {
+      return MyFreeCamsRtmpOut.NAME;
+    } else if (_value == 21) {
+      return NaverTVRtmpOut.NAME;
+    } else if (_value == 22) {
+      return NimoTVRtmpOut.NAME;
     }
     return CustomRtmpOut.NAME;
   }
@@ -101,6 +119,18 @@ class PubSubStreamType {
       return FLIRT4FREE;
     } else if (value == 16) {
       return GOODGAME;
+    } else if (value == 17) {
+      return HUYA;
+    } else if (value == 18) {
+      return KAKAOTV;
+    } else if (value == 19) {
+      return MIXER;
+    } else if (value == 20) {
+      return MYFREECAMS;
+    } else if (value == 21) {
+      return NAVERTV;
+    } else if (value == 22) {
+      return NIMOTV;
     }
     return CUSTOM;
   }
@@ -122,7 +152,13 @@ class PubSubStreamType {
         DOUYU,
         FC2,
         FLIRT4FREE,
-        GOODGAME
+        GOODGAME,
+        HUYA,
+        KAKAOTV,
+        MIXER,
+        MYFREECAMS,
+        NAVERTV,
+        NIMOTV
       ];
 
   static const PubSubStreamType CUSTOM = PubSubStreamType._(0);
@@ -142,6 +178,12 @@ class PubSubStreamType {
   static const PubSubStreamType FC2 = PubSubStreamType._(14);
   static const PubSubStreamType FLIRT4FREE = PubSubStreamType._(15);
   static const PubSubStreamType GOODGAME = PubSubStreamType._(16);
+  static const PubSubStreamType HUYA = PubSubStreamType._(17);
+  static const PubSubStreamType KAKAOTV = PubSubStreamType._(18);
+  static const PubSubStreamType MIXER = PubSubStreamType._(19);
+  static const PubSubStreamType MYFREECAMS = PubSubStreamType._(20);
+  static const PubSubStreamType NAVERTV = PubSubStreamType._(21);
+  static const PubSubStreamType NIMOTV = PubSubStreamType._(22);
 }
 
 abstract class TagsRtmpOutputUrl extends RtmpOutputUrl {
@@ -193,6 +235,18 @@ abstract class TagsRtmpOutputUrl extends RtmpOutputUrl {
       return Flirt4FreeRtmpOut.fromJson(json);
     } else if (type == PubSubStreamType.GOODGAME) {
       return GoodGameRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.HUYA) {
+      return HuyaRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.KAKAOTV) {
+      return KakaoTVRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.MIXER) {
+      return MixerRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.MIXER) {
+      return MyFreeCamsRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.MIXER) {
+      return NaverTVRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.MIXER) {
+      return NimoTVRtmpOut.fromJson(json);
     }
     return CustomRtmpOut.fromJson(json);
   }
