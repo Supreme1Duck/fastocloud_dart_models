@@ -3,6 +3,7 @@ import 'package:fastocloud_dart_models/models/rtmp/channels/afreecatv_rtmp_urls.
 import 'package:fastocloud_dart_models/models/rtmp/channels/bilibili_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/bongacams_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/cam4_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/camplace_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/custom_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/facebook_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/twitch_rtmp_urls.dart';
@@ -102,6 +103,16 @@ abstract class TagsRtmpOutputUrl extends RtmpOutputUrl {
       return YouTubeRtmpOut.fromJson(json);
     } else if (type == PubSubStreamType.TWITCH) {
       return TwitchRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.AFREECATV) {
+      return AfreecaTVRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.BILIBILI) {
+      return BiliBili.fromJson(json);
+    } else if (type == PubSubStreamType.BONGACAMS) {
+      return BongaCams.fromJson(json);
+    } else if (type == PubSubStreamType.CAM4) {
+      return Cam4.fromJson(json);
+    } else if (type == PubSubStreamType.CAMPLACE) {
+      return CamPlace.fromJson(json);
     }
     return CustomRtmpOut.fromJson(json);
   }
