@@ -2,9 +2,13 @@ import 'package:fastocloud_dart_models/models/output_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/afreecatv_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/bilibili_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/bongacams_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/breakerstv_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/cam4_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/camplace_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/camsoda_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/chaturbate_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/custom_rtmp_urls.dart';
+import 'package:fastocloud_dart_models/models/rtmp/channels/dlive_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/facebook_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/twitch_rtmp_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/channels/youtube_rtmp_urls.dart';
@@ -31,13 +35,21 @@ class PubSubStreamType {
     } else if (_value == 4) {
       return AfreecaTVRtmpOut.NAME;
     } else if (_value == 5) {
-      return BiliBili.NAME;
+      return BiliBiliRtmpOut.NAME;
     } else if (_value == 6) {
-      return BongaCams.NAME;
+      return BongaCamsRtmpOut.NAME;
     } else if (_value == 7) {
-      return Cam4.NAME;
+      return Cam4RtmpOut.NAME;
     } else if (_value == 8) {
-      return Cam4.NAME;
+      return CamPlaceRtmpOut.NAME;
+    } else if (_value == 9) {
+      return CamSodaRtmpOut.NAME;
+    } else if (_value == 10) {
+      return BreakersTVRtmpOut.NAME;
+    } else if (_value == 11) {
+      return ChaturbateRtmpOut.NAME;
+    } else if (_value == 12) {
+      return DLiveRtmpOut.NAME;
     }
     return CustomRtmpOut.NAME;
   }
@@ -61,11 +73,33 @@ class PubSubStreamType {
       return CAM4;
     } else if (value == 8) {
       return CAMPLACE;
+    } else if (value == 9) {
+      return CAMSODA;
+    } else if (value == 10) {
+      return BREAKERSTV;
+    } else if (value == 11) {
+      return CHATURBATE;
+    } else if (value == 12) {
+      return DLIVE;
     }
     return CUSTOM;
   }
 
-  static get values => [CUSTOM, YOUTUBE, FACEBOOK, TWITCH, AFREECATV, BILIBILI, BONGACAMS, CAM4, CAMPLACE];
+  static get values => [
+        CUSTOM,
+        YOUTUBE,
+        FACEBOOK,
+        TWITCH,
+        AFREECATV,
+        BILIBILI,
+        BONGACAMS,
+        CAM4,
+        CAMPLACE,
+        CAMSODA,
+        BREAKERSTV,
+        CHATURBATE,
+        DLIVE
+      ];
 
   static const PubSubStreamType CUSTOM = PubSubStreamType._(0);
   static const PubSubStreamType YOUTUBE = PubSubStreamType._(1);
@@ -76,6 +110,10 @@ class PubSubStreamType {
   static const PubSubStreamType BONGACAMS = PubSubStreamType._(6);
   static const PubSubStreamType CAM4 = PubSubStreamType._(7);
   static const PubSubStreamType CAMPLACE = PubSubStreamType._(8);
+  static const PubSubStreamType CAMSODA = PubSubStreamType._(9);
+  static const PubSubStreamType BREAKERSTV = PubSubStreamType._(10);
+  static const PubSubStreamType CHATURBATE = PubSubStreamType._(11);
+  static const PubSubStreamType DLIVE = PubSubStreamType._(12);
 }
 
 abstract class TagsRtmpOutputUrl extends RtmpOutputUrl {
@@ -106,13 +144,19 @@ abstract class TagsRtmpOutputUrl extends RtmpOutputUrl {
     } else if (type == PubSubStreamType.AFREECATV) {
       return AfreecaTVRtmpOut.fromJson(json);
     } else if (type == PubSubStreamType.BILIBILI) {
-      return BiliBili.fromJson(json);
+      return BiliBiliRtmpOut.fromJson(json);
     } else if (type == PubSubStreamType.BONGACAMS) {
-      return BongaCams.fromJson(json);
+      return BongaCamsRtmpOut.fromJson(json);
     } else if (type == PubSubStreamType.CAM4) {
-      return Cam4.fromJson(json);
+      return Cam4RtmpOut.fromJson(json);
     } else if (type == PubSubStreamType.CAMPLACE) {
-      return CamPlace.fromJson(json);
+      return CamPlaceRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.CAMSODA) {
+      return CamSodaRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.BREAKERSTV) {
+      return BreakersTVRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.DLIVE) {
+      return DLiveRtmpOut.fromJson(json);
     }
     return CustomRtmpOut.fromJson(json);
   }
