@@ -52,59 +52,59 @@ class PubSubStreamType {
     if (_value == 0) {
       return CustomRtmpOut.NAME;
     } else if (_value == 1) {
-      return FacebookRtmpOut.NAME;
-    } else if (_value == 2) {
-      return TwitchRtmpOut.NAME;
-    } else if (_value == 3) {
       return AfreecaTVRtmpOut.NAME;
-    } else if (_value == 4) {
+    } else if (_value == 2) {
       return BiliBiliRtmpOut.NAME;
-    } else if (_value == 5) {
+    } else if (_value == 3) {
       return BongaCamsRtmpOut.NAME;
-    } else if (_value == 6) {
+    } else if (_value == 4) {
       return Cam4RtmpOut.NAME;
-    } else if (_value == 7) {
+    } else if (_value == 5) {
       return CamPlaceRtmpOut.NAME;
-    } else if (_value == 8) {
+    } else if (_value == 6) {
       return CamSodaRtmpOut.NAME;
-    } else if (_value == 9) {
+    } else if (_value == 7) {
       return BreakersTVRtmpOut.NAME;
-    } else if (_value == 10) {
+    } else if (_value == 8) {
       return ChaturbateRtmpOut.NAME;
-    } else if (_value == 11) {
+    } else if (_value == 9) {
       return DLiveRtmpOut.NAME;
-    } else if (_value == 12) {
+    } else if (_value == 10) {
       return DouyuRtmpOut.NAME;
-    } else if (_value == 13) {
+    } else if (_value == 11) {
+      return FacebookRtmpOut.NAME;
+    } else if (_value == 12) {
       return FC2RtmpOut.NAME;
-    } else if (_value == 14) {
+    } else if (_value == 13) {
       return Flirt4FreeRtmpOut.NAME;
-    } else if (_value == 15) {
+    } else if (_value == 14) {
       return GoodGameRtmpOut.NAME;
-    } else if (_value == 16) {
+    } else if (_value == 15) {
       return HuyaRtmpOut.NAME;
-    } else if (_value == 17) {
+    } else if (_value == 16) {
       return KakaoTVRtmpOut.NAME;
-    } else if (_value == 18) {
+    } else if (_value == 17) {
       return MixerRtmpOut.NAME;
-    } else if (_value == 19) {
+    } else if (_value == 18) {
       return MyFreeCamsRtmpOut.NAME;
-    } else if (_value == 20) {
+    } else if (_value == 19) {
       return NaverTVRtmpOut.NAME;
-    } else if (_value == 21) {
+    } else if (_value == 20) {
       return NimoTVRtmpOut.NAME;
-    } else if (_value == 22) {
+    } else if (_value == 21) {
       return OdnoklassnikiRtmpOut.NAME;
-    } else if (_value == 23) {
+    } else if (_value == 22) {
       return PeriscopeRtmpOut.NAME;
-    } else if (_value == 24) {
+    } else if (_value == 23) {
       return PicartoRtmpOut.NAME;
-    } else if (_value == 25) {
+    } else if (_value == 24) {
       return SmashCastRtmpOut.NAME;
-    } else if (_value == 26) {
+    } else if (_value == 25) {
       return StreamRayRtmpOut.NAME;
-    } else if (_value == 27) {
+    } else if (_value == 26) {
       return StripchatRtmpOut.NAME;
+    } else if (_value == 27) {
+      return TwitchRtmpOut.NAME;
     } else if (_value == 28) {
       return VaughnLiveRtmpOut.NAME;
     } else if (_value == 29) {
@@ -133,59 +133,59 @@ class PubSubStreamType {
     if (value == 0) {
       return CUSTOM;
     } else if (value == 1) {
-      return FACEBOOK;
-    } else if (value == 2) {
-      return TWITCH;
-    } else if (value == 3) {
       return AFREECATV;
-    } else if (value == 4) {
+    } else if (value == 2) {
       return BILIBILI;
-    } else if (value == 5) {
+    } else if (value == 3) {
       return BONGACAMS;
-    } else if (value == 6) {
+    } else if (value == 4) {
       return CAM4;
-    } else if (value == 7) {
+    } else if (value == 5) {
       return CAMPLACE;
-    } else if (value == 8) {
+    } else if (value == 6) {
       return CAMSODA;
-    } else if (value == 9) {
+    } else if (value == 7) {
       return BREAKERSTV;
-    } else if (value == 10) {
+    } else if (value == 8) {
       return CHATURBATE;
-    } else if (value == 11) {
+    } else if (value == 9) {
       return DLIVE;
-    } else if (value == 12) {
+    } else if (value == 10) {
       return DOUYU;
-    } else if (value == 13) {
+    } else if (value == 11) {
+      return FACEBOOK;
+    } else if (value == 12) {
       return FC2;
-    } else if (value == 14) {
+    } else if (value == 13) {
       return FLIRT4FREE;
-    } else if (value == 15) {
+    } else if (value == 14) {
       return GOODGAME;
-    } else if (value == 16) {
+    } else if (value == 15) {
       return HUYA;
-    } else if (value == 17) {
+    } else if (value == 16) {
       return KAKAOTV;
-    } else if (value == 18) {
+    } else if (value == 17) {
       return MIXER;
-    } else if (value == 19) {
+    } else if (value == 18) {
       return MYFREECAMS;
-    } else if (value == 20) {
+    } else if (value == 19) {
       return NAVERTV;
-    } else if (value == 21) {
+    } else if (value == 20) {
       return NIMOTV;
-    } else if (value == 22) {
+    } else if (value == 21) {
       return ODNOKLASSNIKI;
-    } else if (value == 23) {
+    } else if (value == 22) {
       return PERISCOPE;
-    } else if (value == 24) {
+    } else if (value == 23) {
       return PICARTO;
-    } else if (value == 25) {
+    } else if (value == 24) {
       return SMASHCAST;
-    } else if (value == 26) {
+    } else if (value == 25) {
       return STREAMRAY;
-    } else if (value == 27) {
+    } else if (value == 26) {
       return STRIPCHAT;
+    } else if (value == 27) {
+      return TWITCH;
     } else if (value == 28) {
       return VAUGHNLIVE;
     } else if (value == 29) {
@@ -212,8 +212,6 @@ class PubSubStreamType {
 
   static get values => [
         CUSTOM,
-        FACEBOOK,
-        TWITCH,
         AFREECATV,
         BILIBILI,
         BONGACAMS,
@@ -224,6 +222,7 @@ class PubSubStreamType {
         CHATURBATE,
         DLIVE,
         DOUYU,
+        FACEBOOK,
         FC2,
         FLIRT4FREE,
         GOODGAME,
@@ -239,6 +238,7 @@ class PubSubStreamType {
         SMASHCAST,
         STREAMRAY,
         STRIPCHAT,
+        TWITCH,
         VAUGHNLIVE,
         VIMEO,
         VIRTWISH,
@@ -252,33 +252,33 @@ class PubSubStreamType {
       ];
 
   static const PubSubStreamType CUSTOM = PubSubStreamType._(0);
-  static const PubSubStreamType FACEBOOK = PubSubStreamType._(1);
-  static const PubSubStreamType TWITCH = PubSubStreamType._(2);
-  static const PubSubStreamType AFREECATV = PubSubStreamType._(3);
-  static const PubSubStreamType BILIBILI = PubSubStreamType._(4);
-  static const PubSubStreamType BONGACAMS = PubSubStreamType._(5);
-  static const PubSubStreamType CAM4 = PubSubStreamType._(6);
-  static const PubSubStreamType CAMPLACE = PubSubStreamType._(7);
-  static const PubSubStreamType CAMSODA = PubSubStreamType._(8);
-  static const PubSubStreamType BREAKERSTV = PubSubStreamType._(9);
-  static const PubSubStreamType CHATURBATE = PubSubStreamType._(10);
-  static const PubSubStreamType DLIVE = PubSubStreamType._(11);
-  static const PubSubStreamType DOUYU = PubSubStreamType._(12);
-  static const PubSubStreamType FC2 = PubSubStreamType._(13);
-  static const PubSubStreamType FLIRT4FREE = PubSubStreamType._(14);
-  static const PubSubStreamType GOODGAME = PubSubStreamType._(15);
-  static const PubSubStreamType HUYA = PubSubStreamType._(16);
-  static const PubSubStreamType KAKAOTV = PubSubStreamType._(17);
-  static const PubSubStreamType MIXER = PubSubStreamType._(18);
-  static const PubSubStreamType MYFREECAMS = PubSubStreamType._(19);
-  static const PubSubStreamType NAVERTV = PubSubStreamType._(20);
-  static const PubSubStreamType NIMOTV = PubSubStreamType._(21);
-  static const PubSubStreamType ODNOKLASSNIKI = PubSubStreamType._(22);
-  static const PubSubStreamType PERISCOPE = PubSubStreamType._(23);
-  static const PubSubStreamType PICARTO = PubSubStreamType._(24);
-  static const PubSubStreamType SMASHCAST = PubSubStreamType._(25);
-  static const PubSubStreamType STREAMRAY = PubSubStreamType._(28);
-  static const PubSubStreamType STRIPCHAT = PubSubStreamType._(27);
+  static const PubSubStreamType AFREECATV = PubSubStreamType._(1);
+  static const PubSubStreamType BILIBILI = PubSubStreamType._(2);
+  static const PubSubStreamType BONGACAMS = PubSubStreamType._(3);
+  static const PubSubStreamType CAM4 = PubSubStreamType._(4);
+  static const PubSubStreamType CAMPLACE = PubSubStreamType._(5);
+  static const PubSubStreamType CAMSODA = PubSubStreamType._(6);
+  static const PubSubStreamType BREAKERSTV = PubSubStreamType._(7);
+  static const PubSubStreamType CHATURBATE = PubSubStreamType._(8);
+  static const PubSubStreamType DLIVE = PubSubStreamType._(9);
+  static const PubSubStreamType DOUYU = PubSubStreamType._(10);
+  static const PubSubStreamType FACEBOOK = PubSubStreamType._(11);
+  static const PubSubStreamType FC2 = PubSubStreamType._(12);
+  static const PubSubStreamType FLIRT4FREE = PubSubStreamType._(13);
+  static const PubSubStreamType GOODGAME = PubSubStreamType._(14);
+  static const PubSubStreamType HUYA = PubSubStreamType._(15);
+  static const PubSubStreamType KAKAOTV = PubSubStreamType._(16);
+  static const PubSubStreamType MIXER = PubSubStreamType._(17);
+  static const PubSubStreamType MYFREECAMS = PubSubStreamType._(18);
+  static const PubSubStreamType NAVERTV = PubSubStreamType._(19);
+  static const PubSubStreamType NIMOTV = PubSubStreamType._(20);
+  static const PubSubStreamType ODNOKLASSNIKI = PubSubStreamType._(21);
+  static const PubSubStreamType PERISCOPE = PubSubStreamType._(22);
+  static const PubSubStreamType PICARTO = PubSubStreamType._(23);
+  static const PubSubStreamType SMASHCAST = PubSubStreamType._(24);
+  static const PubSubStreamType STREAMRAY = PubSubStreamType._(25);
+  static const PubSubStreamType STRIPCHAT = PubSubStreamType._(26);
+  static const PubSubStreamType TWITCH = PubSubStreamType._(27);
   static const PubSubStreamType VAUGHNLIVE = PubSubStreamType._(28);
   static const PubSubStreamType VIMEO = PubSubStreamType._(29);
   static const PubSubStreamType VIRTWISH = PubSubStreamType._(30);
@@ -310,8 +310,6 @@ abstract class TagsRtmpOutputUrl extends RtmpOutputUrl {
   factory TagsRtmpOutputUrl.fromJson(PubSubStreamType type, Map<String, dynamic> json) {
     if (type == PubSubStreamType.CUSTOM) {
       return CustomRtmpOut.fromJson(json);
-    } else if (type == PubSubStreamType.FACEBOOK) {
-      return FacebookRtmpOut.fromJson(json);
     } else if (type == PubSubStreamType.TWITCH) {
       return TwitchRtmpOut.fromJson(json);
     } else if (type == PubSubStreamType.AFREECATV) {
@@ -332,6 +330,8 @@ abstract class TagsRtmpOutputUrl extends RtmpOutputUrl {
       return DLiveRtmpOut.fromJson(json);
     } else if (type == PubSubStreamType.DOUYU) {
       return DouyuRtmpOut.fromJson(json);
+    } else if (type == PubSubStreamType.FACEBOOK) {
+      return FacebookRtmpOut.fromJson(json);
     } else if (type == PubSubStreamType.FC2) {
       return FC2RtmpOut.fromJson(json);
     } else if (type == PubSubStreamType.FLIRT4FREE) {
