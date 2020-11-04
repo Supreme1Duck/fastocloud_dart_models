@@ -15,7 +15,7 @@ class MixerRtmpOut extends TagsRtmpOutputUrl {
   }
 
   String get icon {
-    return 'https://pubsub.me/images/channels/huya.png';
+    return 'https://pubsub.me/images/channels/mixer.png';
   }
 
   // must be

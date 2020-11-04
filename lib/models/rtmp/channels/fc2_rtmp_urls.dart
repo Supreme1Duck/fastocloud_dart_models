@@ -15,7 +15,7 @@ class FC2RtmpOut extends TagsRtmpOutputUrl {
   }
 
   String get icon {
-    return 'https://pubsub.me/images/channels/fc2.png';
+    return 'https://pubsub.me/images/channels/fc2live.png';
   }
 
   // must be

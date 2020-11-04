@@ -15,7 +15,7 @@ class KakaoTVRtmpOut extends TagsRtmpOutputUrl {
   }
 
   String get icon {
-    return 'https://pubsub.me/images/channels/huya.png';
+    return 'https://pubsub.me/images/channels/kakaotv.png';
   }
 
   // must be

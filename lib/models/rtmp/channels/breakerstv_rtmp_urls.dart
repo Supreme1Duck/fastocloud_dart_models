@@ -11,7 +11,7 @@ class BreakersTVRtmpOut extends TagsRtmpOutputUrl {
       : super(id: id, uri: uri, type: PubSubStreamType.BREAKERSTV);
 
   String get icon {
-    return 'https://pubsub.me/images/channels/breakers.png';
+    return 'https://pubsub.me/images/channels/breakerstv.png';
   }
 
   String get name {
