@@ -8,7 +8,7 @@ class VaughnLiveRtmpOut extends TagsRtmpOutputUrl {
   String webUrl = 'https://vaughn.live';
 
   VaughnLiveRtmpOut({@required int id, @required String uri, this.webUrl})
-      : super(id: id, uri: uri, type: PubSubStreamType.YOUTUBE);
+      : super(id: id, uri: uri, type: PubSubStreamType.VAUGHNLIVE);
 
   String get name {
     return NAME;

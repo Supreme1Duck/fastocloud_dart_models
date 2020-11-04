@@ -16,7 +16,7 @@ class ZhanqiTVRtmpOut extends TagsRtmpOutputUrl {
   }
 
   String get icon {
-    return 'https://pubsub.me/images/channels/youtube.png';
+    return 'https://pubsub.me/images/channels/zhanqitv.png';
   }
 
   // must be

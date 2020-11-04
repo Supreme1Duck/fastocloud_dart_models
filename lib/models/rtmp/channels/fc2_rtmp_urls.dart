@@ -8,7 +8,7 @@ class FC2RtmpOut extends TagsRtmpOutputUrl {
   String webUrl = 'https://live.fc2.com';
 
   FC2RtmpOut({@required int id, @required String uri, this.webUrl})
-      : super(id: id, uri: uri, type: PubSubStreamType.CAM4);
+      : super(id: id, uri: uri, type: PubSubStreamType.FC2);
 
   String get name {
     return NAME;

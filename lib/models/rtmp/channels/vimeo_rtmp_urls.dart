@@ -9,7 +9,7 @@ class VimeoRtmpOut extends TagsRtmpOutputUrl {
   String webUrl = 'https://vimeo.com';
 
   VimeoRtmpOut({@required int id, @required String uri, this.webUrl})
-      : super(id: id, uri: uri, type: PubSubStreamType.YOUTUBE);
+      : super(id: id, uri: uri, type: PubSubStreamType.VIMEO);
 
   String get name {
     return NAME;

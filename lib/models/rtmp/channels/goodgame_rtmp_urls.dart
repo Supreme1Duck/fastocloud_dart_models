@@ -9,7 +9,7 @@ class GoodGameRtmpOut extends TagsRtmpOutputUrl {
   String webUrl = 'https://goodgame.ru';
 
   GoodGameRtmpOut({@required int id, @required String uri, this.webUrl})
-      : super(id: id, uri: uri, type: PubSubStreamType.CAM4);
+      : super(id: id, uri: uri, type: PubSubStreamType.GOODGAME);
 
   String get name {
     return NAME;

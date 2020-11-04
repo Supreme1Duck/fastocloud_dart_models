@@ -8,7 +8,7 @@ class DouyuRtmpOut extends TagsRtmpOutputUrl {
   String webUrl = 'https://www.douyu.com';
 
   DouyuRtmpOut({@required int id, @required String uri, this.webUrl})
-      : super(id: id, uri: uri, type: PubSubStreamType.CAM4);
+      : super(id: id, uri: uri, type: PubSubStreamType.DOUYU);
 
   String get name {
     return NAME;

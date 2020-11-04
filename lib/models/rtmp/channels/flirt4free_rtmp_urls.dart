@@ -8,7 +8,7 @@ class Flirt4FreeRtmpOut extends TagsRtmpOutputUrl {
   String webUrl = 'https://www.flirt4free.com';
 
   Flirt4FreeRtmpOut({@required int id, @required String uri, this.webUrl})
-      : super(id: id, uri: uri, type: PubSubStreamType.CAM4);
+      : super(id: id, uri: uri, type: PubSubStreamType.FLIRT4FREE);
 
   String get name {
     return NAME;

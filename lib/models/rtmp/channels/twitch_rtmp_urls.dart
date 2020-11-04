@@ -8,7 +8,7 @@ class TwitchRtmpOut extends TagsRtmpOutputUrl {
   String webUrl = 'https://www.twitch.tv';
 
   TwitchRtmpOut({@required int id, @required String uri, this.webUrl})
-      : super(id: id, uri: uri, type: PubSubStreamType.YOUTUBE);
+      : super(id: id, uri: uri, type: PubSubStreamType.TWITCH);
 
   String get name {
     return NAME;

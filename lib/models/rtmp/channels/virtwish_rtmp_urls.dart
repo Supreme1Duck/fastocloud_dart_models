@@ -9,7 +9,7 @@ class VirtWishRtmpOut extends TagsRtmpOutputUrl {
   String webUrl = 'https://www.camplace.com/broadcaster/dashboard';
 
   VirtWishRtmpOut({@required int id, @required String uri, this.webUrl})
-      : super(id: id, uri: uri, type: PubSubStreamType.YOUTUBE);
+      : super(id: id, uri: uri, type: PubSubStreamType.VIRTWISH);
 
   String get name {
     return NAME;
