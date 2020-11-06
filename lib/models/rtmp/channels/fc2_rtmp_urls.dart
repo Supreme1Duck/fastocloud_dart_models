@@ -2,7 +2,7 @@ import 'package:fastocloud_dart_models/models/output_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/rtmp_urls.dart';
 import 'package:meta/meta.dart';
 
-class FC2RtmpOut extends TagsRtmpOutputUrl {
+class FC2RtmpOut extends IRtmpOutputUrl {
   static const String NAME = 'FC2 Live';
 
   String webUrl = 'https://live.fc2.com';
@@ -12,10 +12,6 @@ class FC2RtmpOut extends TagsRtmpOutputUrl {
 
   String get name {
     return NAME;
-  }
-
-  String get icon {
-    return 'https://pubsub.me/images/channels/fc2live.png';
   }
 
   // must be
@@ -30,7 +26,7 @@ class FC2RtmpOut extends TagsRtmpOutputUrl {
 
     final id = json[OutputUrl.ID_FIELD];
     final uri = json[OutputUrl.URI_FIELD];
-    final web = json[TagsRtmpOutputUrl.WEB_URL_FIELD];
+    final web = json[IRtmpOutputUrl.WEB_URL_FIELD];
     return FC2RtmpOut(id: id, uri: uri, webUrl: web);
   }
 }

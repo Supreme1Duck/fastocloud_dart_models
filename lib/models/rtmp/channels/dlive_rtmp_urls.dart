@@ -2,7 +2,7 @@ import 'package:fastocloud_dart_models/models/output_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/rtmp_urls.dart';
 import 'package:meta/meta.dart';
 
-class DLiveRtmpOut extends TagsRtmpOutputUrl {
+class DLiveRtmpOut extends IRtmpOutputUrl {
   static const String NAME = 'DLive';
 
   String webUrl = 'https://dlive.tv/s/dashboard';
@@ -10,10 +10,6 @@ class DLiveRtmpOut extends TagsRtmpOutputUrl {
 
   DLiveRtmpOut({@required int id, @required String uri, this.webUrl})
       : super(id: id, uri: uri, type: PubSubStreamType.DLIVE);
-
-  String get icon {
-    return 'https://pubsub.me/images/channels/dlive.png';
-  }
 
   String get name {
     return NAME;
@@ -31,7 +27,7 @@ class DLiveRtmpOut extends TagsRtmpOutputUrl {
 
     final id = json[OutputUrl.ID_FIELD];
     final uri = json[OutputUrl.URI_FIELD];
-    final web = json[TagsRtmpOutputUrl.WEB_URL_FIELD];
+    final web = json[IRtmpOutputUrl.WEB_URL_FIELD];
     return DLiveRtmpOut(id: id, uri: uri, webUrl: web);
   }
 }

@@ -2,7 +2,7 @@ import 'package:fastocloud_dart_models/models/output_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/rtmp_urls.dart';
 import 'package:meta/meta.dart';
 
-class VirtWishRtmpOut extends TagsRtmpOutputUrl {
+class VirtWishRtmpOut extends IRtmpOutputUrl {
   static const String NAME = 'Virtwish';
   static const BASE_URL = 'rtmp://rtmp.virtwish.com/live';
 
@@ -13,10 +13,6 @@ class VirtWishRtmpOut extends TagsRtmpOutputUrl {
 
   String get name {
     return NAME;
-  }
-
-  String get icon {
-    return 'https://pubsub.me/images/channels/virtwish.png';
   }
 
   // must be
@@ -31,7 +27,7 @@ class VirtWishRtmpOut extends TagsRtmpOutputUrl {
 
     final id = json[OutputUrl.ID_FIELD];
     final uri = json[OutputUrl.URI_FIELD];
-    final web = json[TagsRtmpOutputUrl.WEB_URL_FIELD];
+    final web = json[IRtmpOutputUrl.WEB_URL_FIELD];
     return VirtWishRtmpOut(id: id, uri: uri, webUrl: web);
   }
 }

@@ -1,7 +1,7 @@
 name: fastocloud_dart_models
 author: Alexandr Topilski <support@fastogt.com>
 description: FastoCloud dart models.
-version: 1.2.0+3
+version: 1.2.1+4
 
 environment:
   sdk: '>=2.7.0 <3.0.0'

@@ -331,11 +331,11 @@ OutputUrl makeOutputUrl(Map<String, dynamic> json) {
   } else if (proto == SrtOutputUrl.protocol) {
     return SrtOutputUrl.fromJson(json);
   } else if (RtmpOutputUrl.protocols.contains(proto)) {
-    if (!json.containsKey(TagsRtmpOutputUrl.TYPE_FIELD)) {
+    if (!json.containsKey(IRtmpOutputUrl.TYPE_FIELD)) {
       return RtmpOutputUrl.fromJson(json);
     }
-    final type = json[TagsRtmpOutputUrl.TYPE_FIELD];
-    return TagsRtmpOutputUrl.fromJson(PubSubStreamType.fromInt(type), json);
+    final type = json[IRtmpOutputUrl.TYPE_FIELD];
+    return IRtmpOutputUrl.fromJson(PubSubStreamType.fromInt(type), json);
   }
   return OutputUrl(id: id, uri: uri);
 }

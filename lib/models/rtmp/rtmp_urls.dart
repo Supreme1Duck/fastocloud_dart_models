@@ -291,7 +291,7 @@ class PubSubStreamType {
   static const PubSubStreamType ZHANQITV = PubSubStreamType._(37);
 }
 
-abstract class TagsRtmpOutputUrl extends RtmpOutputUrl {
+abstract class IRtmpOutputUrl extends RtmpOutputUrl {
   static const TYPE_FIELD = 'rtmp_type';
   static const String WEB_URL_FIELD = 'rtmp_web_url';
 
@@ -299,15 +299,13 @@ abstract class TagsRtmpOutputUrl extends RtmpOutputUrl {
 
   String get name;
 
-  String get icon;
-
   String get webUrl;
 
   set webUrl(String url);
 
-  TagsRtmpOutputUrl({@required int id, @required String uri, this.type});
+  IRtmpOutputUrl({@required int id, @required String uri, this.type}) : super(id: id, uri: uri);
 
-  factory TagsRtmpOutputUrl.fromJson(PubSubStreamType type, Map<String, dynamic> json) {
+  factory IRtmpOutputUrl.fromJson(PubSubStreamType type, Map<String, dynamic> json) {
     if (type == PubSubStreamType.CUSTOM) {
       return CustomRtmpOut.fromJson(json);
     } else if (type == PubSubStreamType.TWITCH) {
@@ -388,8 +386,8 @@ abstract class TagsRtmpOutputUrl extends RtmpOutputUrl {
 
   Map<String, dynamic> toJson() {
     Map<String, dynamic> result = super.toJson();
-    result[TagsRtmpOutputUrl.WEB_URL_FIELD] = webUrl;
-    result[TagsRtmpOutputUrl.TYPE_FIELD] = type.toInt();
+    result[IRtmpOutputUrl.WEB_URL_FIELD] = webUrl;
+    result[IRtmpOutputUrl.TYPE_FIELD] = type.toInt();
     return result;
   }
 }

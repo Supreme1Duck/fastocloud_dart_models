@@ -2,7 +2,7 @@ import 'package:fastocloud_dart_models/models/output_urls.dart';
 import 'package:fastocloud_dart_models/models/rtmp/rtmp_urls.dart';
 import 'package:meta/meta.dart';
 
-class SteamMateRtmpOut extends TagsRtmpOutputUrl {
+class SteamMateRtmpOut extends IRtmpOutputUrl {
   static const String NAME = 'Streamate';
   static const BASE_URL = 'rtmp://ew1c-origin-ls.naiadsystems.com/origin';
 
@@ -13,10 +13,6 @@ class SteamMateRtmpOut extends TagsRtmpOutputUrl {
 
   String get name {
     return NAME;
-  }
-
-  String get icon {
-    return 'https://pubsub.me/images/channels/streamate.png';
   }
 
   // must be
@@ -31,7 +27,7 @@ class SteamMateRtmpOut extends TagsRtmpOutputUrl {
 
     final id = json[OutputUrl.ID_FIELD];
     final uri = json[OutputUrl.URI_FIELD];
-    final web = json[TagsRtmpOutputUrl.WEB_URL_FIELD];
+    final web = json[IRtmpOutputUrl.WEB_URL_FIELD];
     return SteamMateRtmpOut(id: id, uri: uri, webUrl: web);
   }
 }
