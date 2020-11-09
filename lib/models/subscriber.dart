@@ -45,6 +45,7 @@ class Subscriber {
   static const EXP_DATE_FIELD = 'exp_date';
   static const STATUS_FIELD = 'status';
   static const MAX_DEVICE_COUNT_FIELD = 'max_devices_count';
+  static const DEVICES_COUNT_FIELD = 'devices_count';
   static const LANGUAGE_FIELD = 'language';
   static const COUNTRY_FIELD = 'country';
   static const SERVERS_FIELD = 'servers';
@@ -60,6 +61,7 @@ class Subscriber {
   int expDate;
   SubscriberStatus status;
   int maxDevicesCount;
+  final devicesCount;
   String language;
   String country;
   List<String> servers;
@@ -75,7 +77,8 @@ class Subscriber {
       this.maxDevicesCount,
       this.language,
       this.country,
-      this.servers})
+      this.servers,
+      this.devicesCount})
       : id = null,
         _password = Optional<String>.fromNullable(password);
 
@@ -89,6 +92,7 @@ class Subscriber {
         expDate = DateTime.now().millisecondsSinceEpoch + 3600 * 1000 * 24 * 30,
         status = SubscriberStatus.ACTIVE,
         maxDevicesCount = 10,
+        devicesCount = 0,
         servers = [];
 
   Subscriber.edit(
@@ -103,7 +107,8 @@ class Subscriber {
       this.maxDevicesCount,
       this.language,
       this.country,
-      this.servers})
+      this.servers,
+      this.devicesCount})
       : _password = Optional<String>.fromNullable(password);
 
   Subscriber copy() {
@@ -119,7 +124,8 @@ class Subscriber {
         language: language,
         country: country,
         maxDevicesCount: maxDevicesCount,
-        servers: servers);
+        servers: servers,
+        devicesCount: devicesCount);
   }
 
   String get password {
@@ -145,9 +151,8 @@ class Subscriber {
       // create password must be
       bool isValidPassword = _password.isPresent && _password.value.isNotEmpty;
       return fields && isValidPassword;
-    } else {
-      return fields;
     }
+    return fields;
   }
 
   bool _validateName(String name) {
@@ -168,6 +173,7 @@ class Subscriber {
     final expDate = json[EXP_DATE_FIELD];
     final status = SubscriberStatus.fromInt(json[STATUS_FIELD]);
     final maxDeviceCount = json[MAX_DEVICE_COUNT_FIELD];
+    final devicesCount = json[DEVICES_COUNT_FIELD];
     final language = json[LANGUAGE_FIELD];
     final country = json[COUNTRY_FIELD];
     final List<String> servers = json[SERVERS_FIELD].cast<String>();
@@ -187,7 +193,8 @@ class Subscriber {
         maxDevicesCount: maxDeviceCount,
         language: language,
         country: country,
-        servers: servers);
+        servers: servers,
+        devicesCount: devicesCount);
   }
 
   Map<String, dynamic> toJson() {
@@ -202,7 +209,8 @@ class Subscriber {
       MAX_DEVICE_COUNT_FIELD: maxDevicesCount,
       LANGUAGE_FIELD: language,
       COUNTRY_FIELD: country,
-      SERVERS_FIELD: servers
+      SERVERS_FIELD: servers,
+      DEVICES_COUNT_FIELD: devicesCount
     };
     if (_password.isPresent) {
       result[PASSWORD_FIELD] = _password.value;
